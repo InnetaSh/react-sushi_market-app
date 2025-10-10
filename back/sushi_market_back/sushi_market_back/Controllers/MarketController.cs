@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace _26._02_sushi_market_back.Controllers
+namespace sushi_market_back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
