@@ -54,6 +54,14 @@ body {
     align-items: center;
 }
 
+
+.back-container{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    padding: 0 10%;
+    margin-bottom: 50px;
+}
 /*--------------------------------*/
 .orangeBtn {
     display: -webkit-box;

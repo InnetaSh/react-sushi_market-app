@@ -42,9 +42,12 @@ namespace sushi_market_back.Controllers
         }
         private List<Category> LoadCategoriesList()
         {
+
+
+
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "categoriesList.json");
 
-            var json = System.IO.File.ReadAllText("categoriesList.json");
+            var json = System.IO.File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<List<Category>>(json) ?? new List<Category>();
 
 

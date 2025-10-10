@@ -32,11 +32,11 @@ function Page_1() {
 
 
     useEffect(() => {
-        fetch(`http://localhost:5256/api/Market`)
+        fetch(`http://localhost:5292/api/Market`)
           .then(response => response.json())
           .then((data) => {
             const updatedData = data.map((item) => {
-              item.imgSrc = `http://localhost:5256/${item.imgSrc}`; 
+              item.imgSrc = `http://localhost:5292/${item.imgSrc}`; 
               return item;
             });
             setImagesList(updatedData);
@@ -49,6 +49,7 @@ function Page_1() {
     <div className="App">
       <header className="flexColumn">
         <TopComponent />
+   
         <div style={{ height: '200px' }}></div>
         <CentrComponent
           imageUrl1={imageUrl1}
