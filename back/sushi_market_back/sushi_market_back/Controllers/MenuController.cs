@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using sushi_market_back.Models;
 
 namespace sushi_market_back.Controllers
 {
@@ -46,5 +48,38 @@ namespace sushi_market_back.Controllers
             return NotFound(new { message = "Category not found" });
         }
 
+    }
+
+    public class TitleByProduct
+    {
+
+        private List<Product> ProductTitleList;
+
+        public TitleByProduct()
+        {
+            ProductTitleList = LoadProductTitleList();
+        }
+        private List<Product> LoadProductTitleList()
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "productTitleList.json");
+
+            var json = System.IO.File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<List<Product>>(json) ?? new List<Product>();
+
+
+        }
+
+
+        public void SaveProductTitleList()
+        {
+            var json = JsonConvert.SerializeObject(ProductTitleList, Formatting.Indented);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Data", "productTitleList.json");
+            System.IO.File.WriteAllText(path, json);
+        }
+
+        public List<Product> GetProductTitleList()
+        {
+            return ProductTitleList;
+        }
     }
 }

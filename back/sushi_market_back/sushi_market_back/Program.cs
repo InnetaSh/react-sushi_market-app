@@ -1,13 +1,43 @@
+
+using sushi_market_back.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
 
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+//----------------------------------------
+
+
+
+
+// Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+
+//----------------------------------------
 var app = builder.Build();
+app.UseCors("AllowReactApp");
+app.MapControllers();
+app.UseStaticFiles();
+
+//----------------------------------------
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -16,8 +46,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthorization();
 
-app.MapControllers();
+
 
 app.Run();
+
+internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+{
+    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+}
