@@ -1,78 +1,77 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { observer } from "mobx-react-lite";
 import { useNavigate } from 'react-router-dom';
-import React from "react";
+import { useTranslation } from "react-i18next";
+import { Spin } from "antd";
 import '../style.css';
 
-
-import TopComponent from "../components/top_panel"
+import MarketStore from "../stores/MarketStore";
+import TopComponent from "../components/top_panel";
 import CentrComponent from "../components/centr_panel";
 import ListComponent from "../components/list_panel";
 import CentrComponent_Bottom from "../components/centr_panel_Bottom";
 import BottomComponent from "../components/bottom_panel";
 
+import Header from '../components/Header/Header';
+
 import imageUrl1 from "../img/img1.png";
 
+const Page_1 = observer(() => {
+  const navigate = useNavigate();
+   const { t } = useTranslation();
 
+  const sentCategory = (title) => {
+    navigate(`/menu/search/category/${title}`);
+  };
 
-
-
-function Page_1() {
-    const [imagesList, setImagesList] = useState([]);
-
-
-
-    
-
-
- const navigate = useNavigate();
-
- const sentCategory = (title) => {
-  navigate(`/menu/search/category/${title}`);  
-};
-
-
-    useEffect(() => {
-        fetch(`http://localhost:5292/api/Market`)
-          .then(response => response.json())
-          .then((data) => {
-            const updatedData = data.map((item) => {
-              item.imgSrc = `http://localhost:5292/${item.imgSrc}`; 
-              return item;
-            });
-            setImagesList(updatedData);
-          })
-          .catch(error => console.error("Exception: ", error));
-      }, []);
-
+  useEffect(() => {
+    MarketStore.fetchMarketData();
+  }, []);
 
   return (
     <div className="App">
       <header className="flexColumn">
-        <TopComponent />
-   
+       
+        <Header />
+ {/* <TopComponent /> */}
+
+
         <div style={{ height: '200px' }}></div>
+
         <CentrComponent
           imageUrl1={imageUrl1}
-          smallText="класика"
-          bigText_1="ЯПОНСКОЙ"
-          bigText_2="КУХНИ"
-          btnText="акции" />
-        <ListComponent imgListData={imagesList}  onClick={sentCategory}/>
+          smallText={t("PAGE_1_TEXT.TITLE_1")}
+          bigText_1={t("PAGE_1_TEXT.TITLE_2")}
+          bigText_2={t("PAGE_1_TEXT.TITLE_3")}
+          btnText={t("PAGE_1_TEXT.BTN_ACTIONS")}
+        />
+
+        {MarketStore.loading ? (
+          <div style={{ textAlign: 'center', padding: '50px' }}>
+            <Spin size="large" />
+          </div>
+        ) : (
+          <ListComponent
+            imgListData={MarketStore.imagesList}
+            onClick={sentCategory}
+          />
+        )}
+
         <CentrComponent_Bottom
           imageUrl1={imageUrl1}
-          bigText="НАШИ РЕСТОРАНЫ"
-          smallText_1="Суши-бар - современная классика японской кухни"
-          smallText_2="Здесь все устроено так, чтобы гостям было приятно провести время в непринужденной атмосфере и получить удовольствие от кухни, отдыха и общения. Меню отличается разнообразием блюд, изобилием вкусов и деликатным отношением к японской кухне"
-          btnText="читать подробнее" />
+          bigText={t("PAGE_1_TEXT.RESTAURANTS_TITLE")}
+          smallText_1={t("PAGE_1_TEXT.RESTAURANTS_DESC_1")}
+          smallText_2={t("PAGE_1_TEXT.RESTAURANTS_DESC_2")}
+          btnText={t("PAGE_1_TEXT.BTN_READ_MORE")}
+        />
+
         <BottomComponent
-          bigText="НАШИ РЕСТОРАНЫ"
-          smallText="Мы дорожим каждым клиентом" />
+          bigText={t("PAGE_1_TEXT.BOTTOM_MSG")}
+          smallText={t("PAGE_1_TEXT.BOTTOM_MSG")}
+        />
       </header>
     </div>
   );
-}
-
-
-
+});
 
 export default Page_1;

@@ -1,0 +1,22 @@
+{
+  "PAGE_1_TEXT": {
+    "TITLE_1": "CLASSICS OF",
+    "TITLE_2": "JAPANESE",
+    "TITLE_3": "CUISINE",
+    "BTN_ACTIONS": "SPECIAL OFFERS",
+    "RESTAURANTS_TITLE": "OUR RESTAURANTS",
+    "RESTAURANTS_DESC_1": "A sushi bar — a modern classic of Japanese cuisine",
+    "RESTAURANTS_DESC_2": "Everything here is designed to help our guests enjoy their time in a relaxed atmosphere and take pleasure in great food, rest, and conversation. Our menu offers a wide variety of dishes, an abundance of flavors, and a delicate approach to Japanese cuisine.",
+    "BTN_READ_MORE": "READ MORE",
+    "BOTTOM_MSG": "WE VALUE EVERY CUSTOMER"
+  },
+  "PAGE_3_TEXT": {
+    "SALE_1_DATE": "FROM NOVEMBER 20 TO DECEMBER 30",
+    "SALE_1_NAME": "EVERY FIFTH",
+    "SALE_2_DATE": "FROM OCTOBER 10 TO NOVEMBER 10",
+    "SALE_2_NAME": "10% OFF TAKEAWAY"
+  },
+  "UI_TEXT": {
+    "LOADING": "Loading menu..."
+  }
+}

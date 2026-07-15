@@ -1,0 +1,29 @@
+@import '../../assets/variables/variables.colors';
+
+.orangeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    vertical-align: top;
+    position: relative;
+    text-decoration: none;
+
+    height: 65px;
+    padding: 20px 40px;
+    
+    background-color: $color-orange-primary !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+
+    span {
+        font-size: 20px !important;
+        color: white;
+    }
+
+    &:hover,
+    &:focus {
+        background-color: $color-orange-primary !important;
+    }
+}

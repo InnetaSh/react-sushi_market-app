@@ -1,52 +1,45 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { observer } from "mobx-react-lite";
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import React from "react";
+import { Layout, Spin } from "antd";
+import { useTranslation } from "react-i18next";
 import '../style.css';
-import TopComponent from "../components/top_panel"
+
+import MenuStore from "../stores/MenuStore";
+import TopComponent from "../components/top_panel";
 import MenuComponent from "../components/menu_panel";
-import ButtonGreenSmall from "../components/buttonGreen-small"
 
+const { Content } = Layout;
 
-function Page_2() {
-  const navigate = useNavigate();
-
-  const [imagesList, setImagesList] = useState([]);
+const Page_2 = observer(() => {
   const { category } = useParams();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const url = category
-        ? `http://localhost:5292/api/Menu/search/category/${category}`
-        : `http://localhost:5292/api/Menu`;
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const updatedData = data.map((item) => {
-          item.imgSrc = `http://localhost:5292/img/menu/${item.imgSrc}`;
-          return item;
-        });
-        setImagesList(updatedData);
-      } catch (error) {
-        console.error("Exception: ", error);
-      }
-    };
-    fetchData();
+    MenuStore.fetchMenu(category);
   }, [category]);
 
   return (
-    <div className="App">
-      <header className="flexColumn">
-
-        <TopComponent />
-
-        <div style={{ height: '200px' }}></div>
+    <Layout className="App">
+      <TopComponent />
+      
+      <Content style={{ padding: '50px' }}>
+        <div style={{ height: '150px' }}></div>
         
-        <MenuComponent imgListData={imagesList} width='250px' height='250px' />
-
-      </header>
-    </div>
+        {MenuStore.loading ? (
+          <div style={{ textAlign: 'center', marginTop: '50px' }}>
+            <Spin size="large" tip={t("UI_TEXT.LOADING")} />
+          </div>
+        ) : (
+          <MenuComponent 
+            imgListData={MenuStore.items} 
+            width='250px' 
+            height='250px' 
+          />
+        )}
+      </Content>
+    </Layout>
   );
-}
+});
 
 export default Page_2;

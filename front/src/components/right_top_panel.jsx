@@ -3,14 +3,32 @@ import '../style.css';
 import BigTextComponent from "./big_text";
 import SmallTextComponent from "./small_text";
 import ButtonOrangeComponent from "./ButtonOrangeComponent";
- 
-export default function RightTopComponent({onClick}) {
+import { ButtonOrange } from './ButtonOrange/ButtonOrange.tsx';
+
+import icon from "../img/icon.png";
+
+export default function RightTopComponent({ onClick }) {
     return <div className="leftTopPanel">
-        
-            <div className = "flexColumn">
+
+        <div className="flexColumn">
             <SmallTextComponent size="15px" text="Phone" />
             <BigTextComponent size="30px" text="8(050)000-00-00" />
-            </div>
-            <ButtonOrangeComponent className = "orangeBtn" name ="menu" id ="menu" onClick={onClick}/>
+        </div>
+        <ButtonOrange
+            text="MENU"
+            onClick={onClick}
+            name="menu"
+            id="menu"
+            width="150px"
+            icon={<img src={icon} alt="icon" style={{ width: 20, height: 20 }} />}
+        />
+        <ButtonOrange
+            text="MENU"
+            onClick={onClick}
+            name="menu"
+            id="menu"
+            width="150px"
+            icon={<img src={icon} alt="icon" style={{ width: 20, height: 20 }} />}
+        />
     </div>;
 }
