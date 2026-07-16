@@ -1,55 +1,88 @@
-import React from "react";
+import React from 'react';
+import { Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from "../../../contexts/LanguageContext";
+import { useTranslation } from 'react-i18next';
+
 import { ButtonOrange } from '../../UI/ButtonOrange/ButtonOrange';
 
 import styles from './Header.module.scss';
 
-import logo from "../../../img/logo.png";
-import icon from "../../../img/icon.png";
+import logo from '../../../img/logo.png';
+import icon from '../../../img/icon.png';
 
-export default function Header() {
+const Header: React.FC = () => {
     const navigate = useNavigate();
-const { language, setLanguage } = useLanguage();
+    const { t, i18n } = useTranslation();
 
-    const handleMenuClick = () => navigate(`/menu`);
+    const handleMenuClick = (): void => {
+        navigate('/menu');
+    };
 
-    const toggleLanguage = () => {
-        setLanguage(language === 'uk' ? 'en' : 'uk');
+    const toggleLanguage = (): void => {
+        i18n.changeLanguage(i18n.language === 'uk' ? 'en' : 'uk');
     };
 
     return (
-        <header className={styles.headerContent}>
-            <div className={styles.headerContent_container}>
+        <header className={styles.header}>
+            <div className={styles.headerContainer}>
+                <a href="/" className={styles.logo}>
+                    <img
+                        src={logo}
+                        alt="OSAMA sushi-bar logo"
+                        className={styles.logoImage}
+                    />
 
+                    <div className={styles.logoTitle}>
+                        <Typography.Text className={styles.logoName}>
+                            OSAMA
+                        </Typography.Text>
 
-                <a href="/" className={styles.logoContainer}>
-                    <img src={logo} alt="logo" className={styles.logoImg} />
-                    <div className={styles.logoText}>
-                        <span style={{ fontSize: '30px' }}>OSAMA</span>
-                        <span style={{ fontSize: '15px' }}>sushi-bar</span>
+                        <Typography.Text
+                            className={styles.logoSubtitle}
+                        >
+                            sushi-bar
+                        </Typography.Text>
                     </div>
                 </a>
 
-                <div className={styles.rightPanel}>
-                    <div className={styles.phoneContainer}>
-                        <span style={{ fontSize: '15px' }}>Phone</span>
-                        <span style={{ fontSize: '30px' }}>8(050)000-00-00</span>
+                <div className={styles.headerActions}>
+                    <div className={styles.phone}>
+                        <Typography.Text className={styles.phoneLabel}>
+                            {t('HEADER.PHONE_LABEL')}
+                        </Typography.Text>
+
+                        <Typography.Text
+                            className={styles.phoneNumber}
+                        >
+                            {t('HEADER.PHONE_NUMBER')}
+                        </Typography.Text>
                     </div>
 
-                  <ButtonOrange
-                        text={language.toUpperCase()}
+                    <ButtonOrange
+                        text={i18n.language.toUpperCase()}
                         onClick={toggleLanguage}
                         width="60px"
                     />
+
                     <ButtonOrange
                         text="MENU"
                         onClick={handleMenuClick}
                         width="150px"
-                        icon={<img src={icon} alt="icon" style={{ width: 20, height: 20 }} />}
+                        icon={
+                            <img
+                                src={icon}
+                                alt="Menu"
+                                style={{
+                                    width: 20,
+                                    height: 20,
+                                }}
+                            />
+                        }
                     />
                 </div>
             </div>
         </header>
     );
-}
+};
+
+export default Header;

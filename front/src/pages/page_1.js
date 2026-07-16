@@ -12,7 +12,7 @@ import ListComponent from "../components/list_panel";
 import CentrComponent_Bottom from "../components/centr_panel_Bottom";
 import BottomComponent from "../components/bottom_panel";
 
-import Header from '../components/layout/Header/Header';
+import PromotionsSection from '../components/sections/PromotionsSection/PromotionsSection';
 import Footer from '../components/layout/Footer/Footer';
 
 import imageUrl1 from "../img/img1.png";
@@ -37,14 +37,14 @@ const Page_1 = observer(() => {
 
         <div style={{ height: '200px' }}></div>
 
-        <CentrComponent
-          imageUrl1={imageUrl1}
-          smallText={t("PAGE_1_TEXT.TITLE_1")}
-          bigText_1={t("PAGE_1_TEXT.TITLE_2")}
-          bigText_2={t("PAGE_1_TEXT.TITLE_3")}
-          btnText={t("PAGE_1_TEXT.BTN_ACTIONS")}
+        <PromotionsSection
+          imageUrl={imageUrl1}
+          secondaryText={t("PAGE_1_TEXT.TITLE_1")}
+          primaryTextFirst={t("PAGE_1_TEXT.TITLE_2")}
+          primaryTextSecond={t("PAGE_1_TEXT.TITLE_3")}
+          buttonText={t("PAGE_1_TEXT.BTN_ACTIONS")}
         />
-
+     
         {MarketStore.loading ? (
           <div style={{ textAlign: 'center', padding: '50px' }}>
             <Spin size="large" />
