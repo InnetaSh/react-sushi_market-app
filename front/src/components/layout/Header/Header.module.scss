@@ -1,4 +1,4 @@
-@import '../../assets/variables/variables.colors';
+@use '../../../assets/variables/variables.colors' as colors;
 
 .headerContent {
     position: fixed;
@@ -13,7 +13,7 @@
 
 .headerContent_container {
     display: flex;
-    background: $color-bg-dark !important;
+    background: colors.$color-bg-dark !important;
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -28,7 +28,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: $color-text-white;
+    color: colors.$color-text-white;
     cursor: pointer;
 
 
@@ -57,5 +57,5 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    color: $color-text-white;
+    color: colors.$color-text-white;
 }

@@ -12,8 +12,8 @@ import ListComponent from "../components/list_panel";
 import CentrComponent_Bottom from "../components/centr_panel_Bottom";
 import BottomComponent from "../components/bottom_panel";
 
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import Header from '../components/layout/Header/Header';
+import Footer from '../components/layout/Footer/Footer';
 
 import imageUrl1 from "../img/img1.png";
 
@@ -33,7 +33,7 @@ const Page_1 = observer(() => {
     <div className="App">
       <header className="flexColumn">
 
-        <Header />
+        {/* <Header /> */}
 
         <div style={{ height: '200px' }}></div>
 
@@ -63,7 +63,7 @@ const Page_1 = observer(() => {
           smallText_2={t("PAGE_1_TEXT.RESTAURANTS_DESC_2")}
           btnText={t("PAGE_1_TEXT.BTN_READ_MORE")}
         />
-        <Footer />
+        {/* <Footer /> */}
 
       </header>
     </div>

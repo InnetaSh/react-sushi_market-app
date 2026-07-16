@@ -3,7 +3,7 @@ import '../style.css';
 import BigTextComponent from "./big_text";
 import SmallTextComponent from "./small_text";
 import ButtonOrangeComponent from "./ButtonOrangeComponent";
-import { ButtonOrange } from './ButtonOrange/ButtonOrange.tsx';
+import { ButtonOrange } from './UI/ButtonOrange/ButtonOrange';
 
 import icon from "../img/icon.png";
 
