@@ -1,10 +1,12 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from "../../contexts/LanguageContext";
-import { ButtonOrange } from '../ButtonOrange/ButtonOrange';
+import { useLanguage } from "../../../contexts/LanguageContext";
+import { ButtonOrange } from '../../UI/ButtonOrange/ButtonOrange';
+
 import styles from './Header.module.scss';
-import logo from "../../img/logo.png";
-import icon from "../../img/icon.png";
+
+import logo from "../../../img/logo.png";
+import icon from "../../../img/icon.png";
 
 export default function Header() {
     const navigate = useNavigate();

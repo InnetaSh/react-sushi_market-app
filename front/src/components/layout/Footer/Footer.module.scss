@@ -1,4 +1,4 @@
-@use '../../assets/variables/variables.colors' as colors;
+@use '../../../assets/variables/variables.colors' as colors;
 
 .sectionBottom {
     display: flex;
@@ -33,7 +33,7 @@
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
-    background-image: url('../../img/img2.png');
+    background-image: url('../../../img/img2.png');
     background-size: 100% 640px;
     background-position: 10px;
     background-repeat: no-repeat;
