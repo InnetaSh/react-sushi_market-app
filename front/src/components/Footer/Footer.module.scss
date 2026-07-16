@@ -1,0 +1,133 @@
+@use '../../assets/variables/variables.colors' as colors;
+
+.sectionBottom {
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 1;
+    width: 100%;
+    min-height: 500px;
+    max-width: 100%;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 50px;
+}
+
+.sectionContainer {
+    width: 100%;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.containerItem {
+    display: flex;
+    justify-content: flex-start;
+    width: 90%;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-image: url('../../img/img2.png');
+    background-size: 100% 640px;
+    background-position: 10px;
+    background-repeat: no-repeat;
+}
+
+.orangeBlockWrapper {
+    position: relative;
+    z-index: -1;
+}
+
+.orangeBlock {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    display: block;
+    background-color: colors.$color-orange-primary;
+    margin-top: -30px;
+    margin-left: -30px;
+}
+
+.containerImg {
+    position: relative;
+    top: 0;
+    left: 3%;
+    width: 100%;
+    display: flex;
+    padding: 50px 30px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.containerImgBottom {
+    width: 80%;
+    margin-left: 7%;
+}
+
+.flexLeft {
+    width: 100%;
+}
+
+.primaryText {
+    font-size: 30px;
+    font-weight: 700;
+    font-family: 'PT Serif', serif;
+    color: colors.$color-text-white;
+}
+
+.secondaryText {
+    font-size: 15px;
+    font-weight: 500;
+    color: colors.$color-text-secondary;
+    text-align: start;
+}
+
+.bottomImages {
+    width: 100%;
+}
+
+.imgBottom {
+    position: relative;
+    width: 25%;
+    margin: 5px;
+    padding: 40px 30px;
+    border: 2px solid colors.$color-border-dark;
+    margin-top: 30px;
+}
+
+@media (max-width: 1000px) {
+    .containerItem {
+        width: 90%;
+        margin: 0 5%;
+        margin-bottom: 20px;
+        background-size: 900px 800px;
+        background-position: 10px 10px;
+    }
+
+    .containerImg {
+        top: 70px;
+        left: 50px;
+        width: 86%;
+        padding: 10px;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .containerImgBottom {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .imgBottom {
+        width: 100%;
+        padding: 20px;
+        margin-top: 30px;
+        margin-bottom: 120px;
+    }
+}
