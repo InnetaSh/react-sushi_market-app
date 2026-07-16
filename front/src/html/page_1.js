@@ -13,12 +13,13 @@ import CentrComponent_Bottom from "../components/centr_panel_Bottom";
 import BottomComponent from "../components/bottom_panel";
 
 import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 
 import imageUrl1 from "../img/img1.png";
 
 const Page_1 = observer(() => {
   const navigate = useNavigate();
-   const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const sentCategory = (title) => {
     navigate(`/menu/search/category/${title}`);
@@ -31,10 +32,8 @@ const Page_1 = observer(() => {
   return (
     <div className="App">
       <header className="flexColumn">
-       
-        <Header />
- {/* <TopComponent /> */}
 
+        <Header />
 
         <div style={{ height: '200px' }}></div>
 
@@ -64,11 +63,8 @@ const Page_1 = observer(() => {
           smallText_2={t("PAGE_1_TEXT.RESTAURANTS_DESC_2")}
           btnText={t("PAGE_1_TEXT.BTN_READ_MORE")}
         />
+        <Footer />
 
-        <BottomComponent
-          bigText={t("PAGE_1_TEXT.BOTTOM_MSG")}
-          smallText={t("PAGE_1_TEXT.BOTTOM_MSG")}
-        />
       </header>
     </div>
   );
