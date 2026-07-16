@@ -1,5 +1,6 @@
 import React from 'react';
 import { Flex, Image, Typography } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 import OrangeBlock from '../../orangeBlock';
 
@@ -9,56 +10,54 @@ import imageUrl3 from '../../../img/magazine_3.png';
 import imageUrl4 from '../../../img/magazine_4.png';
 
 import styles from './Footer.module.scss';
-import { useTranslation } from 'react-i18next';
-
-interface FooterProps {
-    bigText: string;
-    smallText: string;
-}
 
 interface ImageData {
-    imgSrc: string;
+    imageUrl: string;
 }
 
-const imgListData: ImageData[] = [
-    { imgSrc: imageUrl1 },
-    { imgSrc: imageUrl2 },
-    { imgSrc: imageUrl3 },
-    { imgSrc: imageUrl4 },
+const imageList: ImageData[] = [
+    { imageUrl: imageUrl1 },
+    { imageUrl: imageUrl2 },
+    { imageUrl: imageUrl3 },
+    { imageUrl: imageUrl4 },
 ];
 
-const Footer: React.FC<FooterProps> = () => {
+const Footer: React.FC = () => {
     const { t } = useTranslation();
+
     const primaryText = t("PAGE_1_TEXT.BOTTOM_MSG");
-    const secondaryText = t("PAGE_1_TEXT.BOTTOM_MSG");
+    const secondaryText = t("PAGE_1_TEXT.BOTTOM_DESC");
+
     return (
-        <section className={styles.sectionBottom}>
-            <div className={styles.sectionContainer}>
-                <div className={styles.container}>
-                    <div className={styles.containerItem}>
-                        <div className={styles.orangeBlockWrapper}>
-                            <OrangeBlock className={styles.orangeBlock} />
+        <section className={styles.footer}>
+            <div className={styles.footerContainer}>
+                <div className={styles.footerContent}>
+                    <div className={styles.footerCard}>
+                        <div className={styles.decoration}>
+                            <OrangeBlock
+                                className={styles.decorationBlock}
+                            />
                         </div>
 
-                        <div className={styles.containerImg}>
+                        <div className={styles.footerLayout}>
                             <Flex
                                 vertical
                                 justify="center"
-                                className={styles.containerImgBottom}
+                                className={styles.footerInfo}
                             >
                                 <Flex
                                     vertical
                                     align="flex-start"
-                                    className={styles.flexLeft}
+                                    className={styles.footerText}
                                 >
                                     <Typography.Text
-                                        className={styles.primaryText}
+                                        className={styles.title}
                                     >
-                                        {primaryText}
+                                        {primaryText }
                                     </Typography.Text>
 
                                     <Typography.Text
-                                        className={styles.secondaryText}
+                                        className={styles.subtitle}
                                     >
                                         {secondaryText}
                                     </Typography.Text>
@@ -67,18 +66,18 @@ const Footer: React.FC<FooterProps> = () => {
                                 <Flex
                                     justify="center"
                                     align="center"
-                                    className={styles.bottomImages}
+                                    className={styles.imageList}
                                 >
-                                    {imgListData.map(({ imgSrc }) => (
+                                    {imageList.map(({ imageUrl }) => (
                                         <div
-                                            className={styles.imgBottom}
-                                            key={imgSrc}
+                                            className={styles.imageCard}
+                                            key={imageUrl}
                                         >
                                             <Image
-                                                src={imgSrc}
+                                                src={imageUrl}
                                                 width="100%"
                                                 preview={false}
-                                                alt=""
+                                                alt="Magazine"
                                             />
                                         </div>
                                     ))}

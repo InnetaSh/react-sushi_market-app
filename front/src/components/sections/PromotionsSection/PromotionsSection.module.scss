@@ -1,6 +1,6 @@
 @use '../../../assets/variables/variables.colors' as colors;
 
-.footer {
+.promotionsSection {
     display: flex;
     flex-shrink: 0;
     flex-grow: 1;
@@ -14,22 +14,22 @@
     padding-bottom: 50px;
 }
 
-.footerContainer {
+.promotionsContainer {
     width: 100%;
     margin: 0 auto;
     z-index: 1;
 }
 
-.footerContent {
+.promotionsContent {
     position: relative;
     width: 100%;
     z-index: 1;
 }
 
-.footerCard {
+.promotionsCard {
     display: flex;
     justify-content: flex-start;
-    width: 90%;
+    width: 80%;
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
@@ -54,31 +54,25 @@
     margin-left: -30px;
 }
 
-.footerLayout {
+.promotionsLayout {
     position: relative;
     top: 0;
     left: 3%;
     width: 100%;
-    display: flex;
     padding: 50px 30px;
     align-items: center;
     justify-content: flex-start;
 }
 
-.footerInfo {
-    width: 80%;
-    margin-left: 7%;
-}
-
-.footerText {
-    width: 100%;
-}
-
-.title {
-    font-size: 30px;
-    font-weight: 700;
-    font-family: 'PT Serif', serif;
-    color: colors.$color-text-white;
+.promotionsInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    max-width: 30%;
+    width: 25%;
+    word-wrap: break-word;
+    gap: 5px;
 }
 
 .subtitle {
@@ -88,21 +82,35 @@
     text-align: start;
 }
 
-.imageList {
-    width: 100%;
+.title {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.1;
+    font-family: 'PT Serif', serif;
+    color: colors.$color-text-white;
+    text-align: start;
 }
 
-.imageCard {
-    position: relative;
-    width: 25%;
-    margin: 5px;
-    padding: 40px 30px;
-    border: 2px solid colors.$color-border-dark;
-    margin-top: 30px;
+.actionButton {
+    width: fit-content;
+    margin-top: 20px;
+    background-color: colors.$color-orange-primary;
+    border-color: colors.$color-orange-primary;
+}
+
+.imageContainer {
+    margin-left: 15%;
+    left: 3%;
+}
+
+.promotionImage {
+    width: 110% !important;
+    height: 550px !important;
+    object-fit: cover;
 }
 
 @media (max-width: 1000px) {
-    .footerCard {
+    .promotionsCard {
         width: 90%;
         margin: 0 5%;
         margin-bottom: 20px;
@@ -110,7 +118,7 @@
         background-position: 10px 10px;
     }
 
-    .footerLayout {
+    .promotionsLayout {
         top: 70px;
         left: 50px;
         width: 86%;
@@ -119,15 +127,17 @@
         justify-content: flex-start;
     }
 
-    .footerInfo {
+    .promotionsInfo {
         width: 100%;
-        margin-left: 0;
     }
 
-    .imageCard {
+    .imageContainer {
         width: 100%;
-        padding: 20px;
-        margin-top: 30px;
-        margin-bottom: 120px;
+        height: auto;
+    }
+
+    .promotionImage {
+        width: 100%;
+        height: auto;
     }
 }
