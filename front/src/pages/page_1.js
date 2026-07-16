@@ -13,7 +13,7 @@ import CentrComponent_Bottom from "../components/centr_panel_Bottom";
 import BottomComponent from "../components/bottom_panel";
 
 import PromotionsSection from '../components/sections/PromotionsSection/PromotionsSection';
-import Footer from '../components/layout/Footer/Footer';
+import AboutSection from '../components/sections/AboutSection/AboutSection';
 
 import imageUrl1 from "../img/img1.png";
 
@@ -44,7 +44,7 @@ const Page_1 = observer(() => {
           primaryTextSecond={t("PAGE_1_TEXT.TITLE_3")}
           buttonText={t("PAGE_1_TEXT.BTN_ACTIONS")}
         />
-     
+
         {MarketStore.loading ? (
           <div style={{ textAlign: 'center', padding: '50px' }}>
             <Spin size="large" />
@@ -56,15 +56,14 @@ const Page_1 = observer(() => {
           />
         )}
 
-        <CentrComponent_Bottom
-          imageUrl1={imageUrl1}
-          bigText={t("PAGE_1_TEXT.RESTAURANTS_TITLE")}
-          smallText_1={t("PAGE_1_TEXT.RESTAURANTS_DESC_1")}
-          smallText_2={t("PAGE_1_TEXT.RESTAURANTS_DESC_2")}
-          btnText={t("PAGE_1_TEXT.BTN_READ_MORE")}
+        <AboutSection
+          imageUrl={imageUrl1}
+          title={t("PAGE_1_TEXT.RESTAURANTS_TITLE")}
+          descriptionFirst={t("PAGE_1_TEXT.RESTAURANTS_DESC_1")}
+          descriptionSecond={t("PAGE_1_TEXT.RESTAURANTS_DESC_2")}
+          buttonText={t("PAGE_1_TEXT.BTN_READ_MORE")}
         />
-        {/* <Footer /> */}
-
+        
       </header>
     </div>
   );
