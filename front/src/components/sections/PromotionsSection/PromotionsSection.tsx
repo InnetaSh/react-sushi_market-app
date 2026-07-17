@@ -3,7 +3,7 @@ import { Flex, Image, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 import OrangeBlock from '../../orangeBlock';
-import ButtonGreenComponent from '../../buttonGreenComponent';
+import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
 
 import styles from './PromotionsSection.module.scss';
 
@@ -62,10 +62,11 @@ const PromotionsSection: React.FC<PromotionsSectionProps> = ({
                                     </Typography.Text>
                                 </Flex>
 
-                                <ButtonGreenComponent
+                                <ButtonGreen
                                     name="stock"
                                     id="stock"
                                     text={buttonText}
+                                    width="240px"
                                     onClick={handleClick}
                                 />
                             </Flex>

@@ -1,0 +1,60 @@
+@use '../../../assets/variables/variables.colors' as colors;
+
+.button {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    min-width: 220px;
+    padding: 20px 40px;
+    height: 65px;
+    border-radius: 0;
+    overflow: hidden;
+
+    color: colors.$color-text-white;
+    background-color: colors.$color-green-primary;
+    border: 1px solid colors.$color-green-primary;
+
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    &:hover {
+        color: colors.$color-text-white !important;
+        background-color: colors.$color-gray-dark !important;
+        border-color: colors.$color-gray-dark !important;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+
+        background-color: colors.$color-gray-dark;
+
+        transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    &:hover::before {
+        width: 100%;
+    }
+}
+
+.text {
+    position: relative;
+    z-index: 2;
+
+    color: colors.$color-text-dark;
+    font-size: 16px;
+    font-weight: 700;
+
+     &:hover {
+         color: colors.$color-text-white !important;
+    }
+}

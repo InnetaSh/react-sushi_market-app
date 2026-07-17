@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, Typography } from 'antd';
 
 import OrangeBlock from '../../../orangeBlock';
-import ButtonGreenComponent from '../../../buttonGreenComponent';
+import ButtonGreen from '../../../UI/ButtonGreen/ButtonGreen';
 
 import styles from './MenuItem.module.scss';
 
@@ -46,10 +46,11 @@ const MenuItem: React.FC<MenuItemProps> = ({
                     </Typography.Text>
                 </div>
 
-                <ButtonGreenComponent
+                <ButtonGreen
                     name="stock"
                     id="stock"
                     text="Перейти в меню"
+                      width="480px"
                     onClick={onClick}
                 />
             </div>
