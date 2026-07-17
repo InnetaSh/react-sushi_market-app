@@ -1,0 +1,97 @@
+@use '../../../../assets/variables/variables.colors' as colors;
+
+.menuItem {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 100%;
+    flex-grow: 1;
+    flex-shrink: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    align-items: stretch;
+    height: 500px;
+      margin-bottom: 70px;
+}
+
+.imageContainer {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    align-items: stretch;
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding-top: 20px;
+    padding-right: 20px;
+    height: 100%;
+    max-height: 350px;
+}
+
+.orangeBlock {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    display: inline-block;
+    background-color: colors.$color-orange-primary;
+    top: 0;
+    right: 0;
+    z-index: 0;
+}
+
+.imageWrapper {
+    position: relative;
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 100%;
+    flex-direction: column;
+    margin: 0;
+    transition: all 300ms ease-in;
+    flex-grow: 0;
+    flex-shrink: 1;
+}
+
+.itemLink {
+    width: 80%;
+    display: flex;
+    cursor: pointer;
+    text-decoration: none;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex-grow: 1;
+    flex-shrink: 0;
+    position: relative;
+    flex-wrap: wrap;
+    margin-left: 10%;
+}
+
+.itemText {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    height: 50px;
+}
+
+.primaryText {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.1;
+    font-family: 'PT Serif', serif;
+    color: colors.$color-text-white;
+    text-align: start;
+}
+
+.secondaryText {
+    font-size: 18px;
+    font-weight: 500;
+    color: colors.$color-text-secondary;
+    text-align: start;
+}
