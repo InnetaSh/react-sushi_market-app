@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
-import { Spin } from "antd";
+import { Spin, Flex } from "antd";
 import '../style.css';
 
 import MarketStore from "../stores/MarketStore";
@@ -14,6 +14,7 @@ import BottomComponent from "../components/bottom_panel";
 
 import PromotionsSection from '../components/sections/PromotionsSection/PromotionsSection';
 import AboutSection from '../components/sections/AboutSection/AboutSection';
+import MenuSection from '../components/sections/MenuSection/MenuSection';
 
 import imageUrl1 from "../img/img1.png";
 
@@ -31,11 +32,10 @@ const Page_1 = observer(() => {
 
   return (
     <div className="App">
-      <header className="flexColumn">
-
-        {/* <Header /> */}
-
-        <div style={{ height: '200px' }}></div>
+      <Flex
+        vertical
+        align="center"
+        >
 
         <PromotionsSection
           imageUrl={imageUrl1}
@@ -50,10 +50,11 @@ const Page_1 = observer(() => {
             <Spin size="large" />
           </div>
         ) : (
-          <ListComponent
-            imgListData={MarketStore.imagesList}
-            onClick={sentCategory}
-          />
+          <>
+            <MenuSection
+              menuItems={MarketStore.imagesList}
+              onCategoryClick={sentCategory} />
+          </>
         )}
 
         <AboutSection
@@ -63,8 +64,8 @@ const Page_1 = observer(() => {
           descriptionSecond={t("PAGE_1_TEXT.RESTAURANTS_DESC_2")}
           buttonText={t("PAGE_1_TEXT.BTN_READ_MORE")}
         />
-        
-      </header>
+
+      </Flex>
     </div>
   );
 });
