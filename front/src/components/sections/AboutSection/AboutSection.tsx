@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Image, Typography } from 'antd';
 
 import OrangeBlock from '../../orangeBlock';
-import ButtonGreenComponent from '../../buttonGreenComponent';
+import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
 
 import styles from './AboutSection.module.scss';
 
@@ -60,11 +60,12 @@ const AboutSection: React.FC<AboutSectionProps> = ({
                                     </Typography.Text>
                                 </Flex>
 
-                                <ButtonGreenComponent
+                                <ButtonGreen
                                     name="stock"
                                     id="stock"
                                     text={buttonText}
-                                    onClick={console.log('Button clicked')}
+                                    width="240px"
+                                    onClick={() => console.log('Button clicked')}
                                 />
                             </Flex>
 
