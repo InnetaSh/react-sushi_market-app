@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, Typography } from 'antd';
 
-import OrangeBlock from '../../../orangeBlock';
+import CornerAccent from '../../../UI/CornerAccent';
 import ButtonGreen from '../../../UI/ButtonGreen/ButtonGreen';
 
 import styles from './MenuItem.module.scss';
@@ -22,7 +22,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
     return (
         <div className={styles.menuItem}>
             <div className={styles.imageContainer}>
-                <OrangeBlock className={styles.orangeBlock} />
+                <CornerAccent className={styles.orangeBlock} />
 
                 <div className={styles.imageWrapper}>
                     <Image

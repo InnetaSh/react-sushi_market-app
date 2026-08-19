@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Typography } from 'antd';
 
-import OrangeBlock from '../../orangeBlock';
+import CornerAccent from '../../UI/CornerAccent';
 import SubmenuCard from './components/SubmenuCard/SubmenuCard';
 
 import styles from './SubmenuSection.module.scss';
@@ -27,7 +27,7 @@ const SubmenuSection: React.FC<SubmenuSectionProps> = ({
                 <div className={styles.container}>
                     <div className={styles.containerItem}>
                         <div className={styles.orangeBlockWrapper}>
-                            <OrangeBlock className={styles.orangeBlock} />
+                            <CornerAccent className={styles.orangeBlock} />
                         </div>
 
                         <Flex

@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Image, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-import OrangeBlock from '../../orangeBlock';
+import CornerAccent from '../../UI/CornerAccent';
 
 import imageUrl1 from '../../../img/magazine_1.png';
 import imageUrl2 from '../../../img/magazine_2.png';
@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
                 <div className={styles.footerContent}>
                     <div className={styles.footerCard}>
                         <div className={styles.decoration}>
-                            <OrangeBlock
+                            <CornerAccent
                                 className={styles.decorationBlock}
                             />
                         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Image, Typography } from 'antd';
 
-import OrangeBlock from '../../orangeBlock';
+import CornerAccent from '../../UI/CornerAccent';
 import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
 
 import styles from './AboutSection.module.scss';
@@ -27,7 +27,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({
                 <div className={styles.container}>
                     <div className={styles.containerItem}>
                         <div className={styles.orangeBlockWrapper}>
-                            <OrangeBlock
+                            <CornerAccent
                                 className={styles.orangeBlock}
                             />
                         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Image, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-import OrangeBlock from '../../orangeBlock';
+import CornerAccent from '../../UI/CornerAccent';
 import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
 
 import styles from './PromotionsSection.module.scss';
@@ -34,7 +34,7 @@ const PromotionsSection: React.FC<PromotionsSectionProps> = ({
                 <div className={styles.promotionsContent}>
                     <div className={styles.promotionsCard}>
                         <div className={styles.decoration}>
-                            <OrangeBlock className={styles.decorationBlock} />
+                            <CornerAccent className={styles.decorationBlock} />
                         </div>
 
                         <Flex className={styles.promotionsLayout}>

@@ -1,5 +1,5 @@
 import React from "react";
-import OrangeBlock from "./orangeBlock";
+import OrangeBlock from "./UI/CornerAccent";
 import ImgSaleComponent from "./imgSaleComponent";
 
 

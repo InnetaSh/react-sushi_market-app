@@ -6,11 +6,6 @@ import { Spin, Flex } from "antd";
 import '../style.css';
 
 import MarketStore from "../stores/MarketStore";
-import TopComponent from "../components/top_panel";
-import CentrComponent from "../components/centr_panel";
-import ListComponent from "../components/list_panel";
-import CentrComponent_Bottom from "../components/centr_panel_Bottom";
-import BottomComponent from "../components/bottom_panel";
 
 import PromotionsSection from '../components/sections/PromotionsSection/PromotionsSection';
 import AboutSection from '../components/sections/AboutSection/AboutSection';
