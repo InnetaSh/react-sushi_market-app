@@ -10,9 +10,40 @@ html,
 body {
     min-width: 740px !important;
     width: 100%;
-
-    background: linear-gradient(to bottom, #292929,#292929, #343434,#292929, #292929);
     margin: 0;
+    min-height: 100vh;
+    
+    background-image: url('./img/back.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background: linear-gradient(
+        to bottom, 
+        rgba(40, 40, 40, 0.95), 
+        rgba(41, 41, 41, 0.85), 
+        rgba(52, 52, 52, 0.85), 
+        rgba(41, 41, 41, 0.85), 
+        rgba(41, 41, 41, 0.85)
+    );
+    
+    pointer-events: none;
+    z-index: 1; 
+}
+
+.header, main, .content {
+    position: relative;
+    z-index: 2; 
 }
 
 .flex {
@@ -297,7 +328,7 @@ body {
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
-    background-image: url("./img/img2.png");
+    background-image: url("./img/back_small_house.png");
     background-size: cover;
     background-size: 100% 640px;
     background-position: 10px;
@@ -354,7 +385,7 @@ body {
         max-width: 1200px;
         margin: 0 5%;
         margin-bottom: 20px;
-        background-image: url("./img/img2.png");
+        background-image: url("./img/back_small_house.png");
         background-size: cover;
         background-size: 900px 800px;
         background-position: 10px 10px;

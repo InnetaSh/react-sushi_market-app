@@ -6,7 +6,8 @@
     flex-grow: 1;
     width: 100%;
     min-height: 500px;
-    max-width: 100%;
+    width: 100%;
+    padding: 0 50px;
     position: relative;
     justify-content: center;
     align-items: center;
@@ -29,11 +30,11 @@
 .containerItem {
     display: flex;
     justify-content: flex-start;
-    width: 80%;
+    width: 70%;
     position: relative;
-    max-width: 1200px;
+    min-width: 900px;
     margin: 0 auto;
-    background-image: url('../../../img/img2.png');
+    background-image: url('../../../img/back_small_house.png');
     background-size: 100% 640px;
     background-position: 10px;
     background-repeat: no-repeat;

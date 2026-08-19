@@ -18,7 +18,7 @@ import MenuSection from '../components/sections/MenuSection/MenuSection';
 
 import imageUrl1 from "../img/img1.png";
 
-const Page_1 = observer(() => {
+const MainPage = observer(() => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -70,4 +70,4 @@ const Page_1 = observer(() => {
   );
 });
 
-export default Page_1;
+export default MainPage;

@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams } from 'react-router-dom';
-import { Layout, Spin } from "antd";
+import { Layout, Spin, Flex } from "antd";
 import { useTranslation } from "react-i18next";
 import '../style.css';
 
 import MenuStore from "../stores/MenuStore";
-import TopComponent from "../components/top_panel";
-import MenuComponent from "../components/menu_panel";
+import SubmenuSection from "../components/sections/SubmenuSection/SubmenuSection";
 
 const { Content } = Layout;
 
-const Page_2 = observer(() => {
+const MenuPage = observer(() => {
   const { category } = useParams();
   const { t } = useTranslation();
 
@@ -20,26 +19,21 @@ const Page_2 = observer(() => {
   }, [category]);
 
   return (
-    <Layout className="App">
-      <TopComponent />
-      
+    <div className="App">
       <Content style={{ padding: '50px' }}>
-        <div style={{ height: '150px' }}></div>
-        
+
         {MenuStore.loading ? (
           <div style={{ textAlign: 'center', marginTop: '50px' }}>
             <Spin size="large" tip={t("UI_TEXT.LOADING")} />
           </div>
         ) : (
-          <MenuComponent 
-            imgListData={MenuStore.items} 
-            width='250px' 
-            height='250px' 
-          />
+          <SubmenuSection
+            menuItems={MenuStore.items}
+            />
         )}
       </Content>
-    </Layout>
+    </div>
   );
 });
 
-export default Page_2;
+export default MenuPage;

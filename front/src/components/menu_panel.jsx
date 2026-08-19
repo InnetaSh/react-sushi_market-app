@@ -5,7 +5,7 @@ import ImgComponentLeftText from "./imgComponentLeftText";
 
 
 export default function MenuComponent({ imgListData, width, height }) {
-    return (<div class="section">
+    return (<div class="section1">
         <div class="section_containerCentrComponent" id="iychbh36i_0">
             <div className="containerCentrComponent">
                 <div className="containerMenuComponent_item">
@@ -18,8 +18,6 @@ export default function MenuComponent({ imgListData, width, height }) {
                         imgListData.map((item, index) => {
 
                             const isEven = index % 2 === 0;
-
-
                             const styles = {
                                 float: isEven ? 'right' : 'left',
                                 marginRight: isEven ? '0px' : '20%',
