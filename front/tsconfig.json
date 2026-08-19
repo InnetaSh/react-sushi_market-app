@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -11,6 +11,19 @@
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@app/*": ["src/app/*"],
+      "@fonts/*": ["src/assets/fonts/*"],
+      "@colors/*": ["src/assets/variables/*"],
+      "@img/*": ["src/img/*"],
+      "@api/*": ["src/app/api/*"],
+      "@section/*": ["src/components/sections/*"],
+      "@stores/*": ["src/app/stores/*"],
+      "@models/*": ["src/models/*"],
+      "@UI/*": ["src/components/UI/*"]
+    },
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,

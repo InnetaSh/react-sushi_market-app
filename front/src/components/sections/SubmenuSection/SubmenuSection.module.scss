@@ -1,4 +1,4 @@
-@use '../../../assets/variables/variables.colors' as colors;
+@use '@colors/variables.colors' as colors;
 
 .section {
     display: flex;
@@ -6,15 +6,18 @@
     flex-grow: 1;
     width: 100%;
     min-height: 500px;
+    
     position: relative;
     justify-content: center;
     align-items: center;
-    padding: 10px 0 50px;
+   
 }
 
 .sectionContainer {
     width: 100%;
     margin: 0 auto;
+     padding: 10px 50px;
+    max-width: 2700px;
     z-index: 1;
 }
 
@@ -31,7 +34,7 @@
     margin: 0 auto;
     padding: 100px 7% 250px 7%;
     background-color: colors.$color-bg-dark;
-    background-image: url('../../../img/back_menu.jpg');
+    // background-image: url('../../../img/back_menu.jpg');
     background-size: 70%;
     background-position: 10px bottom;
     background-repeat: no-repeat;
@@ -61,6 +64,6 @@
 }
 
 .emptyMessage {
-    color: colors.$color-text-white;
+    color: colors.$color-text-white !important;
     text-align: center;
 }

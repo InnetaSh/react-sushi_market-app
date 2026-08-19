@@ -69,7 +69,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({
                                 />
                             </Flex>
 
-                            <div className={styles.imageWrapper}>
+                            <div className={styles.imageContainer}>
                                 <Image
                                     src={imageUrl}
                                     alt="About"

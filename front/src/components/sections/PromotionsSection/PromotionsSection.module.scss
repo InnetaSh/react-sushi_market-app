@@ -1,4 +1,4 @@
-@use '../../../assets/variables/variables.colors' as colors;
+@use '@colors/variables.colors' as colors;
 
 .promotionsSection {
     display: flex;
@@ -6,7 +6,7 @@
     flex-grow: 1;
     width: 100%;
     min-height: 500px;
-    max-width: 100%;
+    max-width: 2700px;
     padding: 0 50px;
     position: relative;
     justify-content: center;
@@ -34,7 +34,7 @@
     position: relative;
     min-width: 900px;
     margin: 0 auto;
-    background-image: url('../../../img/back_promotion.jpg');
+    //  background-image: url('~@img/back_promotion.jpg');
     background-size: 100% 640px;
     background-position: bottom;
     background-repeat: no-repeat;
@@ -63,6 +63,12 @@
     padding: 50px 30px;
     align-items: center;
     justify-content: flex-start;
+}
+@media (min-width: 1400px) {
+    .promotionsLayout {
+       display: flex;
+    justify-content: center;
+    }
 }
 
 .promotionsInfo {
@@ -102,6 +108,18 @@
 .imageContainer {
     margin-left: 15%;
     left: 3%;
+}
+@media (min-width: 1400px) {
+    .imageContainer {
+         margin-left: 20%;
+        left: 8%;
+    }
+}
+@media (min-width: 2224px) {
+    .imageContainer {
+         margin-left: 22%;
+        left: 8%;
+    }
 }
 
 .promotionImage {

@@ -48,7 +48,7 @@ if (app.Environment.IsDevelopment())
 
 
 
-
+app.Urls.Add("http://localhost:5200");
 app.Run();
 
 internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

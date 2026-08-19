@@ -6,15 +6,16 @@
     flex-grow: 1;
     width: 100%;
     min-height: 500px;
-    max-width: 100%;
     position: relative;
     justify-content: center;
     align-items: center;
-    padding: 10px 50px 50px 50px;
 }
 
 .footerContainer {
     width: 100%;
+
+    padding: 10px 50px 50px 50px;
+    max-width: 2700px !important;
     margin: 0 auto;
     z-index: 1;
 }
@@ -27,8 +28,7 @@
 
 .footerCard {
     display: flex;
-    justify-content: flex-start;
-    width: 70%;
+    justify-content:center;
     position: relative;
     width: 70%;
     min-width: 900px;

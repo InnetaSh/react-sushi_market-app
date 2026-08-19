@@ -1,4 +1,4 @@
-@use '../../../assets/variables/variables.colors' as colors;
+@use '@colors/variables.colors' as colors;
 
 .section {
     display: flex;
@@ -6,6 +6,7 @@
     flex-grow: 1;
     width: 100%;
     min-height: 500px;
+     max-width: 2700px;
     width: 100%;
     padding: 0 50px;
     position: relative;
@@ -34,7 +35,7 @@
     position: relative;
     min-width: 900px;
     margin: 0 auto;
-    background-image: url('../../../img/back_small_house.png');
+    background-image: url('~@img/back_small_house.png');
     background-size: 100% 640px;
     background-position: 10px;
     background-repeat: no-repeat;
@@ -63,6 +64,12 @@
     padding: 50px 30px;
     align-items: center;
     justify-content: flex-start;
+}
+@media (min-width: 1400px) {
+    .containerImg {
+       display: flex;
+    justify-content: center;
+    }
 }
 
 .containerImgLeft {
@@ -96,9 +103,21 @@
     text-align: start;
 }
 
-.imageWrapper {
+.imageContainer {
     margin-left: 15%;
     left: 3%;
+}
+@media (min-width: 1400px) {
+    .imageContainer {
+         margin-left: 20%;
+        left: 8%;
+    }
+}
+@media (min-width: 2224px) {
+    .imageContainer {
+         margin-left: 22%;
+        left: 8%;
+    }
 }
 
 .image {

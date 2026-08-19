@@ -5,6 +5,7 @@ import CornerAccent from '../../UI/CornerAccent';
 import SubmenuCard from './components/SubmenuCard/SubmenuCard';
 
 import styles from './SubmenuSection.module.scss';
+import backImgMenu from '@img/back_menu.jpg';
 
 interface SubmenuItem {
     imgSrc: string;
@@ -25,7 +26,9 @@ const SubmenuSection: React.FC<SubmenuSectionProps> = ({
         <section className={styles.section}>
             <div className={styles.sectionContainer}>
                 <div className={styles.container}>
-                    <div className={styles.containerItem}>
+                    <div className={styles.containerItem}
+                        style={{ backgroundImage: `url(${backImgMenu})` 
+                        }}>
                         <div className={styles.orangeBlockWrapper}>
                             <CornerAccent className={styles.orangeBlock} />
                         </div>

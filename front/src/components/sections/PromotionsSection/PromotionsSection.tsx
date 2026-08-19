@@ -6,6 +6,7 @@ import CornerAccent from '../../UI/CornerAccent';
 import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
 
 import styles from './PromotionsSection.module.scss';
+import backImg from '@img/back_promotion.jpg';
 
 interface PromotionsSectionProps {
     imageUrl: string;
@@ -32,7 +33,9 @@ const PromotionsSection: React.FC<PromotionsSectionProps> = ({
         <section className={styles.promotionsSection}>
             <div className={styles.promotionsContainer}>
                 <div className={styles.promotionsContent}>
-                    <div className={styles.promotionsCard}>
+                    <div className={styles.promotionsCard}
+                        style={{ backgroundImage: `url(${backImg})` }}
+                    >
                         <div className={styles.decoration}>
                             <CornerAccent className={styles.decorationBlock} />
                         </div>
