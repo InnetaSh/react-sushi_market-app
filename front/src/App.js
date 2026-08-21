@@ -7,6 +7,7 @@ import MainPage from './pages/MainPage';
 import MenuPage from './pages/MenuPage';
 import PromotionDetailsPage from './pages/PromotionDetailsPage';
 import NewsPage from './pages/NewsPage';
+import ContactsPage from '@pages/ContactsPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="menu/search/category/:category" element={<MenuPage />} />
           <Route path="sale" element={<PromotionDetailsPage />} />
           <Route path="news" element={<NewsPage />} />
+          <Route path="contacts" element={<ContactsPage />} />
         </Route>
       </Routes>
     </Router>

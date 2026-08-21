@@ -23,6 +23,7 @@
       "@img/*": ["src/img/*"],
       "@api/*": ["src/app/api/*"],
       "@section/*": ["src/components/sections/*"],
+      "@pages/*": ["src/pages/*"],
       "@layout/*": ["src/components/layout/*"],
       "@stores/*": ["src/app/stores/*"],
       "@models/*": ["src/models/*"],
