@@ -1,59 +1,5 @@
 @use '../../../assets/variables/variables.colors' as colors;
 
-.footer {
-    display: flex;
-    flex-shrink: 0;
-    flex-grow: 1;
-    width: 100%;
-    min-height: 500px;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-}
-
-.footerContainer {
-    width: 100%;
-
-    padding: 10px 50px 50px 50px;
-    max-width: 2700px !important;
-    margin: 0 auto;
-    z-index: 1;
-}
-
-.footerContent {
-    position: relative;
-    width: 100%;
-    z-index: 1;
-}
-
-.footerCard {
-    display: flex;
-    justify-content:center;
-    position: relative;
-    width: 70%;
-    min-width: 900px;
-    margin: 0 auto;
-    background-image: url('../../../img/back_footer.jpg');
-    background-size: 100% 640px;
-    background-position: 10px bottom;
-    background-repeat: no-repeat;
-}
-
-.decoration {
-    position: relative;
-    z-index: -1;
-}
-
-.decorationBlock {
-    width: 200px;
-    height: 200px;
-    position: absolute;
-    display: block;
-    background-color: colors.$color-orange-primary;
-    margin-top: -30px;
-    margin-left: -30px;
-}
-
 .footerLayout {
     position: relative;
     top: 0;
@@ -102,14 +48,6 @@
 }
 
 @media (max-width: 1000px) {
-    .footerCard {
-        width: 90%;
-        margin: 0 5%;
-        margin-bottom: 20px;
-        background-size: 900px 800px;
-        background-position: 10px 10px;
-    }
-
     .footerLayout {
         top: 70px;
         left: 50px;

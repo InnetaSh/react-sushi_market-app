@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout/MainLayout';
 import MainPage from './pages/MainPage';
 import MenuPage from './pages/MenuPage';
-import Page3 from './pages/page_3';
+import PromotionDetailsPage from './pages/PromotionDetailsPage';
+import NewsPage from './pages/NewsPage';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
           <Route index element={<MainPage />} />
           <Route path="menu" element={<MenuPage />} />
           <Route path="menu/search/category/:category" element={<MenuPage />} />
-          <Route path="sale" element={<Page3 />} />
+          <Route path="sale" element={<PromotionDetailsPage />} />
+          <Route path="news" element={<NewsPage />} />
         </Route>
       </Routes>
     </Router>

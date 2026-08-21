@@ -8,10 +8,12 @@
     "RESTAURANTS_DESC_1": "A sushi bar — a modern classic of Japanese cuisine",
     "RESTAURANTS_DESC_2": "Everything here is designed to help our guests enjoy their time in a relaxed atmosphere and take pleasure in great food, rest, and conversation. Our menu offers a wide variety of dishes, an abundance of flavors, and a delicate approach to Japanese cuisine.",
     "BTN_READ_MORE": "READ MORE",
-    "BOTTOM_MSG": "WE VALUE EVERY CUSTOMER",
-    "BOTTOM_DESC": "and we do everything to ensure that you enjoy your visit to our restaurants and taste the best dishes of Japanese cuisine"
+    "BOTTOM_MSG": "OUR RESTAURANTS",
+    "BOTTOM_DESC": "WE VALUE EVERY CUSTOMER and we do everything to ensure that you enjoy your visit to our restaurants and taste the best dishes of Japanese cuisine"
   },
   "PAGE_3_TEXT": {
+     "TITLE": "SPECIAL OFFERS",
+     "DESCRIPTION": "Traditions of Japan, the taste of your city!",
     "SALE_1_DATE": "FROM NOVEMBER 20 TO DECEMBER 30",
     "SALE_1_NAME": "EVERY FIFTH",
     "SALE_2_DATE": "FROM OCTOBER 10 TO NOVEMBER 10",
@@ -23,5 +25,26 @@
   "HEADER": {
     "PHONE_LABEL": "Phone",
     "PHONE_NUMBER": "8(050)000-00-00"
+  }
+  ,
+  "BREADCRUMBS": {
+    "HOME": "Main",
+    "NEWS": "News"
+  },
+  "NEWS_SECTION": {
+    "TITLE": "News",
+    "DESCRIPTION": "Stay updated on the latest events and promotions at our restaurant. Here you will find fresh news, interesting articles, and useful tips about Japanese cuisine.",
+    "READ_MORE": "Read more"
+  },
+  "MENU": {
+    "HOME": "Main",
+    "ABOUT": "About Us",
+    "DISHES": "Menu",
+    "DELIVERY": "Delivery",
+    "STOCK": "Special Offers",
+    "NEWS": "News",
+    "REVIEWS": "Reviews",
+    "CONTACTS": "Contacts",
+    "REGISTRATION": "Registration"
   }
 }
