@@ -112,8 +112,8 @@ const Header: React.FC = () => {
                     <Link to="/contacts" onClick={toggleMenu} className={styles.menuItem}>
                     {t('MENU.CONTACTS')}
                     </Link>
-                    <Link to="/registration" onClick={toggleMenu} className={styles.menuItem}>
-                    {t('MENU.REGISTRATION')}
+                    <Link to="/login" onClick={toggleMenu} className={styles.menuItem}>
+                    {t('MENU.LOGIN')}
                     </Link>
                 </nav>
             </div>
