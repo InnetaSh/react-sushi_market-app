@@ -80,3 +80,91 @@
     font-weight: 700;
     color: colors.$color-text-white;
 }
+
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: colors.$color-overlay;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    &.overlayOpen {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.sideMenu {
+    position: fixed;
+    top: 0;
+    right: -450px; 
+    width: 450px;
+    max-width: 100%;
+    height: 100vh;
+    background-color: colors.$color-bg-dark;
+    z-index: 100;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    box-sizing: border-box;
+
+    &.sideMenuOpen {
+        right: 0; 
+    }
+}
+
+.closeButton {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: colors.$color-text-white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    transition: color 0.2s;
+
+    &:hover {
+        color: colors.$color-orange-primary;
+    }
+}
+
+.menuNav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menuItem, .menuItemWithSub {
+    font-family: 'PT Serif', serif;
+    font-size: 20px;
+    color: colors.$color-text-white;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &:hover {
+        color: colors.$color-orange-primary;
+    }
+}
+
+.menuItemWithSub {
+    .subIcon {
+        font-size: 12px;
+        background-color: #333333;
+        padding: 8px;
+        border-radius: 50%;
+        color: #b0b0b0;
+    }
+}

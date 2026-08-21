@@ -1,0 +1,25 @@
+@use '@colors/variables.colors' as colors;
+
+.breadcrumbs {
+    font-size: 14px;
+    font-family: 'PT Serif', serif;
+}
+
+.link {
+    color: colors.$color-text-secondary;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: colors.$color-orange-primary;
+    }
+}
+
+.divider {
+    color: colors.$color-text-green;
+    margin: 0 4px;
+}
+
+.current {
+    color: colors.$color-text-white;
+}

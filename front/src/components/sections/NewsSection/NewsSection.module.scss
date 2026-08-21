@@ -1,0 +1,96 @@
+@use '@colors/variables.colors' as colors;
+
+.newsLayout {
+    position: relative;
+    width: 100%;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.breadcrumbs {
+    font-size: 14px;
+    font-family: 'PT Serif', serif;
+
+    .breadcrumbLink {
+        color: colors.$color-text-secondary;
+        text-decoration: none;
+        &:hover {
+            color: colors.$color-orange-primary;
+        }
+    }
+
+    .breadcrumbDivider {
+        color: colors.$color-text-secondary;
+    }
+
+    .breadcrumbCurrent {
+        color: colors.$color-text-white;
+    }
+}
+
+.headerInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: 700;
+    font-family: 'PT Serif', serif;
+    color: colors.$color-text-white;
+}
+
+.subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: colors.$color-orange-primary; // Или secondary, подстройте под дизайн
+}
+
+.newsList {
+    width: 100%;
+}
+
+.newsCard {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 24px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.newsDate {
+    font-size: 13px;
+    color: #8c8c8c;
+}
+
+.newsTitle {
+    font-size: 22px;
+    font-weight: 700;
+    font-family: 'PT Serif', serif;
+    color: #9aca3c; // Фирменный салатовый цвет заглавий новостей со скриншота
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.newsDescription {
+    font-size: 14px;
+    color: #333333;
+    line-height: 1.5;
+    margin: 0 !important;
+}
+
+@media (max-width: 1000px) {
+    .newsLayout {
+        padding: 15px;
+    }
+}

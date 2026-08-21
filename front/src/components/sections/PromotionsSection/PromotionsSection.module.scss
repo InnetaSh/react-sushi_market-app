@@ -1,57 +1,13 @@
-@use '../../../assets/variables/variables.colors' as colors;
+@use '@colors/variables.colors' as colors;
 
-.promotionsSection {
-    display: flex;
-    flex-shrink: 0;
-    flex-grow: 1;
-    width: 100%;
-    min-height: 500px;
-    max-width: 100%;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    padding-top: 10px;
-    padding-bottom: 50px;
-}
-
-.promotionsContainer {
-    width: 100%;
-    margin: 0 auto;
-    z-index: 1;
-}
-
-.promotionsContent {
-    position: relative;
-    width: 100%;
-    z-index: 1;
-}
-
-.promotionsCard {
+.promotionsCardCustom {
     display: flex;
     justify-content: flex-start;
-    width: 80%;
+    width: 100%;
     position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-image: url('../../../img/img2.png');
     background-size: 100% 640px;
-    background-position: 10px;
+    background-position: bottom;
     background-repeat: no-repeat;
-}
-
-.decoration {
-    position: relative;
-    z-index: -1;
-}
-
-.decorationBlock {
-    width: 200px;
-    height: 200px;
-    position: absolute;
-    display: block;
-    background-color: colors.$color-orange-primary;
-    margin-top: -30px;
-    margin-left: -30px;
 }
 
 .promotionsLayout {
@@ -64,13 +20,21 @@
     justify-content: flex-start;
 }
 
+@media (min-width: 1400px) {
+    .promotionsLayout {
+        display: flex;
+        justify-content: center;
+    }
+}
+
 .promotionsInfo {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: start;
+    flex: 0 0 30%;
     max-width: 30%;
-    width: 25%;
+    width: 30%;
     word-wrap: break-word;
     gap: 5px;
 }
@@ -91,29 +55,20 @@
     text-align: start;
 }
 
-.actionButton {
-    width: fit-content;
-    margin-top: 20px;
-    background-color: colors.$color-orange-primary;
-    border-color: colors.$color-orange-primary;
+.imageContainer {
+    margin-left: 10%;
 }
 
-.imageContainer {
-    margin-left: 15%;
-    left: 3%;
-}
+
 
 .promotionImage {
     width: 110% !important;
-    height: 550px !important;
+    height: 700px !important;
     object-fit: cover;
 }
 
 @media (max-width: 1000px) {
-    .promotionsCard {
-        width: 90%;
-        margin: 0 5%;
-        margin-bottom: 20px;
+    .promotionsCardCustom {
         background-size: 900px 800px;
         background-position: 10px 10px;
     }

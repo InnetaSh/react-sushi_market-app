@@ -1,0 +1,102 @@
+@use '@colors/variables.colors' as colors;
+
+.section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px 50px 50px 50px;
+}
+
+.sectionContainer {
+    width: 100%;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.containerItem {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    position: relative;
+    max-width: 1700px !important;
+    min-width: 900px;
+    margin: 0 auto;
+}
+
+.orangeBlockWrapper {
+    position: relative;
+    z-index: -1;
+}
+
+.orangeBlock {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    display: block;
+    background-color: colors.$color-orange-primary;
+    margin-top: -30px;
+    margin-left: -30px;
+}
+
+.contentWrapper {
+    width: 100%;
+    padding: 0 50px ;
+    background: colors.$color-bg-dark;
+}
+
+.sectionText {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 70px;
+    margin-top: 50px;
+}
+
+.titlePromotion {
+    margin-bottom: 12px !important;
+    color: colors.$color-text-white !important;
+    font-family: "PT Serif", serif;
+    font-size: 36px;
+}
+
+.descriptionPromotion {
+    margin-bottom: 0 !important;
+    color: colors.$color-text-green !important;
+    font-family: Montserrat, sans-serif;
+    font-size: 18px;
+}
+
+.contentBody {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+@media (max-width: 1000px) {
+    .containerItem {
+        width: 90%;
+        margin: 0 5%;
+    }
+
+    .contentWrapper {
+        padding: 40px 20px 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .containerItem {
+        width: 95%;
+    }
+
+    .contentWrapper {
+        padding: 30px 15px 60px;
+    }
+}

@@ -1,0 +1,72 @@
+@use '../../../../../assets/variables/variables.colors' as colors;
+
+.card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    gap: 40px;
+    &.rowReverse {
+        flex-direction: row-reverse;
+    }
+}
+
+.imageWrapper {
+    width: calc(50% - 20px); 
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-start; 
+
+    :global(.ant-image) {
+        display: block;
+        width: auto;
+    }
+}
+
+.card.rowReverse .imageWrapper {
+    justify-content: flex-end; 
+}
+
+.image {
+    max-width: 450px !important;
+    width: 70%;
+    height: 380px !important;
+    object-fit: cover;
+    border-radius: 8px; 
+}
+
+.content {
+    width: calc(50% - 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.title {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.1;
+    font-family: 'PT Serif', serif;
+    color: colors.$color-text-white;
+    text-align: start;
+    margin-bottom: 10px;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.descriptionItem {
+    font-size: 18px;
+    font-weight: 500;
+    color: colors.$color-text-secondary;
+    text-align: start;
+}
+
+.price {
+    font-weight: 700;
+    color: colors.$color-orange-primary; 
+    margin-top: 10px;
+}

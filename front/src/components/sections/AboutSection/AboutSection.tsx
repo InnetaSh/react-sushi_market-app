@@ -1,10 +1,11 @@
 import React from 'react';
 import { Flex, Image, Typography } from 'antd';
 
-import OrangeBlock from '../../orangeBlock';
+import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
 import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
 
 import styles from './AboutSection.module.scss';
+import backImg from '@img/back_small_house.png';
 
 interface AboutSectionProps {
     imageUrl: string;
@@ -22,66 +23,45 @@ const AboutSection: React.FC<AboutSectionProps> = ({
     buttonText,
 }) => {
     return (
-        <section className={styles.section}>
-            <div className={styles.sectionContainer}>
-                <div className={styles.container}>
-                    <div className={styles.containerItem}>
-                        <div className={styles.orangeBlockWrapper}>
-                            <OrangeBlock
-                                className={styles.orangeBlock}
-                            />
-                        </div>
+        <PageSectionLayout backgroundImage={backImg}>
+            <Flex className={styles.containerImg}>
+                <Flex
+                    vertical
+                    className={styles.containerImgLeft}
+                >
+                    <Typography.Text className={styles.primaryText}>
+                        {title}
+                    </Typography.Text>
 
-                        <Flex className={styles.containerImg}>
-                            <Flex
-                                vertical
-                                className={styles.containerImgLeft}
-                            >
-                                <Typography.Text
-                                    className={styles.primaryText}
-                                >
-                                    {title}
-                                </Typography.Text>
+                    <Flex vertical className={styles.description}>
+                        <Typography.Text className={styles.secondaryText}>
+                            {descriptionFirst}
+                        </Typography.Text>
 
-                                <Flex
-                                    vertical
-                                    className={styles.description}
-                                >
-                                    <Typography.Text
-                                        className={styles.secondaryText}
-                                    >
-                                        {descriptionFirst}
-                                    </Typography.Text>
+                        <Typography.Text className={styles.secondaryText}>
+                            {descriptionSecond}
+                        </Typography.Text>
+                    </Flex>
 
-                                    <Typography.Text
-                                        className={styles.secondaryText}
-                                    >
-                                        {descriptionSecond}
-                                    </Typography.Text>
-                                </Flex>
+                    <ButtonGreen
+                        name="stock"
+                        id="stock"
+                        text={buttonText}
+                        width="240px"
+                        onClick={() => console.log('Button clicked')}
+                    />
+                </Flex>
 
-                                <ButtonGreen
-                                    name="stock"
-                                    id="stock"
-                                    text={buttonText}
-                                    width="240px"
-                                    onClick={() => console.log('Button clicked')}
-                                />
-                            </Flex>
-
-                            <div className={styles.imageWrapper}>
-                                <Image
-                                    src={imageUrl}
-                                    alt="About"
-                                    preview={false}
-                                    className={styles.image}
-                                />
-                            </div>
-                        </Flex>
-                    </div>
+                <div className={styles.imageContainer}>
+                    <Image
+                        src={imageUrl}
+                        alt="About"
+                        preview={false}
+                        className={styles.image}
+                    />
                 </div>
-            </div>
-        </section>
+            </Flex>
+        </PageSectionLayout>
     );
 };
 

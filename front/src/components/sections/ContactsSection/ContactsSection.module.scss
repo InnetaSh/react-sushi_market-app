@@ -1,0 +1,36 @@
+.hours {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: colors.$color-text-secondary;
+    margin-top: 8px;
+}
+
+.addressItem {
+    padding: 20px;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    transition: 0.3s;
+    background: #202020;
+    margin-bottom: 10px;
+
+    &.active {
+        border-left: 8px solid colors.$color-orange-primary; 
+        background: #252525;
+        
+        .city { color: colors.$color-text-white; }
+        .hours { color: colors.$color-text-green; }
+    }
+}
+
+.city {
+    font-size: 20px;
+    margin: 0;
+    color: colors.$color-text-secondary;
+}
+
+.hotline {
+    margin-top: 30px;
+    font-weight: bold;
+    color: colors.$color-text-white;
+}
