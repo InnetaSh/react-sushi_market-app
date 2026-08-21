@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Breadcrumbs.module.scss';
 
-interface BreadcrumbItem {
+export interface BreadcrumbItem {
     label: string;
     path?: string;
 }

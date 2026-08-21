@@ -10,6 +10,7 @@ module.exports = {
       "@img": path.resolve(__dirname, "src/img"),
       "@api": path.resolve(__dirname, "src/app/api"),
       "@section": path.resolve(__dirname, "src/components/sections"),
+      "@pages": path.resolve(__dirname, "src/pages"),
       "@layout": path.resolve(__dirname, "src/components/layout"),
       "@stores": path.resolve(__dirname, "src/app/stores"),
       "@models": path.resolve(__dirname, "src/models"),

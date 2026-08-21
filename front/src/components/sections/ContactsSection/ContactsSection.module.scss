@@ -1,36 +1,119 @@
-.hours {
+@use '../../../assets/variables/variables.colors' as colors;
+
+.contentGrid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    align-items: stretch;
+    margin-top: 20px;
+
+    height: 700px;
+    @media (max-width: 1200px) {
+        grid-template-columns: 1fr;
+    }
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.infoBlock {
+   display: flex;
+    flex-direction: column;
+    height: 700px;
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.scrollableList {
+    flex: 1;             
+    overflow-y: auto;
+    padding-right: 8px;
     display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: colors.$color-text-secondary;
-    margin-top: 8px;
+    flex-direction: column;
+    gap: 15px;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: colors.$color-orange-primary;
+        border-radius: 3px;
+    }
 }
 
 .addressItem {
-    padding: 20px;
+    padding: 15px 20px;
     cursor: pointer;
+    background: rgba(255, 255, 255, 0.03);
     border-left: 4px solid transparent;
-    transition: 0.3s;
-    background: #202020;
-    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.06);
+    }
 
     &.active {
-        border-left: 8px solid colors.$color-orange-primary; 
-        background: #252525;
+        border-left: 8px solid colors.$color-orange-primary;
+        background: rgba(255, 255, 255, 0.08);
         
-        .city { color: colors.$color-text-white; }
-        .hours { color: colors.$color-text-green; }
+        .city { 
+            color: colors.$color-text-white; 
+        }
     }
 }
 
 .city {
-    font-size: 20px;
-    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    color: colors.$color-text-secondary;
+}
+
+.address {
+    margin: 0 0 8px 0;
+    color: colors.$color-text-white;
+    font-size: 15px;
+}
+
+.hours {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
     color: colors.$color-text-secondary;
 }
 
 .hotline {
-    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    margin-top: 15px;
+    font-size: 18px;
     font-weight: bold;
     color: colors.$color-text-white;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+    flex-shrink: 0;    
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1)
+}
+
+.anticon {
+        color: colors.$color-orange-primary !important;
+        margin-right: 15px;
+        font-size: 22px; 
+    }
+
+.mapBlock {
+    width: 100%;
+    min-height: 450px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid colors.$color-border-dark;
 }
