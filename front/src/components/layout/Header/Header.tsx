@@ -76,13 +76,13 @@ const Header: React.FC = () => {
                 </div>
             </header>
 
-        
-            <div 
-                className={`${styles.overlay} ${isMenuOpen ? styles.overlayOpen : ''}`} 
-                onClick={toggleMenu} 
+
+            <div
+                className={`${styles.overlay} ${isMenuOpen ? styles.overlayOpen : ''}`}
+                onClick={toggleMenu}
             />
 
-        
+
             <div className={`${styles.sideMenu} ${isMenuOpen ? styles.sideMenuOpen : ''}`}>
                 <button className={styles.closeButton} onClick={toggleMenu}>
                     <CloseOutlined />
@@ -90,30 +90,33 @@ const Header: React.FC = () => {
 
                 <nav className={styles.menuNav}>
                     <Link to="/" onClick={toggleMenu} className={styles.menuItem}>
-                    {t('MENU.HOME')}
+                        {t('MENU.HOME')}
                     </Link>
-                    
-                    <div className={styles.menuItemWithSub}>
-                        <span>{t('MENU.ABOUT')}</span>
-                        <DownOutlined className={styles.subIcon} />
-                    </div>
 
                     <div className={styles.menuItemWithSub}>
-                        <span>{t('MENU.DISHES')}</span>
-                        <DownOutlined className={styles.subIcon} />
+                        <Link to="/menu" onClick={toggleMenu} className={styles.menuItem}>
+                            {t('MENU.DISHES')}
+                        </Link>
+
+                        <DownOutlined
+                            className={styles.subIcon}
+                            onClick={(e) => {
+                                e.preventDefault(); 
+                            }}
+                        />
                     </div>
 
                     <Link to="/sale" onClick={toggleMenu} className={styles.menuItem}>
-                    {t('MENU.STOCK')}
+                        {t('MENU.STOCK')}
                     </Link>
                     <Link to="/news" onClick={toggleMenu} className={styles.menuItem}>
-                    {t('MENU.NEWS')}
+                        {t('MENU.NEWS')}
                     </Link>
                     <Link to="/contacts" onClick={toggleMenu} className={styles.menuItem}>
-                    {t('MENU.CONTACTS')}
+                        {t('MENU.CONTACTS')}
                     </Link>
                     <Link to="/login" onClick={toggleMenu} className={styles.menuItem}>
-                    {t('MENU.LOGIN')}
+                        {t('MENU.LOGIN')}
                     </Link>
                 </nav>
             </div>
