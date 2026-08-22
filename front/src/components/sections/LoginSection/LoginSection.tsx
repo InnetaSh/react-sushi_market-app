@@ -179,7 +179,6 @@ const LoginSection: React.FC = () => {
                                         theme="filled_black"
                                         size="large"
                                         text="signin_with"
-                                        locale="uk"
                                         shape="rectangular"
                                         width="380"
                                         onSuccess={async (credentialResponse) => {
