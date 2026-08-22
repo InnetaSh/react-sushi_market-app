@@ -22,7 +22,7 @@
 .containerItem {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 75%;
     position: relative;
     max-width: 1700px !important;
     min-width: 900px;
@@ -56,22 +56,22 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 70px;
-    margin-top: 50px;
+    margin: 20px 0;
 }
 
 .titlePromotion {
     margin-bottom: 12px !important;
     color: colors.$color-text-white !important;
     font-family: "PT Serif", serif;
-    font-size: 42px !important;
+    font-size: 36px !important;
+    line-height: 1.1 !important;
 }
 
 .descriptionPromotion {
     margin-bottom: 0 !important;
     color: colors.$color-text-green !important;
     font-family: Montserrat, sans-serif;
-    font-size: 24px !important;
+    font-size: 20px !important;
 }
 
 .contentBody {

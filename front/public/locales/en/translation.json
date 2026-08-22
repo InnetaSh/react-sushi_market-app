@@ -25,8 +25,7 @@
   "HEADER": {
     "PHONE_LABEL": "Phone",
     "PHONE_NUMBER": "8(050)000-00-00"
-  }
-  ,
+  },
   "BREADCRUMBS": {
     "HOME": "Main",
     "NEWS": "News"
@@ -45,6 +44,43 @@
     "NEWS": "News",
     "REVIEWS": "Reviews",
     "CONTACTS": "Contacts",
-    "REGISTRATION": "Registration"
+    "LOGIN": "Login"
+  },
+  "AUTH": {
+    "TITLE_LOGIN": "Login",
+    "TITLE_REGISTER": "Register",
+    "SUBTITLE_LOGIN": "Enter your details to log in",
+    "SUBTITLE_REGISTER": "Create a new account",
+    "DESC_REGISTER": "Fill in the details to create an account",
+    "BREADCRUMB_HOME": "Home",
+    "BREADCRUMB_LOGIN": "Login",
+    "BREADCRUMB_REGISTER": "Register",
+    "LABEL_NAME": "Name",
+    "PLACEHOLDER_NAME": "Your name",
+    "ERROR_NAME": "Please enter your name",
+    "LABEL_EMAIL": "Email",
+    "PLACEHOLDER_EMAIL": "email@example.com",
+    "ERROR_EMAIL_REQUIRED": "Please enter your email",
+    "ERROR_EMAIL_INVALID": "Please enter a valid email address",
+    "LABEL_PASSWORD": "Password",
+    "PLACEHOLDER_PASSWORD": "Password",
+    "ERROR_PASSWORD": "Please enter your password",
+    "LABEL_CONFIRM_PASSWORD": "Confirm Password",
+    "PLACEHOLDER_CONFIRM_PASSWORD": "Confirm Password",
+    "ERROR_CONFIRM_REQUIRED": "Please confirm your password",
+    "ERROR_PASSWORDS_MATCH": "Passwords do not match!",
+    "FORGOT_PASSWORD": "Forgot Password?",
+    "REMEMBER_ME": "Remember Me",
+    "BTN_LOGIN": "Login",
+    "BTN_REGISTER": "Register",
+    "TEXT_HAS_ACCOUNT": " Already have an account? ",
+    "TEXT_NO_ACCOUNT": " Don't have an account? ",
+    "DIVIDER_OR": "or continue with",
+    "SUCCESS_REGISTER": "Registration successful! Please log in.",
+    "SUCCESS_LOGIN": "Login successful!",
+    "ERROR_REGISTER_FAIL": "Registration failed (possibly the user already exists)",
+    "ERROR_LOGIN_FAIL": "Invalid username or password",
+    "ERROR_GOOGLE_FAIL": "Failed to authenticate via Google",
+    "ERROR_GOOGLE_CANCEL": "Failed to log in via Google"
   }
 }

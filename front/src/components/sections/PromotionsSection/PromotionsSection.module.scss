@@ -62,9 +62,9 @@
 
 
 .promotionImage {
-    width: 110% !important;
-    height: 700px !important;
-    object-fit: cover;
+    width: 125% !important;
+    height: 550px !important;
+    object-fit: no-repeat;
 }
 
 @media (max-width: 1000px) {

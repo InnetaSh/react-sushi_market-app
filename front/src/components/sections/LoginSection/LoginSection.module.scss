@@ -1,0 +1,145 @@
+@use '../../../assets/variables/variables.colors' as colors;
+
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
+  
+}
+
+.loginCard {
+    width: 100%;
+    max-width: 90%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid colors.$color-border-dark;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin-bottom: 50px;
+
+    @media (max-width: 480px) {
+        padding: 20px;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+    }
+}
+
+.loginTitle {
+    font-size: 26px;
+    font-weight: 700;
+    color: colors.$color-text-white;
+    margin: 0 0 8px 0;
+    text-align: center;
+}
+
+.loginSubtitle {
+    font-size: 14px;
+    color: colors.$color-text-secondary;
+    margin: 0 0 24px 0;
+    text-align: center;
+}
+
+:global(.ant-form-item-label) > label {
+    color: colors.$color-text-secondary !important;
+}
+
+:global(.ant-input),
+:global(.ant-input-password) {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: colors.$color-border-dark !important;
+    color: colors.$color-text-white !important;
+    border-radius: 4px;
+    height: 50px;
+
+    &:hover, &:focus {
+        border-color: colors.$color-green-primary !important;
+    }
+
+    input {
+        background: transparent !important;
+        color: colors.$color-text-white !important;
+    }
+}
+
+:global(.ant-input-password-icon) {
+    color: colors.$color-text-secondary !important;
+    &:hover {
+        color: colors.$color-text-white !important;
+    }
+}
+
+:global(.ant-checkbox-wrapper) {
+    color: colors.$color-text-secondary !important;
+
+    &:hover :global(.ant-checkbox) {
+        border-color: colors.$color-green-primary !important;
+    }
+}
+
+:global(.ant-checkbox-checked) {
+    :global(.ant-checkbox-inner) {
+        background-color: colors.$color-green-primary !important;
+        border-color: colors.$color-green-primary !important;
+    }
+}
+
+.loginSubmitBtn {
+    background-color: colors.$color-green-primary !important;
+    border-color: colors.$color-green-primary !important;
+    color: colors.$color-text-white !important;
+    font-weight: 600;
+    height: 50px;
+    border-radius: 4px;
+    transition: opacity 0.3s ease;
+
+    font-size: 24px;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+
+:global(.ant-btn-link) {
+    color: colors.$color-green-primary !important;
+    
+    &:hover {
+        color: colors.$color-green-primary !important;
+        opacity: 0.8;
+    }
+}
+.linkButton{
+    margin-bottom: 10px;
+}
+
+.inlineLink{
+    color: colors.$color-text-green !important;
+    text-decoration: underline;
+
+    font-size: 22px;
+    cursor: pointer;
+
+    margin-top: 15px;
+    line-height: 2.6;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.googleButtonWrapper {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden; 
+
+    div {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+    }
+}
