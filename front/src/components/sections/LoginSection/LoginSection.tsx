@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { useTranslation } from 'react-i18next';
-// import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import { observer } from 'mobx-react-lite';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
@@ -12,14 +12,13 @@ import { routesConfig } from '@routes/appRoutes';
 import styles from './LoginSection.module.scss';
 
 const LoginSection: React.FC = () => {
-    // 1. Все хуки вызываются первыми, до любых условий!
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isRegistering, setIsRegistering] = useState(false);
     const [form] = Form.useForm();
 
-    // 2. Условный редирект теперь идет ПОСЛЕ вызова хуков
+
     if (authStore.isLoggedIn) {
         return <Navigate to={routesConfig[0].path} replace />;
     }
@@ -31,11 +30,11 @@ const LoginSection: React.FC = () => {
             if (isRegistering) {
                 await UserApi.register({
                     name: values.name,
-                    login: values.login, 
+                    login: values.login,
                     password: values.password,
                 });
                 message.success(t('AUTH.SUCCESS_REGISTER'));
-                
+
                 setIsRegistering(false);
                 setIsLoading(false);
                 form.resetFields();
@@ -155,8 +154,8 @@ const LoginSection: React.FC = () => {
 
                         <div className={styles.loginRegister}>
                             {isRegistering ? t('AUTH.TEXT_HAS_ACCOUNT') : t('AUTH.TEXT_NO_ACCOUNT')}
-                            <Button 
-                                type="link" 
+                            <Button
+                                type="link"
                                 onClick={() => {
                                     setIsRegistering(!isRegistering);
                                     form.resetFields();
@@ -175,26 +174,34 @@ const LoginSection: React.FC = () => {
                                     <span className={styles.dividerLine} />
                                 </div>
 
-                                {/* <GoogleLogin
-                                    onSuccess={async (credentialResponse) => {
-                                        try {
-                                            setIsLoading(true);
-                                            const response = await UserApi.googleLogin({
-                                                idToken: credentialResponse.credential as string
-                                            });
-                                            authStore.setUserLoginResponse(response);
-                                            navigate(routesConfig[0].path);
-                                        } catch (e) {
-                                            console.error('Google Auth Error:', e);
-                                            message.error(t('AUTH.ERROR_GOOGLE_FAIL'));
-                                        } finally {
-                                            setIsLoading(false);
-                                        }
-                                    }}
-                                    onError={() => {
-                                        message.error(t('AUTH.ERROR_GOOGLE_CANCEL'));
-                                    }}
-                                /> */}
+                                <div className={styles.googleButtonWrapper}>
+                                    <GoogleLogin
+                                        theme="filled_black"
+                                        size="large"
+                                        text="signin_with"
+                                        locale="uk"
+                                        shape="rectangular"
+                                        width="380"
+                                        onSuccess={async (credentialResponse) => {
+                                            try {
+                                                setIsLoading(true);
+                                                const response = await UserApi.googleLogin({
+                                                    idToken: credentialResponse.credential as string
+                                                });
+                                                authStore.setUserLoginResponse(response);
+                                                navigate(routesConfig[0].path);
+                                            } catch (e) {
+                                                console.error('Google Auth Error:', e);
+                                                message.error(t('AUTH.ERROR_GOOGLE_FAIL'));
+                                            } finally {
+                                                setIsLoading(false);
+                                            }
+                                        }}
+                                        onError={() => {
+                                            message.error(t('AUTH.ERROR_GOOGLE_CANCEL'));
+                                        }}
+                                    />
+                                </div>
                             </>
                         )}
                     </Form>

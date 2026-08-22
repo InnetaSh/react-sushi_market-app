@@ -6,11 +6,12 @@
     align-items: center;
     width: 100%;
     padding: 20px 0;
+  
 }
 
 .loginCard {
     width: 100%;
-    max-width: 80%;
+    max-width: 90%;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid colors.$color-border-dark;
     border-radius: 8px;
@@ -126,5 +127,19 @@
 
     &:hover {
         opacity: 0.8;
+    }
+}
+
+.googleButtonWrapper {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden; 
+
+    div {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
     }
 }
