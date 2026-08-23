@@ -28,8 +28,10 @@ namespace SushiMarket.BLL.MediatR.Products.GetProductsList
                 .Select(p => new ProductDto
                 {
                     Id = p.Id,
-                    Title = p.Title,
-                    Description = p.Description,
+                    TitleUa = p.TitleUa,
+                    TitleEn = p.TitleEn,
+                    DescriptionUa = p.DescriptionUa,
+                    DescriptionEn = p.DescriptionEn,
                     WeightOrVolume = p.WeightOrVolume,
                     Price = p.Price,
                     ImgSrc = p.ImgSrc,

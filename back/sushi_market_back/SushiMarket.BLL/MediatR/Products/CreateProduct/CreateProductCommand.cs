@@ -3,8 +3,10 @@
 namespace SushiMarket.BLL.MediatR.Products.CreateProduct
 {
     public record CreateProductCommand(
-        string Title,
-        string Description,
+        string TitleUa,
+        string TitleEn,
+        string DescriptionUa,
+        string DescriptionEn,
         string WeightOrVolume,
         decimal Price,
         string ImgSrc,

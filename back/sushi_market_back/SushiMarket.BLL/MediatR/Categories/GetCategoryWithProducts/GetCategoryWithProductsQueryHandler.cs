@@ -22,7 +22,8 @@ namespace SushiMarket.BLL.MediatR.Categories.GetCategoryWithProducts
                 .Select(c => new CategoryWithProductsDto
                 {
                     Id = c.Id,
-                    Title = c.Title,
+                    TitleUa = c.TitleUa,
+                    TitleEn = c.TitleEn,
                     ImgSrc = c.ImgSrc,
                     SortOrder = c.SortOrder,
                     Products = c.Products
@@ -30,8 +31,10 @@ namespace SushiMarket.BLL.MediatR.Categories.GetCategoryWithProducts
                         .Select(p => new ProductDto
                         {
                             Id = p.Id,
-                            Title = p.Title,
-                            Description = p.Description,
+                            TitleUa = p.TitleUa,
+                            TitleEn = p.TitleEn,
+                            DescriptionUa = p.DescriptionUa,
+                            DescriptionEn = p.DescriptionEn,
                             WeightOrVolume = p.WeightOrVolume,
                             Price = p.Price,
                             ImgSrc = p.ImgSrc,

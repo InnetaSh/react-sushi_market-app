@@ -21,7 +21,8 @@ namespace SushiMarket.BLL.MediatR.Categories.GetCategoriesList
                 .Select(c => new CategoryDto
                 {
                     Id = c.Id,
-                    Title = c.Title,
+                    TitleUa = c.TitleUa,
+                    TitleEn = c.TitleEn,
                     ImgSrc = c.ImgSrc,
                     SortOrder = c.SortOrder
                 })

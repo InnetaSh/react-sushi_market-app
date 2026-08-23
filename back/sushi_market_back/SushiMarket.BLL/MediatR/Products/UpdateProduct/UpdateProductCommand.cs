@@ -4,8 +4,10 @@ namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
 {
     public record UpdateProductCommand(
         int Id,
-        string Title,
-        string Description,
+        string TitleUa,
+        string TitleEn,
+        string DescriptionUa,
+        string DescriptionEn,
         string WeightOrVolume,
         decimal Price,
         string ImgSrc,
