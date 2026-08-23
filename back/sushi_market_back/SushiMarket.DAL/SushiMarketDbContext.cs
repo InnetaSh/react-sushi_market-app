@@ -1,22 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SushiMarket.DAL.Entities;
+using SushiMarket.DAL.Entities.Users;
 
 namespace SushiMarket.DAL
 {
-    public class SushiMarketDbContext : DbContext
+    public class SushiMarketDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public DbSet<Category> Categories => Set<Category>();
-        public DbSet<Product> Products => Set<Product>();
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
 
-        public SushiMarketDbContext(DbContextOptions<SushiMarketDbContext> options) : base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public SushiMarketDbContext(DbContextOptions<SushiMarketDbContext> options)
+            : base(options)
         {
-            base.OnModelCreating(modelBuilder);
+        }
 
-            modelBuilder.Entity<Product>()
-                .Property(p => p.Price)
-                .HasPrecision(18, 2);
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

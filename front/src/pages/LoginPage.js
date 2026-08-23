@@ -5,7 +5,7 @@ import { Layout, Spin, Flex } from "antd";
 import { useTranslation } from "react-i18next";
 import '../style.css';
 
-import MenuStore from "../stores/MenuStore";
+import MenuStore from "../stores/CategoryStore";
 import LoginSection from "@section/LoginSection/LoginSection";
 
 const { Content } = Layout;
