@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22 d17.14
+VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sushi_market_back", "sushi_market_back\sushi_market_back.csproj", "{74D3AFF4-01C3-4B00-A3A1-2D2CC56C7F3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SushiMarket.BLL", "SushiMarket.BLL\SushiMarket.BLL.csproj", "{78CDFF06-EED1-4852-9EF5-7A73648B6AC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SushiMarket.DAL", "SushiMarket.DAL\SushiMarket.DAL.csproj", "{7AE58B57-F3BE-4C22-9904-399640DACC83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{74D3AFF4-01C3-4B00-A3A1-2D2CC56C7F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74D3AFF4-01C3-4B00-A3A1-2D2CC56C7F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74D3AFF4-01C3-4B00-A3A1-2D2CC56C7F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78CDFF06-EED1-4852-9EF5-7A73648B6AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78CDFF06-EED1-4852-9EF5-7A73648B6AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78CDFF06-EED1-4852-9EF5-7A73648B6AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78CDFF06-EED1-4852-9EF5-7A73648B6AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE58B57-F3BE-4C22-9904-399640DACC83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE58B57-F3BE-4C22-9904-399640DACC83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE58B57-F3BE-4C22-9904-399640DACC83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE58B57-F3BE-4C22-9904-399640DACC83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

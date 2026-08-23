@@ -1,0 +1,58 @@
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using SushiMarket.BLL.MediatR.Products.CreateProduct;
+using SushiMarket.BLL.MediatR.Products.DeleteProduct;
+using SushiMarket.BLL.MediatR.Products.GetProductsList;
+using SushiMarket.BLL.MediatR.Products.ReorderProduct;
+using SushiMarket.BLL.MediatR.Products.UpdateProduct;
+using System.Runtime.InteropServices;
+
+namespace sushi_market_back.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductsController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public ProductsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProducts([FromQuery] int? categoryId)
+        {
+            return Ok(await _mediator.Send(new GetProductsListQuery(categoryId)));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
+        {
+            var id = await _mediator.Send(command);
+            return Ok(id);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductCommand command)
+        {
+            if (id != command.Id) return BadRequest("ID mismatch");
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            await _mediator.Send(new DeleteProductCommand(id));
+            return NoContent();
+        }
+
+        [HttpPatch("reorder")]
+        public async Task<IActionResult> ReorderProduct([FromBody] ReorderProductCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+    }
+}
