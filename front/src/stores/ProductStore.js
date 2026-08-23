@@ -1,34 +1,33 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import MenuApi from "@api/MenuApi"; 
+import ProductApi from "@/api/ProductApi";
 
-class MenuStore {
-    items = [];
+class ProductStore {
+    products = [];
     loading = false;
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    async fetchMenu(category = null) {
+    async fetchProducts(categoryId = null) {
         this.loading = true;
-        
         try {
-            const data = await MenuApi.getMenu(category);
+            const data = await ProductApi.getProducts(categoryId);
 
             runInAction(() => {
-                this.items = data.map((item) => ({
+                this.products = data.map(item => ({
                     ...item,
-                    imgSrc: `http://localhost:5292/img/menu/${item.imgSrc}`
+                    imgSrc: `http://localhost:5292/${item.imgSrc}`
                 }));
                 this.loading = false;
             });
         } catch (error) {
             console.error("Exception: ", error);
-            runInAction(() => { 
-                this.loading = false; 
+            runInAction(() => {
+                this.loading = false;
             });
         }
     }
 }
 
-export default new MenuStore();
+export default new ProductStore();
