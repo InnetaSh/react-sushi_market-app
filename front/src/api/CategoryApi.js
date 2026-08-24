@@ -26,6 +26,24 @@ class CategoryApi {
         }
     }
 
+    async getCategoryWithProducts(id) {
+        try {
+            const response = await api.get(`/Categories/${id}/products`);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response?.data?.message || 'Помилка при отриманні продуктів категорії');
+        }
+    }
+
+    async getCategoriesWithProducts() {
+        try {
+            const response = await api.get('/Categories/with-products');
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response?.data?.message || 'Помилка при отриманні меню категорій та продуктів');
+        }
+    }
+
     async createCategory(categoryData) {
         try {
             const response = await api.post('/Categories', categoryData);

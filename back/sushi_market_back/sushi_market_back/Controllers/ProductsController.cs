@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using SushiMarket.BLL.MediatR.Products.CreateProduct;
 using SushiMarket.BLL.MediatR.Products.DeleteProduct;
+using SushiMarket.BLL.MediatR.Products.GetProductById;
 using SushiMarket.BLL.MediatR.Products.GetProductsList;
 using SushiMarket.BLL.MediatR.Products.ReorderProduct;
 using SushiMarket.BLL.MediatR.Products.UpdateProduct;
-using System.Runtime.InteropServices;
 
 namespace sushi_market_back.Controllers
 {
@@ -24,6 +24,13 @@ namespace sushi_market_back.Controllers
         public async Task<IActionResult> GetProducts([FromQuery] int? categoryId)
         {
             return Ok(await _mediator.Send(new GetProductsListQuery(categoryId)));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            var result = await _mediator.Send(new GetProductByIdQuery(id));
+            return Ok(result);
         }
 
         [HttpPost]

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SushiMarket.BLL.MediatR.Categories.CreateCategory;
 using SushiMarket.BLL.MediatR.Categories.DeleteCategory;
 using SushiMarket.BLL.MediatR.Categories.GetCategoriesList;
+using SushiMarket.BLL.MediatR.Categories.GetCategoriesWithProducts;
 using SushiMarket.BLL.MediatR.Categories.GetCategoryById;
 using SushiMarket.BLL.MediatR.Categories.GetCategoryWithProducts;
 using SushiMarket.BLL.MediatR.Categories.ReorderCategory;
@@ -38,6 +39,13 @@ namespace sushi_market_back.Controllers
         public async Task<IActionResult> GetCategoryWithProducts(int id)
         {
             var result = await _mediator.Send(new GetCategoryWithProductsQuery(id));
+            return Ok(result);
+        }
+
+        [HttpGet("with-products")]
+        public async Task<IActionResult> GetCategoriesWithProducts()
+        {
+            var result = await _mediator.Send(new GetCategoriesWithProductsQuery());
             return Ok(result);
         }
 

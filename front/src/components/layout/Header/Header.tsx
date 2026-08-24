@@ -97,13 +97,6 @@ const Header: React.FC = () => {
                         <Link to="/menu" onClick={toggleMenu} className={styles.menuItem}>
                             {t('MENU.DISHES')}
                         </Link>
-
-                        <DownOutlined
-                            className={styles.subIcon}
-                            onClick={(e) => {
-                                e.preventDefault(); 
-                            }}
-                        />
                     </div>
 
                     <Link to="/sale" onClick={toggleMenu} className={styles.menuItem}>

@@ -7,14 +7,14 @@
     align-items: center;
     width: fit-content;
     min-width: 220px;
-    padding: 20px 40px;
-    height: 65px;
+    padding: 15px 40px;
+    height: 50px;
     border-radius: 0;
     overflow: hidden;
 
     color: colors.$color-text-white;
-    background-color: colors.$color-green-primary;
-    border: 1px solid colors.$color-green-primary;
+    background-color: colors.$color-white;
+    border: 1px solid colors.$color-orange-primary;
 
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
@@ -24,8 +24,8 @@
 
     &:hover {
         color: colors.$color-text-white !important;
-        background-color: colors.$color-gray-dark !important;
-        border-color: colors.$color-gray-dark !important;
+        background-color: colors.$color-orange-primary !important;
+        border-color: colors.$color-orange-primary !important;
     }
 
     &::before {
@@ -36,7 +36,7 @@
         width: 0;
         height: 100%;
 
-        background-color: colors.$color-gray-dark;
+        background-color: colors.$color-orange-primary;
 
         transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     }

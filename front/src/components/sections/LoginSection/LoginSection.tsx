@@ -6,7 +6,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { observer } from 'mobx-react-lite';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
-import authStore from "@stores/AuthStore";
+import AuthStore from "@stores/AuthStore";
 import UserApi from "@api/UserApi";
 import { routesConfig } from '@routes/appRoutes';
 import styles from './LoginSection.module.scss';
@@ -19,7 +19,7 @@ const LoginSection: React.FC = () => {
     const [form] = Form.useForm();
 
 
-    if (authStore.isLoggedIn) {
+    if (AuthStore.isLoggedIn) {
         return <Navigate to={routesConfig[0].path} replace />;
     }
 
@@ -29,8 +29,7 @@ const LoginSection: React.FC = () => {
 
             if (isRegistering) {
                 await UserApi.register({
-                    name: values.name,
-                    login: values.login,
+                    email: values.login,
                     password: values.password,
                 });
                 message.success(t('AUTH.SUCCESS_REGISTER'));
@@ -42,11 +41,11 @@ const LoginSection: React.FC = () => {
             }
 
             const response = await UserApi.login({
-                login: values.login,
+                email: values.login,
                 password: values.password,
             });
 
-            authStore.setUserLoginResponse(response);
+            AuthStore.setUserLoginResponse(response);
 
             message.success(t('AUTH.SUCCESS_LOGIN'));
             navigate(routesConfig[0].path);

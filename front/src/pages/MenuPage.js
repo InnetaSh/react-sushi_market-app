@@ -1,35 +1,85 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useParams } from 'react-router-dom';
-import { Layout, Spin, Flex } from "antd";
+import { useParams, useNavigate } from 'react-router-dom';
+import { Layout, Spin, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
 import '../style.css';
 
-import MenuStore from "../stores/CategoryStore";
+import styles from './Pages.module.scss';
+
+import CategoryStore from "../stores/CategoryStore";
 import SubmenuSection from "../components/sections/SubmenuSection/SubmenuSection";
 
 const { Content } = Layout;
 
 const MenuPage = observer(() => {
-  const { category } = useParams();
-  const { t } = useTranslation();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language;
+
+  // Добавили состояние текущей страницы пагинации
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    MenuStore.fetchMenu(category);
-  }, [category]);
+    CategoryStore.fetchCategories();
+
+    if (id) {
+      CategoryStore.fetchCategoryWithProducts(id);
+    } else {
+      CategoryStore.fetchCategoriesWithProducts();
+    }
+  }, [id]);
+
+  const handleCategoryChange = (activeKey) => {
+    setCurrentPage(1);
+
+    if (activeKey === "all") {
+      navigate('/menu');
+    } else {
+      navigate(`/menu/search/category/${activeKey}`);
+    }
+  };
+
+  const tabItems = [
+    { key: "all", label: currentLang === 'en' ? "All" : "Всі" },
+    ...CategoryStore.categories.map((cat) => ({
+      key: String(cat.id),
+      label: (currentLang === 'en' ? cat.titleEn : cat.titleUa) || cat.title
+    }))
+  ];
+
+  const getProductsToDisplay = () => {
+    if (id) {
+      return CategoryStore.currentCategoryProducts || [];
+    }
+    return CategoryStore.categoriesWithProducts.flatMap(cat => cat.products || []);
+  };
 
   return (
     <div className="App">
       <Content style={{ padding: '50px' }}>
+        <div style={{ marginBottom: '30px', textAlign: 'center' }}>
+          <Tabs
+            activeKey={id ? String(id) : "all"}
+            onChange={handleCategoryChange}
+            centered
+            items={tabItems}
+            size="large"
+          />
+        </div>
 
-        {MenuStore.loading ? (
+        {CategoryStore.loading && getProductsToDisplay().length === 0 ? (
           <div style={{ textAlign: 'center', marginTop: '50px' }}>
             <Spin size="large" tip={t("UI_TEXT.LOADING")} />
           </div>
         ) : (
           <SubmenuSection
-            menuItems={MenuStore.items}
-            />
+            key={`${id || 'all'}-${currentPage}`}
+            menuItems={getProductsToDisplay()}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
         )}
       </Content>
     </div>

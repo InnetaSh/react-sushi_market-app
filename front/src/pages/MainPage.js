@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Spin, Flex } from "antd";
 import '../style.css';
 
-import MarketStore from "../stores/MarketStore";
+import CategoryStore from "../stores/CategoryStore";
 
 import PromotionsSection from '../components/sections/PromotionsSection/PromotionsSection';
 import AboutSection from '../components/sections/AboutSection/AboutSection';
@@ -17,21 +17,17 @@ const MainPage = observer(() => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const sentCategory = (title) => {
-    navigate(`/menu/search/category/${title}`);
+  const sentCategory = (categoryId) => {
+    navigate(`/menu/search/category/${categoryId}`);
   };
 
   useEffect(() => {
-    MarketStore.fetchMarketData();
+    CategoryStore.fetchCategories();
   }, []);
 
   return (
     <div className="App">
-      <Flex
-        vertical
-        align="center"
-        >
-
+      <Flex vertical align="center">
         <PromotionsSection
           imageUrl={imageUrl1}
           secondaryText={t("PAGE_1_TEXT.TITLE_1")}
@@ -40,16 +36,15 @@ const MainPage = observer(() => {
           buttonText={t("PAGE_1_TEXT.BTN_ACTIONS")}
         />
 
-        {MarketStore.loading ? (
+        {CategoryStore.loading ? (
           <div style={{ textAlign: 'center', padding: '50px' }}>
             <Spin size="large" />
           </div>
         ) : (
-          <>
-            <MenuSection
-              menuItems={MarketStore.imagesList}
-              onCategoryClick={sentCategory} />
-          </>
+          <MenuSection
+            menuItems={CategoryStore.categories}
+            onCategoryClick={sentCategory} 
+          />
         )}
 
         <AboutSection
@@ -59,7 +54,6 @@ const MainPage = observer(() => {
           descriptionSecond={t("PAGE_1_TEXT.RESTAURANTS_DESC_2")}
           buttonText={t("PAGE_1_TEXT.BTN_READ_MORE")}
         />
-
       </Flex>
     </div>
   );

@@ -1,0 +1,71 @@
+@use '@colors/variables.colors' as colors;
+
+.addModal {
+    :global(.ant-modal-content) {
+        padding: 24px;
+        border-radius: 8px;
+    }
+
+   
+
+    h2 {
+        color: colors.$color-orange-primary;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    // Лейблы полей ввода на светлом фоне
+    :global(.ant-form-item-label) > label {
+        color: colors.$color-text-dark !important;
+    }
+
+    // Инпуты и текстарии для светлой темы
+    :global(.ant-input), 
+    :global(.ant-input-textarea) {
+        background-color: #ffffff !important;
+        border-color: #d9d9d9 !important;
+        color: colors.$color-text-dark !important;
+
+        &::placeholder {
+            color: colors.$color-text-secondary !important;
+        }
+    }
+
+    :global(.ant-input-show-count-suffix) {
+        color: colors.$color-text-secondary !important;
+    }
+
+    .buttonContainer {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .saveButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 11px;
+        padding: 8px 16px;
+
+        height: 38px;
+        width: fit-content;
+        margin-left: 8px;
+        margin-right: 8px;
+
+        color: colors.$color-bg-dark !important;
+        border: 2px solid colors.$color-orange-primary !important;
+        background-color: transparent !important;
+        font-weight: bold;
+        font-size: 15px;
+
+        &:hover {
+            background-color: rgba(254, 121, 46, 0.08) !important;
+            color: colors.$color-orange-primary !important;
+            border-color: colors.$color-orange-primary !important;
+        }
+    }
+}
