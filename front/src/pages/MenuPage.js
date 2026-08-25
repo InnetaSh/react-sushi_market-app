@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useNavigate } from 'react-router-dom';
 import { Layout, Spin, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
 import '../style.css';
 
-import styles from './Pages.module.scss';
 
 import CategoryStore from "../stores/CategoryStore";
 import SubmenuSection from "../components/sections/SubmenuSection/SubmenuSection";

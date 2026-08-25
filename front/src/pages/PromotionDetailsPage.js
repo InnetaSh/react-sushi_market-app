@@ -1,4 +1,3 @@
-import React from "react";
 import { Flex } from "antd";
 import { useTranslation } from "react-i18next";
 

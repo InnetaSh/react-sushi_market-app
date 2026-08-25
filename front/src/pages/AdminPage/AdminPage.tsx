@@ -34,7 +34,6 @@ const AdminPage = observer(() => {
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5292/api';
   const BASE_HOST = API_URL.replace(/\/api\/?$/, '');
 
-  // Формируем чистый полный URL для модалки и списков
   const formatImageUrl = (itemOrString: any) => {
     const rawImg = typeof itemOrString === 'string'
       ? itemOrString
@@ -66,7 +65,6 @@ const AdminPage = observer(() => {
     setModalConfig({ isOpen: false, type: "category", item: null });
   };
 
-  // Вся логика сохранения данных
   const handleSaveEntity = async (values: any) => {
     try {
       console.log("VALUES FROM MODAL:", values);
@@ -74,7 +72,7 @@ const AdminPage = observer(() => {
 
       if (type === "category") {
         const formData = new FormData();
-        
+
         if (item) {
           formData.append("Id", item.id.toString());
         }
@@ -94,7 +92,6 @@ const AdminPage = observer(() => {
           formData.append("SortOrder", item.sortOrder.toString());
         }
 
-        // Файл картинки
         const imageFile = values.imageFile;
         if (imageFile instanceof File) {
           formData.append("Image", imageFile);
@@ -109,9 +106,8 @@ const AdminPage = observer(() => {
         }
         await CategoryStore.fetchCategories();
       } else {
-        // Логика для продуктов с поддержкой файлов через FormData
         const formData = new FormData();
-        
+
         if (item) {
           formData.append("Id", item.id.toString());
         }
@@ -134,7 +130,6 @@ const AdminPage = observer(() => {
         formData.append("Price", (values.price || item?.price || 0).toString());
         formData.append("WeightOrVolume", values.weightOrVolume || item?.weightOrVolume || "");
 
-        // Определяем ID категории правильно
         const finalCategoryId = values.categoryId || item?.categoryId || selectedCategoryId;
         if (finalCategoryId) {
           formData.append("CategoryId", finalCategoryId.toString());
@@ -149,7 +144,6 @@ const AdminPage = observer(() => {
           formData.append("SortOrder", item.sortOrder.toString());
         }
 
-        // Файл картинки продукта
         const imageFile = values.imageFile;
         if (imageFile instanceof File) {
           formData.append("Image", imageFile);
@@ -227,7 +221,6 @@ const AdminPage = observer(() => {
                 onDelete={() => handleDeleteCategory(cat.id)}
               />
 
-              {/* Продукты открываются СТРОГО ПОД этой категорией со смещением */}
               {isSelected && (
                 <div className={styles.nestedSubProducts}>
                   <div className={styles.subProductsHeader}>

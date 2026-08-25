@@ -15,6 +15,27 @@
       color: colors.$color-text-white;
       font-weight: 600;
     }
+
+    :global {
+        .ant-tabs-nav {
+            margin-bottom: 24px !important;
+        }
+
+        .ant-tabs-tab:hover {
+            color: colors.$color-text-green !important;
+        }
+
+        .ant-tabs-tab.ant-tabs-tab-active {
+            .ant-tabs-tab-btn {
+                color: colors.$color-text-green !important;
+                font-weight: 650;
+            }
+        }
+
+        .ant-tabs-ink-bar {
+            background: colors.$color-text-green !important;
+        }
+    }
   }
 
   .selectedRow {
@@ -114,9 +135,9 @@
 }
 
 .nestedSubProducts {
-    margin: 12px 0 20px 24px; // Смещение вправо (24px) и отступы сверху/снизу
-    padding: 16px;
-    background: rgba(0, 0, 0, 0.02); // Легкий фон для выделения вложенности
-    border-left: 3px solid colors.$color-orange-primary; // Акцентная полоска слева
-    border-radius: 0 8px 8px 0;
-  }
+  margin: 12px 0 20px 24px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border-left: 3px solid colors.$color-orange-primary;
+  border-radius: 0 8px 8px 0;
+}

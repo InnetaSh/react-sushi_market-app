@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography } from 'antd';
+import { Button } from 'antd';
 
 import styles from './ButtonOrangeBrdr.module.scss';
 
@@ -18,23 +18,21 @@ const ButtonOrangeBrdr: React.FC<ButtonOrangeBrdrProps> = ({
     id,
     text,
     width,
-    className,
+    className = '',
     onClick,
     loading = false,
 }) => {
     return (
         <Button
-            type="text"
+            type="default" 
             name={name}
             id={id}
-            className={`${styles.orangeBtn} ${className}`}
-            style={{ width: width }}
+            className={`${styles.button} ${className}`}
+            style={{ width }}
             onClick={onClick}
             loading={loading}
         >
-            <Typography.Text className={styles.text}>
-                {text}
-            </Typography.Text>
+            <span className={styles.text}>{text}</span>
         </Button>
     );
 };

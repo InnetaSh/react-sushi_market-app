@@ -78,8 +78,8 @@ export const EntityModal: React.FC<EntityModalProps> = observer(({
     }
   };
 
-  const currentPreviewUrl = fileList[0]?.originFileObj 
-    ? URL.createObjectURL(fileList[0].originFileObj) 
+  const currentPreviewUrl = fileList[0]?.originFileObj
+    ? URL.createObjectURL(fileList[0].originFileObj)
     : fileList[0]?.url;
 
   return (
@@ -90,10 +90,10 @@ export const EntityModal: React.FC<EntityModalProps> = observer(({
       footer={null}
       closable={true}
       width={500}
-      closeIcon={<img src={CancelBtn} alt="close" style={{ width: '16px', height: '16px' }} />}
+      closeIcon={<img src={CancelBtn} alt="close" className={styles.closeIcon} />}
     >
       <Form form={form} onFinish={onSuccessfulSubmit} layout="vertical">
-        
+
         <Form.Item label={t("MODAL.LABEL_IMAGE", "Зображення")}>
           <Upload
             beforeUpload={() => false}
@@ -102,56 +102,24 @@ export const EntityModal: React.FC<EntityModalProps> = observer(({
             maxCount={1}
             showUploadList={false}
           >
-            <div 
-              style={{
-                position: 'relative',
-                width: '100%',
-                height: '200px',
-                borderRadius: '8px',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                backgroundColor: '#f5f5f5',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px dashed #d9d9d9'
-              }}
-            >
+            <div className={styles.uploadContainer}>
               {currentPreviewUrl ? (
                 <>
                   <img
                     src={currentPreviewUrl}
                     alt="art"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    className={styles.previewImage}
                   />
-                  <div 
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                      color: '#fff',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      opacity: 0,
-                      transition: 'opacity 0.2s ease-in-out',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-                    onMouseLeave={(e) => (e.currentTarget.style.opacity = '0')}
-                  >
-                    <CameraOutlined style={{ fontSize: '28px', marginBottom: '6px' }} />
-                    <span style={{ fontSize: '14px', fontWeight: 500 }}>
+                  <div className={styles.uploadOverlay}>
+                    <CameraOutlined className={styles.overlayIcon} />
+                    <span className={styles.overlayText}>
                       {t("MODAL.CHANGE_PHOTO", "Змінити фото")}
                     </span>
                   </div>
                 </>
               ) : (
-                <div style={{ textAlign: 'center', color: '#8c8c8c' }}>
-                  <CameraOutlined style={{ fontSize: '24px', marginBottom: '6px' }} />
+                <div className={styles.uploadPlaceholder}>
+                  <CameraOutlined className={styles.placeholderIcon} />
                   <div>{t("MODAL.UPLOAD_IMAGE", "Завантажити зображення")}</div>
                 </div>
               )}
@@ -159,8 +127,8 @@ export const EntityModal: React.FC<EntityModalProps> = observer(({
           </Upload>
         </Form.Item>
 
-        <Form.Item 
-          name="title" 
+        <Form.Item
+          name="title"
           label={t("MODAL.LABEL_TITLE", "Назва")}
           rules={[{ required: true, message: t("MODAL.ERROR_TITLE", "Введіть назву") }]}
         >
@@ -175,24 +143,28 @@ export const EntityModal: React.FC<EntityModalProps> = observer(({
 
         {type === "product" && (
           <>
-            <Form.Item 
-              name="categoryId" 
+            <Form.Item
+              name="categoryId"
               label={t("MODAL.LABEL_CATEGORY", "Категорія")}
               rules={[{ required: true, message: t("MODAL.ERROR_CATEGORY", "Будь ласка, оберіть категорію!") }]}
             >
               <Select
                 placeholder={t("MODAL.PLACEHOLDER_CATEGORY", "Оберіть категорію")}
-                options={categories.map((cat: any) => ({
-                  value: cat.id,
-                  label: isEn ? (cat.titleEn || cat.title) : (cat.titleUa || cat.title),
-                }))}
+                popupClassName={styles.selectDropdownPopup}
+                options={categories.map((cat: any) => {
+                  const labelText = isEn ? (cat.titleEn || cat.title) : (cat.titleUa || cat.title);
+                  return {
+                    value: cat.id,
+                    label: <span style={{ color: 'var(--color-text-dark, #444444)', opacity: 1, fontWeight: 400 }}>{labelText}</span>,
+                  };
+                })}
               />
             </Form.Item>
 
             <Form.Item name="price" label={t("MODAL.LABEL_PRICE", "Ціна (грн)")}>
               <Input placeholder={t("MODAL.PLACEHOLDER_PRICE", "Введіть ціну...")} />
             </Form.Item>
-            
+
             <Form.Item name="weightOrVolume" label={t("MODAL.LABEL_WEIGHT", "Вага / Об'єм")}>
               <Input placeholder={t("MODAL.PLACEHOLDER_WEIGHT", "Наприклад: 250 г")} />
             </Form.Item>
@@ -204,7 +176,7 @@ export const EntityModal: React.FC<EntityModalProps> = observer(({
             className={styles.saveButton}
             text={t("MODAL.BTN_SAVE", "Зберегти")}
             onClick={() => form.submit()}
-            loading={loading} 
+            loading={loading}
           />
         </div>
       </Form>

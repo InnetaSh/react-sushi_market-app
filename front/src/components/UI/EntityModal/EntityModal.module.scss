@@ -1,9 +1,67 @@
 @use '@colors/variables.colors' as colors;
 
+:global(.ant-select-selection-item) {
+    color: colors.$color-text-dark !important;
+    opacity: 1 !important;
+}
+
+.selectDropdownPopup {
+    background-color: #ffffff !important;
+    border: 1px solid #d9d9d9 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+
+    :global(.ant-select-item-option) {
+        color: colors.$color-text-dark !important;
+
+        :global(.ant-select-item-option-content) {
+            color: colors.$color-text-dark !important;
+            font-weight: 500;
+        }
+
+        &:hover,
+        & :global(.ant-select-item-option-active) {
+            background-color: rgba(254, 121, 46, 0.08) !important;
+            
+            :global(.ant-select-item-option-content) {
+                color: colors.$color-orange-primary !important;
+            }
+        }
+
+        & :global(.ant-select-item-option-selected),
+        &.ant-select-item-option-selected {
+            background-color: rgba(254, 121, 46, 0.15) !important;
+            
+            :global(.ant-select-item-option-content) {
+                color: colors.$color-orange-primary !important;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
 .addModal {
     :global(.ant-modal-content) {
         padding: 24px;
         border-radius: 8px;
+    }
+
+    :global(.ant-select-selection-item) {
+        color: colors.$color-text-dark !important;
+        opacity: 1 !important;
+    }
+
+    :global(.ant-select-selection-item span) {
+        color: colors.$color-text-dark !important;
+    }
+
+    :global(.ant-modal-content) {
+        padding: 24px;
+        border-radius: 8px;
+    }
+
+    .closeIcon {
+        width: 16px;
+        height: 16px;
     }
 
     h2 {
@@ -14,11 +72,11 @@
         font-weight: bold;
     }
 
-    :global(.ant-form-item-label) > label {
+    :global(.ant-form-item-label)>label {
         color: colors.$color-text-dark !important;
     }
 
-    :global(.ant-input), 
+    :global(.ant-input),
     :global(.ant-input-textarea) {
         background-color: #ffffff !important;
         border-color: #d9d9d9 !important;
@@ -33,6 +91,79 @@
         color: colors.$color-text-secondary !important;
     }
 
+    :global(.ant-upload-wrapper),
+    :global(.ant-upload) {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .uploadContainer {
+        position: relative;
+        width: 100% !important;
+        max-width: 400px;
+        height: 220px;
+        margin: 0 auto;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px dashed #d9d9d9;
+    }
+
+    .previewImage {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+
+    .uploadOverlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .overlayIcon {
+        font-size: 28px;
+        margin-bottom: 6px;
+    }
+
+    .overlayText {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .uploadPlaceholder {
+        text-align: center;
+        color: #8c8c8c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .placeholderIcon {
+        font-size: 24px;
+        margin-bottom: 6px;
+    }
+
     .buttonContainer {
         display: flex;
         justify-content: center;
@@ -44,24 +175,5 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 11px;
-        padding: 8px 16px;
-
-        height: 38px;
-        width: fit-content;
-        margin-left: 8px;
-        margin-right: 8px;
-
-        color: colors.$color-bg-dark !important;
-        border: 2px solid colors.$color-orange-primary !important;
-        background-color: transparent !important;
-        font-weight: bold;
-        font-size: 15px;
-
-        &:hover {
-            background-color: rgba(254, 121, 46, 0.08) !important;
-            color: colors.$color-orange-primary !important;
-            border-color: colors.$color-orange-primary !important;
-        }
     }
 }

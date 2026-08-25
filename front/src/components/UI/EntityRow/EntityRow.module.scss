@@ -5,14 +5,23 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 16px;
-  background: colors.$color-bg-light;
+  background: colors.$color-bg-secondary;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
   margin-bottom: 8px;
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+ &:hover {
+    background-color: colors.$color-bg-light;
+
+    .itemTitle,
+    .itemDescription,
+    .colCategory,
+    .price,
+    .weight,
+    .colNumber {
+      color: colors.$color-text-dark !important;
+    }
   }
 }
 
@@ -45,20 +54,23 @@
 }
 
 .itemTitle {
-  color: colors.$color-text-dark;
+  color: colors.$color-text-white;
   font-weight: 600;
+  transition: color 0.2s;
 }
 
 .itemDescription {
   color: colors.$color-text-secondary;
   font-size: 12px;
   margin-top: 2px;
+  transition: color 0.2s;
 }
 
 .colCategory {
   width: 140px;
   color: colors.$color-text-secondary;
   font-size: 14px;
+  transition: color 0.2s;
 }
 
 .colPrice {
@@ -68,7 +80,7 @@
 }
 
 .price {
-  color: colors.$color-text-green;
+  color: colors.$color-text-green !important;
   font-weight: 600;
 }
 
@@ -92,11 +104,14 @@
   font-weight: 500;
   text-align: left;
 
-  &, span, a {
+  &,
+  span,
+  a {
     color: colors.$color-orange-primary !important;
   }
 
-  &:hover, &:hover span {
+  &:hover,
+  &:hover span {
     color: colors.$color-orange-primary !important;
     text-decoration: underline !important;
   }
