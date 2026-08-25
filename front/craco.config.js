@@ -16,6 +16,7 @@ module.exports = {
       "@routes": path.resolve(__dirname, "src/routes"),
       "@models": path.resolve(__dirname, "src/models"),
       "@UI": path.resolve(__dirname, "src/components/UI"),
+      "@mocks":path.resolve(__dirname,"src/mocks")
     },
   },
 };

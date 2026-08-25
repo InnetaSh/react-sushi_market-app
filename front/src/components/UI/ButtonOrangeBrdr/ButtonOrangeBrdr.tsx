@@ -8,7 +8,9 @@ interface ButtonOrangeBrdrProps {
     id?: string;
     text: string;
     width?: string | number;
+    className?: string;
     onClick?: () => void;
+    loading?: boolean;
 }
 
 const ButtonOrangeBrdr: React.FC<ButtonOrangeBrdrProps> = ({
@@ -16,16 +18,19 @@ const ButtonOrangeBrdr: React.FC<ButtonOrangeBrdrProps> = ({
     id,
     text,
     width,
+    className,
     onClick,
+    loading = false,
 }) => {
     return (
         <Button
             type="text"
             name={name}
             id={id}
-            className={styles.button}
+            className={`${styles.orangeBtn} ${className}`}
             style={{ width: width }}
             onClick={onClick}
+            loading={loading}
         >
             <Typography.Text className={styles.text}>
                 {text}

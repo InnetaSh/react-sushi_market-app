@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SushiMarket.BLL.DTOs;
 using SushiMarket.BLL.MediatR.Categories.CreateCategory;
 using SushiMarket.BLL.MediatR.Categories.DeleteCategory;
 using SushiMarket.BLL.MediatR.Categories.GetCategoriesList;
@@ -50,16 +51,76 @@ namespace sushi_market_back.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryCommand command)
+        public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryRequestDto request)
         {
+            string? imagePath = null;
+
+            if (request.Image != null && request.Image.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "categories");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + request.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.Image.CopyToAsync(fileStream);
+                }
+
+                imagePath = $"/uploads/categories/{uniqueFileName}";
+            }
+
+            var command = new CreateCategoryCommand(
+                request.TitleUa,
+                request.TitleEn,
+                imagePath ?? string.Empty,
+                request.SortOrder
+               
+            );
+
             var id = await _mediator.Send(command);
             return Ok(id);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryCommand command)
+        public async Task<IActionResult> UpdateCategory(int id, [FromForm] UpdateCategoryRequestDto request)
         {
-            if (id != command.Id) return BadRequest("ID mismatch");
+            if (id != request.Id) return BadRequest("ID mismatch");
+
+            var existingCategory = await _mediator.Send(new GetCategoryByIdQuery(id));
+            string? imagePath = existingCategory?.ImgSrc;
+
+            if (request.Image != null && request.Image.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "categories");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + request.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.Image.CopyToAsync(fileStream);
+                }
+
+                imagePath = $"/uploads/categories/{uniqueFileName}";
+            }
+
+            var command = new UpdateCategoryCommand(
+                request.Id,
+                request.TitleUa,
+                request.TitleEn,
+                request.SortOrder,
+                imagePath
+            );
+
             await _mediator.Send(command);
             return NoContent();
         }

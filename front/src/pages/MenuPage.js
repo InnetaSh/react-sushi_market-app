@@ -18,7 +18,7 @@ const MenuPage = observer(() => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language;
 
-  // Добавили состояние текущей страницы пагинации
+
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {

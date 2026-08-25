@@ -9,7 +9,6 @@ namespace SushiMarket.BLL.Seeders
     {
         public static async Task FillSeedAsync(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager, IConfiguration configuration)
         {
-            // Создаем роли, если их нет
             foreach (var role in Enum.GetNames<UserRole>())
             {
                 if (!await roleManager.RoleExistsAsync(role))

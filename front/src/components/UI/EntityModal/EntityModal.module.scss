@@ -6,8 +6,6 @@
         border-radius: 8px;
     }
 
-   
-
     h2 {
         color: colors.$color-orange-primary;
         text-align: center;
@@ -16,12 +14,10 @@
         font-weight: bold;
     }
 
-    // Лейблы полей ввода на светлом фоне
     :global(.ant-form-item-label) > label {
         color: colors.$color-text-dark !important;
     }
 
-    // Инпуты и текстарии для светлой темы
     :global(.ant-input), 
     :global(.ant-input-textarea) {
         background-color: #ffffff !important;

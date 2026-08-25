@@ -28,7 +28,8 @@
       "@stores/*": ["src/stores/*"],
       "@routes/*": ["src/routes/*"],
       "@models/*": ["src/models/*"],
-      "@UI/*": ["src/components/UI/*"]
+      "@UI/*": ["src/components/UI/*"],
+      "@mocks/*":["src/mocks/*"]
     },
     "resolveJsonModule": true,
     "isolatedModules": true,
