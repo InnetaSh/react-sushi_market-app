@@ -4,32 +4,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
+import { NEWS_DATA } from '@mocks/newsData';
 import styles from './NewsSection.module.scss';
-
-interface NewsItem {
-    id: string;
-    date: string;
-    title: string;
-    description: string;
-    link: string;
-}
-
-const newsData: NewsItem[] = [
-    {
-        id: '1',
-        date: '19.11.2020',
-        title: 'Нам 1 год! Акции! Скидки!',
-        description: 'При создании новости, помимо заголовка и содержимого, Вы можете задать еще ряд параметров. Тут Вы видите пример заполнения анонса новости.',
-        link: '/news/1',
-    },
-    {
-        id: '2',
-        date: '25.10.2020',
-        title: 'Новогодние каникулы',
-        description: 'При создании новости, помимо заголовка и содержимого, Вы можете задать еще ряд параметров. Тут Вы видите пример заполнения анонса новости.',
-        link: '/news/2',
-    },
-];
 
 const NewsSection: React.FC = () => {
     const { t } = useTranslation(); 
@@ -38,7 +14,7 @@ const NewsSection: React.FC = () => {
         <PageSectionLayout
             breadcrumbs={[
                 { label: t('BREADCRUMBS.HOME'), path: '/' }, 
-                { label: t('BREADCRUMBS.NEWS') }           
+                { label: t('BREADCRUMBS.NEWS') }          
             ]}
         >
             <div className={styles.newsLayout}>
@@ -52,16 +28,16 @@ const NewsSection: React.FC = () => {
                 </Flex>
 
                 <Flex vertical className={styles.newsList} gap={24}>
-                    {newsData.map((item) => (
+                    {NEWS_DATA.map((item) => (
                         <div key={item.id} className={styles.newsCard}>
                             <Typography.Text className={styles.newsDate}>
                                 {item.date}
                             </Typography.Text>
                             <Link to={item.link} className={styles.newsTitle}>
-                                {item.title}
+                                {t(item.titleKey)}
                             </Link>
                             <Typography.Paragraph className={styles.newsDescription}>
-                                {item.description}
+                                {t(item.descriptionKey)}
                             </Typography.Paragraph>
                         </div>
                     ))}

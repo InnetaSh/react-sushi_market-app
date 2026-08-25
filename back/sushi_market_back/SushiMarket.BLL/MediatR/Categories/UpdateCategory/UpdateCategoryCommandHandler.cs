@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SushiMarket.DAL;
-using static SushiMarket.BLL.Helpers.TranslatorHelper;
 
 namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
 {
@@ -24,24 +23,24 @@ namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
                 throw new KeyNotFoundException($"Category with ID {request.Id} was not found.");
             }
 
-            string titleUa = request.TitleUa;
-            string titleEn = request.TitleEn;
+            if (request.TitleUa != null) category.TitleUa = request.TitleUa;
+            if (request.TitleEn != null) category.TitleEn = request.TitleEn;
+            if (request.SortOrder.HasValue) category.SortOrder = request.SortOrder.Value;
 
-            if (titleUa != category.TitleUa && (string.IsNullOrWhiteSpace(titleEn) || titleEn == category.TitleEn))
+            if (!string.IsNullOrEmpty(request.ImgSrc))
             {
-                titleEn = await Translator.TranslateAsync(titleUa, "uk", "en");
-            }
-            else if (titleEn != category.TitleEn && (string.IsNullOrWhiteSpace(titleUa) || titleUa == category.TitleUa))
-            {
-                titleUa = await Translator.TranslateAsync(titleEn, "en", "uk");
+                category.ImgSrc = request.ImgSrc;
             }
 
-            category.TitleUa = titleUa;
-            category.TitleEn = titleEn;
-            category.ImgSrc = request.ImgSrc;
-            category.SortOrder = request.SortOrder;
-
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
+            {
+                var innerMessage = ex.InnerException?.Message ?? ex.Message;
+                throw new Exception($"DB Error: {innerMessage}");
+            }
 
             return Unit.Value;
         }

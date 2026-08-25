@@ -1,7 +1,5 @@
-import React from "react";
 import { Flex } from "antd";
 import { useTranslation } from "react-i18next";
-import SaleComponent from "../components/sale_panel";
 
 import PromotionDetails from "@section/PromotionDetails/PromotionDetails";
 

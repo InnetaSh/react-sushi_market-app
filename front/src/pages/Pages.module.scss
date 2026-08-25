@@ -1,0 +1,23 @@
+@use '@colors/variables.colors' as colors;
+
+:global {
+    .ant-tabs {
+        .ant-tabs-tab {
+            color: #ffffff !important;
+
+            &:hover {
+                color: colors.$color-text-green !important;
+            }
+        }
+
+        .ant-tabs-tab-active {
+            .ant-tabs-tab-btn {
+                color: colors.$color-text-green !important;
+            }
+        }
+
+        .ant-tabs-ink-bar {
+            background-color: colors.$color-text-green !important;
+        }
+    }
+}

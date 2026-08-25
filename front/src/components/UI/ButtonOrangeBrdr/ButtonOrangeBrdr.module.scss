@@ -1,0 +1,61 @@
+@use '@colors/variables.colors' as colors;
+
+.button {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    min-width: 220px;
+    padding: 15px 40px !important;
+    height: 50px !important;
+    border-radius: 0 !important;
+    overflow: hidden;
+
+    background-color: colors.$color-white !important;
+    border: 1px solid colors.$color-orange-primary !important;
+    box-shadow: none !important;
+
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    &:hover,
+    &:focus {
+        background-color: colors.$color-white !important;
+        border-color: colors.$color-orange-primary !important;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background-color: colors.$color-orange-primary;
+        z-index: 1;
+        transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    &:hover::before {
+        width: 100%;
+    }
+}
+
+.text {
+    position: relative;
+    z-index: 2;
+
+    color: colors.$color-text-dark !important;
+    font-size: 16px;
+    font-weight: 700;
+
+    transition: color 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    .button:hover & {
+        color: colors.$color-text-white !important;
+    }
+}

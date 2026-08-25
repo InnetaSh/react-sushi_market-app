@@ -1,28 +1,41 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import ProductApi from "@/api/ProductApi";
+import ProductApi from "@api/ProductApi";
 
 class ProductStore {
     products = [];
+    currentProduct = null;
     loading = false;
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    async fetchProducts(categoryId = null) {
+    async fetchProducts(categoryId) {
         this.loading = true;
         try {
-            const data = await ProductApi.getProducts(categoryId);
-
+            const data = await ProductApi.fetchProducts(categoryId);
             runInAction(() => {
-                this.products = data.map(item => ({
-                    ...item,
-                    imgSrc: `http://localhost:5292/${item.imgSrc}`
-                }));
+                this.products = data;
                 this.loading = false;
             });
         } catch (error) {
-            console.error("Exception: ", error);
+            console.error("Error fetching products:", error);
+            runInAction(() => {
+                this.loading = false;
+            });
+        }
+    }
+
+    async fetchProductById(id) {
+        this.loading = true;
+        try {
+            const data = await ProductApi.getProductById(id);
+            runInAction(() => {
+                this.currentProduct = data;
+                this.loading = false;
+            });
+        } catch (error) {
+            console.error("Error fetching product by id:", error);
             runInAction(() => {
                 this.loading = false;
             });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Image, Typography } from 'antd';
+import { Image, Typography } from 'antd';
 
 import styles from './SubmenuCard.module.scss';
 
@@ -7,19 +7,17 @@ interface SubmenuCardProps {
     imageUrl: string;
     title: string;
     description: string[];
+    price: string | number;
 }
 
 const SubmenuCard: React.FC<SubmenuCardProps> = ({
     imageUrl,
     title,
     description,
+    price,
 }) => {
     return (
-        <Flex
-            justify="space-between"
-            align="center"
-            className={styles.card}
-        >
+        <div className={styles.card}>
             <div className={styles.imageWrapper}>
                 <Image
                     src={imageUrl}
@@ -29,29 +27,28 @@ const SubmenuCard: React.FC<SubmenuCardProps> = ({
                 />
             </div>
 
-            <Flex
-                vertical
-                className={styles.content}
-            >
+            <div className={styles.content}>
                 <Typography.Text className={styles.title}>
                     {title}
                 </Typography.Text>
 
-                <Flex
-                    vertical
-                    className={styles.description}
-                >
-                    {description.map((text, index) => (
-                        <Typography.Text
-                            key={text}
-                            className={`${styles.descriptionItem} ${index === description.length - 1 ? styles.price : ''}`}
-                        >
-                            {text}
-                        </Typography.Text>
+                <div className={styles.description}>
+                    {description.map((text) => (
+                        text ? (
+                            <Typography.Text key={text} className={styles.descriptionItem}>
+                                {text}
+                            </Typography.Text>
+                        ) : null
                     ))}
-                </Flex>
-            </Flex>
-        </Flex>
+                </div>
+            </div>
+
+            <div className={styles.priceColumn}>
+                <Typography.Text className={styles.price}>
+                    {price}
+                </Typography.Text>
+            </div>
+        </div>
     );
 };
 

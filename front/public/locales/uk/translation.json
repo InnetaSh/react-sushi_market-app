@@ -28,12 +28,8 @@
   },
   "BREADCRUMBS": {
     "HOME": "Головна",
-    "NEWS": "Новини"
-  },
-  "NEWS_SECTION": {
-    "TITLE": "Новини",
-    "DESCRIPTION": "Будьте в курсі останніх подій та акцій нашого ресторану. Тут ви знайдете свіжі новини, цікаві статті та корисні поради про японську кухню.",
-    "READ_MORE": "Читати далі"
+    "NEWS": "Новини",
+     "CONTACTS": "Контакти"
   },
   "MENU": {
     "HOME": "Головна",
@@ -82,5 +78,84 @@
     "ERROR_LOGIN_FAIL": "Невірний логін або пароль",
     "ERROR_GOOGLE_FAIL": "Помилка авторизації через Google",
     "ERROR_GOOGLE_CANCEL": "Не вдалося увійти через Google"
+  },
+  "MODAL": {
+    "LABEL_IMAGE": "Зображення",
+    "CHANGE_PHOTO": "Змінити фото",
+    "UPLOAD_IMAGE": "Завантажити зображення",
+    "LABEL_TITLE": "Назва",
+    "ERROR_TITLE": "Введіть назву",
+    "PLACEHOLDER_TITLE": "Введіть назву...",
+    "LABEL_DESCRIPTION": "Опис",
+    "PLACEHOLDER_DESCRIPTION": "Введіть опис...",
+    "LABEL_CATEGORY": "Категорія",
+    "ERROR_CATEGORY": "Будь ласка, оберіть категорію!",
+    "PLACEHOLDER_CATEGORY": "Оберіть категорію",
+    "LABEL_PRICE": "Ціна (грн)",
+    "PLACEHOLDER_PRICE": "Введіть ціну...",
+    "LABEL_WEIGHT": "Вага / Об'єм",
+    "PLACEHOLDER_WEIGHT": "Наприклад: 250 г",
+    "BTN_SAVE": "Зберегти"
+  },
+  "ENTITY_ROW": {
+    "CURRENCY": "грн",
+    "EDIT": "Змінити",
+    "DELETE": "Видалити",
+    "DELETE_TITLE": "Видалити?",
+    "DELETE_DESC": "Цю дію неможливо скасувати.",
+    "YES": "Так",
+    "NO": "Ні"
+  },
+  "ADMIN_PAGE": {
+    "TITLE": "Адмін-панель Sushi Market",
+    "TAB_CATEGORIES": "Категорії",
+    "TAB_PRODUCTS": "Продукти",
+    "BTN_ADD_CATEGORY": "+ Додати категорію",
+    "BTN_ADD_PRODUCT": "+ Додати продукт",
+    "BTN_ADD_PRODUCT_TO_CAT": "+ Додати продукт у категорію",
+    "PRODUCTS_OF_CATEGORY": "Продукти категорії:",
+    "NO_PRODUCTS_IN_CATEGORY": "У цій категорії поки немає продуктів",
+    "SUCCESS_CATEGORY_CREATE": "Категорію успішно створено",
+    "SUCCESS_CATEGORY_UPDATE": "Категорію успішно оновлено",
+    "SUCCESS_CATEGORY_DELETE": "Категорію видалено",
+    "SUCCESS_PRODUCT_CREATE": "Продукт успішно створено",
+    "SUCCESS_PRODUCT_UPDATE": "Продукт успішно оновлено",
+    "SUCCESS_PRODUCT_DELETE": "Продукт видалено",
+    "ERROR_SELECT_CATEGORY": "Будь ласка, оберіть категорію для продукту!",
+    "ERROR_SAVE": "Помилка збереження даних",
+    "ERROR_DELETE": "Помилка видалення"
+  },
+  "CONTACTS": {
+    "TITLE": "Контакти",
+    "DESCRIPTION": "Традиції Японії, смак твого міста!",
+    "LOCATIONS": {
+      "KYIV": {
+        "CITY": "Київ",
+        "ADDRESS": "вул. Ніжинська, 5"
+      },
+      "LVIV": {
+        "CITY": "Львів",
+        "ADDRESS": "вул. Новознесенська, 4"
+      },
+      "UZHGOROD": {
+        "CITY": "Ужгород",
+        "ADDRESS": "вул. Миколи Баб’яка, 8"
+      }
+    }
+  },
+    "NEWS_SECTION": {
+    "TITLE": "Новини",
+    "DESCRIPTION": "Будьте в курсі останніх подій та акцій нашого ресторану. Тут ви знайдете свіжі новини, цікаві статті та корисні поради про японську кухню.",
+    "READ_MORE": "Читати далі",
+    "ITEMS": {
+      "FIRST": {
+        "TITLE": "Нам 1 рік! Акції! Знижки!",
+        "DESCRIPTION": "При створенні новини, крім заголовка та вмісту, Ви можете задати ще низку параметрів. Тут Ви бачите приклад заповнення анонсу новини."
+      },
+      "SECOND": {
+        "TITLE": "Новорічні канікули",
+        "DESCRIPTION": "При створенні новини, крім заголовка та вмісту, Ви можете задати ще низку параметрів. Тут Ви бачите приклад заповнення анонсу новини."
+      }
+    }
   }
 }

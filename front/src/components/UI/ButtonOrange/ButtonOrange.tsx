@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from 'antd';
 import styles from './ButtonOrange.module.scss';
@@ -11,6 +10,7 @@ interface ButtonOrangeProps {
   id?: string;
   name?: string;
   className?: string;
+  loading?: boolean;
 }
 
 export const ButtonOrange: React.FC<ButtonOrangeProps> = ({
@@ -20,7 +20,8 @@ export const ButtonOrange: React.FC<ButtonOrangeProps> = ({
   icon,
   id,
   name,
-  className = ''
+  className = '',
+  loading = false,
 }) => {
   return (
     <Button
@@ -31,6 +32,7 @@ export const ButtonOrange: React.FC<ButtonOrangeProps> = ({
       className={`${styles.orangeBtn} ${className}`}
       style={{ width: width }}
       icon={icon}
+      loading={loading}
     >
       {text}
     </Button>

@@ -1,70 +1,103 @@
-import { create } from 'zustand';
-import UserApi from '../api/UserApi';
+import { makeAutoObservable, runInAction } from "mobx";
+import UserApi from "@api/UserApi";
 
-export const useAuthStore = create((set) => ({
-    user: null,
-    isAuthenticated: false,
-    isLoading: false,
-    error: null,
+class AuthStore {
+    user = null;
+    isAuthenticated = false;
+    isLoading = false;
+    error = null;
 
-    login: async (credentials) => {
-        set({ isLoading: true, error: null });
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    get isLoggedIn() {
+        return this.isAuthenticated;
+    }
+
+    setUserLoginResponse(data) {
+        this.user = data?.user || data;
+        this.isAuthenticated = true;
+    }
+
+    async login(credentials) {
+        this.isLoading = true;
+        this.error = null;
         try {
             const data = await UserApi.login(credentials);
-            set({ 
-                user: data.user, 
-                isAuthenticated: true, 
-                isLoading: false 
+            runInAction(() => {
+                this.setUserLoginResponse(data);
+                this.isLoading = false;
             });
             return data;
         } catch (error) {
-            set({ error: error.message, isLoading: false });
-            throw error;
-        }
-    },
-
-    register: async (userData) => {
-        set({ isLoading: true, error: null });
-        try {
-            const data = await UserApi.register(userData);
-            set({ 
-                user: data.user, 
-                isAuthenticated: true, 
-                isLoading: false 
+            runInAction(() => {
+                this.error = error.message;
+                this.isLoading = false;
             });
-            return data;
-        } catch (error) {
-            set({ error: error.message, isLoading: false });
             throw error;
-        }
-    },
-
-    logout: async () => {
-        set({ isLoading: true, error: null });
-        try {
-            await UserApi.logout();
-            set({ user: null, isAuthenticated: false, isLoading: false });
-        } catch (error) {
-            set({ error: error.message, isLoading: false });
-            throw error;
-        }
-    },
-
-    checkAuth: async () => {
-        set({ isLoading: true });
-        try {
-            const data = await UserApi.getUserInfo();
-            if (data.isAuthenticated) {
-                set({ 
-                    user: { email: data.email, roles: data.roles }, 
-                    isAuthenticated: true, 
-                    isLoading: false 
-                });
-            } else {
-                set({ user: null, isAuthenticated: false, isLoading: false });
-            }
-        } catch (error) {
-            set({ user: null, isAuthenticated: false, isLoading: false });
         }
     }
-}));
+
+    async register(userData) {
+        this.isLoading = true;
+        this.error = null;
+        try {
+            const data = await UserApi.register(userData);
+            runInAction(() => {
+                this.isLoading = false;
+            });
+            return data;
+        } catch (error) {
+            runInAction(() => {
+                this.error = error.message;
+                this.isLoading = false;
+            });
+            throw error;
+        }
+    }
+
+    async logout() {
+        this.isLoading = true;
+        this.error = null;
+        try {
+            await UserApi.logout();
+            runInAction(() => {
+                this.user = null;
+                this.isAuthenticated = false;
+                this.isLoading = false;
+            });
+        } catch (error) {
+            runInAction(() => {
+                this.error = error.message;
+                this.isLoading = false;
+            });
+            throw error;
+        }
+    }
+
+    async checkAuth() {
+        this.isLoading = true;
+        try {
+            const data = await UserApi.getUserInfo();
+            runInAction(() => {
+                if (data.isAuthenticated) {
+                    this.user = { email: data.email, roles: data.roles };
+                    this.isAuthenticated = true;
+                } else {
+                    this.user = null;
+                    this.isAuthenticated = false;
+                }
+                this.isLoading = false;
+            });
+        } catch (error) {
+            runInAction(() => {
+                this.user = null;
+                this.isAuthenticated = false;
+                this.isLoading = false;
+            });
+        }
+    }
+}
+
+export default new AuthStore();

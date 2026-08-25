@@ -4,16 +4,13 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5292/api';
 
 const api = axios.create({
     baseURL: API_URL,
-    withCredentials: true 
+    withCredentials: true
 });
 
 class ProductApi {
-    async getProducts(categoryId = null) {
+    async fetchProducts(categoryId) {
         try {
-            const url = categoryId 
-                ? `/Products/category/${categoryId}`
-                : '/Products';
-
+           const url = categoryId ? `/Products?categoryId=${categoryId}` : '/Products';
             const response = await api.get(url);
             return response.data;
         } catch (error) {

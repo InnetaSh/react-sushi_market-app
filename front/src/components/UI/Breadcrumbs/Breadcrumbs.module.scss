@@ -1,33 +1,62 @@
 @use '@colors/variables.colors' as colors;
 
-.breadcrumbs {
-    font-size: 24px;
-    font-family: 'PT Serif', serif;
-
-    width: 100%;
-    display: flex;
+.orangeBtn {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
+    width: fit-content;
+    min-width: 220px;
+    padding: 15px 40px;
+    height: 50px;
+    border-radius: 0;
+    overflow: hidden;
 
-    margin-top: 50px;
+    background-color: colors.$color-white !important;
+    border: 1px solid colors.$color-orange-primary !important;
 
-}
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 
-.link {
-    color: colors.$color-text-secondary;
-    text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 
+    // Псевдоэлемент для анимации заливки фона
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background-color: colors.$color-orange-primary;
+        z-index: 1; // Поднимаем подложку под текст
+        transition: width 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    // При наведении заполняем ширину
+    &:hover::before {
+        width: 100%;
+    }
+
+    // Меняем цвет самой кнопки, если нужно
     &:hover {
-        color: colors.$color-orange-primary;
+        border-color: colors.$color-orange-primary !important;
     }
 }
 
-.divider {
-    color: colors.$color-text-green;
-    margin: 0 4px;
-}
+.text {
+    position: relative;
+    z-index: 2; // Текст поверх анимированного фона
 
-.current {
-    color: colors.$color-text-green;
+    color: colors.$color-text-dark;
+    font-size: 16px;
+    font-weight: 700;
+
+    transition: color 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    // Когда кнопка в состоянии hover, текст меняет цвет на белый
+    .orangeBtn:hover & {
+        color: colors.$color-text-white !important;
+    }
 }

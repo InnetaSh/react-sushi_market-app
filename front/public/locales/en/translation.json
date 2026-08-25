@@ -12,8 +12,8 @@
     "BOTTOM_DESC": "WE VALUE EVERY CUSTOMER and we do everything to ensure that you enjoy your visit to our restaurants and taste the best dishes of Japanese cuisine"
   },
   "PAGE_3_TEXT": {
-     "TITLE": "SPECIAL OFFERS",
-     "DESCRIPTION": "Traditions of Japan, the taste of your city!",
+    "TITLE": "SPECIAL OFFERS",
+    "DESCRIPTION": "Traditions of Japan, the taste of your city!",
     "SALE_1_DATE": "FROM NOVEMBER 20 TO DECEMBER 30",
     "SALE_1_NAME": "EVERY FIFTH",
     "SALE_2_DATE": "FROM OCTOBER 10 TO NOVEMBER 10",
@@ -28,12 +28,8 @@
   },
   "BREADCRUMBS": {
     "HOME": "Main",
-    "NEWS": "News"
-  },
-  "NEWS_SECTION": {
-    "TITLE": "News",
-    "DESCRIPTION": "Stay updated on the latest events and promotions at our restaurant. Here you will find fresh news, interesting articles, and useful tips about Japanese cuisine.",
-    "READ_MORE": "Read more"
+    "NEWS": "News",
+    "CONTACTS": "Contacts"
   },
   "MENU": {
     "HOME": "Main",
@@ -82,5 +78,84 @@
     "ERROR_LOGIN_FAIL": "Invalid username or password",
     "ERROR_GOOGLE_FAIL": "Failed to authenticate via Google",
     "ERROR_GOOGLE_CANCEL": "Failed to log in via Google"
+  },
+  "MODAL": {
+    "LABEL_IMAGE": "Image",
+    "CHANGE_PHOTO": "Change photo",
+    "UPLOAD_IMAGE": "Upload image",
+    "LABEL_TITLE": "Title",
+    "ERROR_TITLE": "Please enter a title",
+    "PLACEHOLDER_TITLE": "Enter title...",
+    "LABEL_DESCRIPTION": "Description",
+    "PLACEHOLDER_DESCRIPTION": "Enter description...",
+    "LABEL_CATEGORY": "Category",
+    "ERROR_CATEGORY": "Please select a category!",
+    "PLACEHOLDER_CATEGORY": "Select category",
+    "LABEL_PRICE": "Price (UAH)",
+    "PLACEHOLDER_PRICE": "Enter price...",
+    "LABEL_WEIGHT": "Weight / Volume",
+    "PLACEHOLDER_WEIGHT": "Example: 250 g",
+    "BTN_SAVE": "Save"
+  },
+  "ENTITY_ROW": {
+    "CURRENCY": "UAH",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "DELETE_TITLE": "Delete?",
+    "DELETE_DESC": "This action cannot be undone.",
+    "YES": "Yes",
+    "NO": "No"
+  },
+  "ADMIN_PAGE": {
+    "TITLE": "Sushi Market Admin Panel",
+    "TAB_CATEGORIES": "Categories",
+    "TAB_PRODUCTS": "Products",
+    "BTN_ADD_CATEGORY": "+ Add Category",
+    "BTN_ADD_PRODUCT": "+ Add Product",
+    "BTN_ADD_PRODUCT_TO_CAT": "+ Add Product to Category",
+    "PRODUCTS_OF_CATEGORY": "Products of category:",
+    "NO_PRODUCTS_IN_CATEGORY": "No products in this category yet",
+    "SUCCESS_CATEGORY_CREATE": "Category created successfully",
+    "SUCCESS_CATEGORY_UPDATE": "Category updated successfully",
+    "SUCCESS_CATEGORY_DELETE": "Category deleted",
+    "SUCCESS_PRODUCT_CREATE": "Product created successfully",
+    "SUCCESS_PRODUCT_UPDATE": "Product updated successfully",
+    "SUCCESS_PRODUCT_DELETE": "Product deleted",
+    "ERROR_SELECT_CATEGORY": "Please select a category for the product!",
+    "ERROR_SAVE": "Error saving data",
+    "ERROR_DELETE": "Error deleting"
+  },
+  "CONTACTS": {
+    "TITLE": "Contacts",
+    "DESCRIPTION": "Traditions of Japan, the taste of your city!",
+    "LOCATIONS": {
+      "KYIV": {
+        "CITY": "Kyiv",
+        "ADDRESS": "Nizhynska St, 5"
+      },
+      "LVIV": {
+        "CITY": "Lviv",
+        "ADDRESS": "Novoznesenska St, 4"
+      },
+      "UZHGOROD": {
+        "CITY": "Uzhhorod",
+        "ADDRESS": "Mykoly Babyaka St, 8"
+      }
+    }
+  },
+  "NEWS_SECTION": {
+    "TITLE": "News",
+    "DESCRIPTION": "Stay updated on the latest events and promotions at our restaurant. Here you will find fresh news, interesting articles, and useful tips about Japanese cuisine.",
+    "READ_MORE": "Read more",
+    "ITEMS": {
+      "FIRST": {
+        "TITLE": "We are 1 year old! Promotions! Discounts!",
+        "DESCRIPTION": "When creating a news item, in addition to the title and content, you can set a number of other parameters. Here you see an example of filling out a news announcement."
+      },
+      "SECOND": {
+        "TITLE": "New Year holidays",
+        "DESCRIPTION": "When creating a news item, in addition to the title and content, you can set a number of other parameters. Here you see an example of filling out a news announcement."
+      }
+    }
   }
 }
