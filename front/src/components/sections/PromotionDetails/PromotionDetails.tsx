@@ -13,6 +13,10 @@ const PromotionDetails: React.FC<PromotionDetailsProps> = ({ offers }) => {
     
     return (
         <PageSectionLayout
+            breadcrumbs={[
+                { label: t('BREADCRUMBS.HOME'), path: '/' }, 
+                { label: t('BREADCRUMBS.PROMOTIONS') }          
+            ]}
             title={t("PAGE_3_TEXT.TITLE")}
             description={t("PAGE_3_TEXT.DESCRIPTION")}
         >

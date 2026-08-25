@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Typography } from 'antd';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { CloseOutlined, DownOutlined } from '@ant-design/icons';
+import { CloseOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
+import { observer } from 'mobx-react-lite';
 
 import { ButtonOrange } from '../../UI/ButtonOrange/ButtonOrange';
+import AuthStore from '@stores/AuthStore';
 import styles from './Header.module.scss';
 
 import logo from '../../../img/logo.png';
@@ -23,6 +25,11 @@ const Header: React.FC = () => {
         i18n.changeLanguage(i18n.language === 'uk' ? 'en' : 'uk');
     };
 
+    const handleLogout = async () => {
+        await AuthStore.logout();
+        navigate('/login');
+    };
+
     return (
         <>
             <header className={styles.header}>
@@ -33,7 +40,6 @@ const Header: React.FC = () => {
                             alt="OSAMA sushi-bar logo"
                             className={styles.logoImage}
                         />
-
                         <div className={styles.logoTitle}>
                             <Typography.Text className={styles.logoName}>
                                 OSAMA
@@ -53,6 +59,24 @@ const Header: React.FC = () => {
                                 {t('HEADER.PHONE_NUMBER')}
                             </Typography.Text>
                         </div>
+
+                        {AuthStore.isLoggedIn && (
+                            <div className={styles.userInfo} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
+                                <UserOutlined />
+                                <span style={{ fontSize: '14px', fontWeight: 500 }}>
+                                    {AuthStore.user?.name || AuthStore.user?.email || 'User'}
+                                </span>
+                                
+                                {AuthStore.isAdmin && (
+                                    <ButtonOrange
+                                        text="Админ"
+                                        onClick={() => navigate('/admin')}
+                                        width="80px"
+                                        icon={<SettingOutlined />}
+                                    />
+                                )}
+                            </div>
+                        )}
 
                         <ButtonOrange
                             text={i18n.language.toUpperCase()}
@@ -76,12 +100,10 @@ const Header: React.FC = () => {
                 </div>
             </header>
 
-
             <div
                 className={`${styles.overlay} ${isMenuOpen ? styles.overlayOpen : ''}`}
                 onClick={toggleMenu}
             />
-
 
             <div className={`${styles.sideMenu} ${isMenuOpen ? styles.sideMenuOpen : ''}`}>
                 <button className={styles.closeButton} onClick={toggleMenu}>
@@ -108,13 +130,31 @@ const Header: React.FC = () => {
                     <Link to="/contacts" onClick={toggleMenu} className={styles.menuItem}>
                         {t('MENU.CONTACTS')}
                     </Link>
-                    <Link to="/login" onClick={toggleMenu} className={styles.menuItem}>
-                        {t('MENU.LOGIN')}
-                    </Link>
+
+                    {AuthStore.isLoggedIn ? (
+                        <>
+                            {AuthStore.isAdmin && (
+                                <Link to="/admin" onClick={toggleMenu} className={styles.menuItem}>
+                                    {t('MENU.ADMIN', 'Панель администратора')}
+                                </Link>
+                            )}
+                            <Link 
+                                to="#" 
+                                onClick={(e) => { e.preventDefault(); handleLogout(); toggleMenu(); }} 
+                                className={styles.menuItem}
+                            >
+                                {t('MENU.LOGOUT', 'Вийти')}
+                            </Link>
+                        </>
+                    ) : (
+                        <Link to="/login" onClick={toggleMenu} className={styles.menuItem}>
+                            {t('MENU.LOGIN')}
+                        </Link>
+                    )}
                 </nav>
             </div>
         </>
     );
 };
 
-export default Header;
+export default observer(Header);

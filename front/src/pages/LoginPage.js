@@ -9,11 +9,6 @@ import LoginSection from "@section/LoginSection/LoginSection";
 const { Content } = Layout;
 
 const LoginPage = observer(() => {
-  const { category } = useParams();
-  const { t } = useTranslation();
-
-
-
   return (
     <div className="App">
       <Content style={{ padding: '50px' }}>

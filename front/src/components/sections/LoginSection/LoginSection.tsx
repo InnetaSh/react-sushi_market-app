@@ -8,7 +8,6 @@ import { observer } from 'mobx-react-lite';
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
 import AuthStore from "@stores/AuthStore";
 import UserApi from "@api/UserApi";
-import { routesConfig } from '@routes/appRoutes';
 import styles from './LoginSection.module.scss';
 
 const LoginSection: React.FC = () => {
@@ -18,9 +17,19 @@ const LoginSection: React.FC = () => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [form] = Form.useForm();
 
+   const redirectAfterLogin = (userData?: any) => {
+        const storeUser = AuthStore.user as any;
+        const roles = userData?.roles || storeUser?.roles || [];
+        
+        if (roles.includes('MainAdministrator')) {
+            navigate('/admin');
+        } else {
+            navigate('/');
+        }
+    };
 
     if (AuthStore.isLoggedIn) {
-        return <Navigate to={routesConfig[0].path} replace />;
+        return <Navigate to={AuthStore.isAdmin ? '/admin' : '/'} replace />;
     }
 
     const handleFinish = async (values: any) => {
@@ -29,6 +38,7 @@ const LoginSection: React.FC = () => {
 
             if (isRegistering) {
                 await UserApi.register({
+                    name: values.name,
                     email: values.login,
                     password: values.password,
                 });
@@ -46,9 +56,9 @@ const LoginSection: React.FC = () => {
             });
 
             AuthStore.setUserLoginResponse(response);
-
             message.success(t('AUTH.SUCCESS_LOGIN'));
-            navigate(routesConfig[0].path);
+
+            redirectAfterLogin(response?.user || response);
         } catch (error) {
             console.error(error);
             message.error(isRegistering ? t('AUTH.ERROR_REGISTER_FAIL') : t('AUTH.ERROR_LOGIN_FAIL'));
@@ -186,8 +196,8 @@ const LoginSection: React.FC = () => {
                                                 const response = await UserApi.googleLogin({
                                                     idToken: credentialResponse.credential as string
                                                 });
-                                                authStore.setUserLoginResponse(response);
-                                                navigate(routesConfig[0].path);
+                                                AuthStore.setUserLoginResponse(response);
+                                                redirectAfterLogin(response?.user || response);
                                             } catch (e) {
                                                 console.error('Google Auth Error:', e);
                                                 message.error(t('AUTH.ERROR_GOOGLE_FAIL'));
