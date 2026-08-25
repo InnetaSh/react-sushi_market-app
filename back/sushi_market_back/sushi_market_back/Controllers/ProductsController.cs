@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SushiMarket.BLL.DTOs;
 using SushiMarket.BLL.MediatR.Products.CreateProduct;
@@ -35,6 +36,7 @@ namespace sushi_market_back.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "MainAdministrator")]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductRequestDto request)
         {
             string? imagePath = null;
@@ -75,6 +77,7 @@ namespace sushi_market_back.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "MainAdministrator")]
         public async Task<IActionResult> UpdateProduct(int id, [FromForm] UpdateProductRequestDto request)
         {
             if (id != request.Id) return BadRequest("ID mismatch");
@@ -119,6 +122,7 @@ namespace sushi_market_back.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "MainAdministrator")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             await _mediator.Send(new DeleteProductCommand(id));

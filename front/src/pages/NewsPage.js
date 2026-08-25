@@ -9,9 +9,6 @@ import NewsSection from "@section/NewsSection/NewsSection";
 const { Content } = Layout;
 
 const NewsPage = observer(() => {
-  const { category } = useParams();
-  const { t } = useTranslation();
-
   return (
     <div className="App">
       <Content style={{ padding: '50px' }}>

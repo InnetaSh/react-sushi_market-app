@@ -10,9 +10,6 @@ import ContactsSection from "@section/ContactsSection/ContactsSection";
 const { Content } = Layout;
 
 const ContactsPage = observer(() => {
-  const { category } = useParams();
-  const { t } = useTranslation();
-
   return (
     <div className="App">
       <Content style={{ padding: '50px' }}>

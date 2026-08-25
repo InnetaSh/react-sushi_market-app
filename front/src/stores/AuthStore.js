@@ -15,6 +15,11 @@ class AuthStore {
         return this.isAuthenticated;
     }
 
+    get isAdmin() {
+        const roles = this.user?.roles || [];
+        return roles.includes('MainAdministrator');
+    }
+
     setUserLoginResponse(data) {
         this.user = data?.user || data;
         this.isAuthenticated = true;

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SushiMarket.BLL.DTOs;
 using SushiMarket.BLL.MediatR.Categories.CreateCategory;
@@ -51,6 +52,7 @@ namespace sushi_market_back.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "MainAdministrator")]
         public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryRequestDto request)
         {
             string? imagePath = null;
@@ -87,6 +89,7 @@ namespace sushi_market_back.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "MainAdministrator")]
         public async Task<IActionResult> UpdateCategory(int id, [FromForm] UpdateCategoryRequestDto request)
         {
             if (id != request.Id) return BadRequest("ID mismatch");
@@ -126,6 +129,7 @@ namespace sushi_market_back.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "MainAdministrator")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             await _mediator.Send(new DeleteCategoryCommand(id));
