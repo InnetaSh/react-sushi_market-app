@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SushiMarket.BLL.DTOs;
 using SushiMarket.DAL;
@@ -8,10 +10,12 @@ namespace SushiMarket.BLL.MediatR.Products.GetProductsList
     public class GetProductsListQueryHandler : IRequestHandler<GetProductsListQuery, IEnumerable<ProductDto>>
     {
         private readonly SushiMarketDbContext _context;
+        private readonly IMapper _mapper;
 
-        public GetProductsListQueryHandler(SushiMarketDbContext context)
+        public GetProductsListQueryHandler(SushiMarketDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<ProductDto>> Handle(GetProductsListQuery request, CancellationToken cancellationToken)
@@ -25,20 +29,7 @@ namespace SushiMarket.BLL.MediatR.Products.GetProductsList
 
             return await query
                 .OrderBy(p => p.SortOrder ?? double.MaxValue)
-                .Select(p => new ProductDto
-                {
-                    Id = p.Id,
-                    TitleUa = p.TitleUa,
-                    TitleEn = p.TitleEn,
-                    DescriptionUa = p.DescriptionUa,
-                    DescriptionEn = p.DescriptionEn,
-                    WeightOrVolume = p.WeightOrVolume,
-                    Price = p.Price,
-                    ImgSrc = p.ImgSrc,
-                    SortOrder = p.SortOrder,
-                    LikesCount = p.LikesCount,
-                    CategoryId = p.CategoryId
-                })
+                .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
         }
     }

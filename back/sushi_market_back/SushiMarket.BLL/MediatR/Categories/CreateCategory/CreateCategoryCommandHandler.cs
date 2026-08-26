@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
 using static SushiMarket.BLL.Helpers.TranslatorHelper;
@@ -8,10 +9,12 @@ namespace SushiMarket.BLL.MediatR.Categories.CreateCategory
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, int>
     {
         private readonly SushiMarketDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CreateCategoryCommandHandler(SushiMarketDbContext context)
+        public CreateCategoryCommandHandler(SushiMarketDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
@@ -28,13 +31,10 @@ namespace SushiMarket.BLL.MediatR.Categories.CreateCategory
                 titleUa = await Translator.TranslateAsync(titleEn, "en", "uk");
             }
 
-            var category = new Category
-            {
-                TitleUa = titleUa,
-                TitleEn = titleEn,
-                ImgSrc = request.ImgSrc,
-                SortOrder = request.SortOrder
-            };
+            var category = _mapper.Map<Category>(request);
+
+            category.TitleUa = titleUa;
+            category.TitleEn = titleEn;
 
             _context.Categories.Add(category);
             await _context.SaveChangesAsync(cancellationToken);

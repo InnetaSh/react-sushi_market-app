@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SushiMarket.BLL.Resources;
 using SushiMarket.DAL;
 
 namespace SushiMarket.BLL.MediatR.Products.DeleteProduct
@@ -20,7 +21,7 @@ namespace SushiMarket.BLL.MediatR.Products.DeleteProduct
 
             if (product == null)
             {
-                throw new KeyNotFoundException($"Product with ID {request.Id} was not found.");
+                throw new KeyNotFoundException(string.Format(ErrorMessages.ProductNotFound, request.Id));
             }
 
             _context.Products.Remove(product);

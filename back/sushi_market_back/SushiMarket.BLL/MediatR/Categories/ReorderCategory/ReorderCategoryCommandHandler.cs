@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SushiMarket.BLL.Resources;
 using SushiMarket.DAL;
 
 namespace SushiMarket.BLL.MediatR.Categories.ReorderCategory
@@ -20,7 +21,7 @@ namespace SushiMarket.BLL.MediatR.Categories.ReorderCategory
 
             if (category == null)
             {
-                throw new KeyNotFoundException($"Category with ID {request.CategoryId} was not found.");
+                throw new KeyNotFoundException(string.Format(ErrorMessages.CategoryNotFound, request.CategoryId));
             }
 
             category.SortOrder = request.NewSortOrder;

@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SushiMarket.BLL.Resources;
 using SushiMarket.DAL;
 using static SushiMarket.BLL.Helpers.TranslatorHelper;
 
@@ -8,10 +10,12 @@ namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Unit>
     {
         private readonly SushiMarketDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UpdateProductCommandHandler(SushiMarketDbContext context)
+        public UpdateProductCommandHandler(SushiMarketDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -21,7 +25,7 @@ namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
 
             if (product == null)
             {
-                throw new KeyNotFoundException($"Product with ID {request.Id} was not found.");
+                throw new KeyNotFoundException(string.Format(ErrorMessages.ProductNotFound, request.Id));
             }
 
             string titleUa = request.TitleUa;
@@ -47,15 +51,12 @@ namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
                 descUa = await Translator.TranslateAsync(descEn, "en", "uk");
             }
 
+            _mapper.Map(request, product);
+
             product.TitleUa = titleUa;
             product.TitleEn = titleEn;
             product.DescriptionUa = descUa;
             product.DescriptionEn = descEn;
-            product.WeightOrVolume = request.WeightOrVolume;
-            product.Price = request.Price;
-            product.ImgSrc = request.ImgSrc;
-            product.SortOrder = request.SortOrder;
-            product.CategoryId = request.CategoryId;
 
             await _context.SaveChangesAsync(cancellationToken);
 
