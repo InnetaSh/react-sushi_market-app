@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SushiMarket.BLL.Resources;
 using SushiMarket.DAL;
 
 namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
@@ -7,10 +9,12 @@ namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
     public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, Unit>
     {
         private readonly SushiMarketDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UpdateCategoryCommandHandler(SushiMarketDbContext context)
+        public UpdateCategoryCommandHandler(SushiMarketDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
@@ -20,17 +24,10 @@ namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
 
             if (category == null)
             {
-                throw new KeyNotFoundException($"Category with ID {request.Id} was not found.");
+                throw new KeyNotFoundException(string.Format(ErrorMessages.CategoryNotFound, request.Id));
             }
 
-            if (request.TitleUa != null) category.TitleUa = request.TitleUa;
-            if (request.TitleEn != null) category.TitleEn = request.TitleEn;
-            if (request.SortOrder.HasValue) category.SortOrder = request.SortOrder.Value;
-
-            if (!string.IsNullOrEmpty(request.ImgSrc))
-            {
-                category.ImgSrc = request.ImgSrc;
-            }
+            _mapper.Map(request, category);
 
             try
             {

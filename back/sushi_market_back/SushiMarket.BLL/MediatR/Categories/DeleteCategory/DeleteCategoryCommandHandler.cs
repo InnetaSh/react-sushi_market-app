@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SushiMarket.BLL.Resources;
 using SushiMarket.DAL;
 
 namespace SushiMarket.BLL.MediatR.Categories.DeleteCategory
@@ -20,7 +21,7 @@ namespace SushiMarket.BLL.MediatR.Categories.DeleteCategory
 
             if (category == null)
             {
-                throw new KeyNotFoundException($"Category with ID {request.Id} was not found.");
+                throw new KeyNotFoundException(string.Format(ErrorMessages.CategoryNotFound, request.Id));
             }
 
             _context.Categories.Remove(category);

@@ -18,6 +18,11 @@ namespace SushiMarket.BLL
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddMaps(Assembly.GetExecutingAssembly());
+            });
+
             return services;
         }
     }

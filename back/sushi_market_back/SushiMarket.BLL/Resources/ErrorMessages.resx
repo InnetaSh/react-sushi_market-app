@@ -120,6 +120,9 @@
   <data name="CategoryIdRequired" xml:space="preserve">
     <value>Valid Category ID is required.</value>
   </data>
+  <data name="CategoryNotFound" xml:space="preserve">
+    <value>Category with ID {0} was not found.</value>
+  </data>
   <data name="CategoryTitleEnMaxLength" xml:space="preserve">
     <value>English title must not exceed {0} characters.</value>
   </data>
@@ -147,6 +150,9 @@
   <data name="EmailRequired" xml:space="preserve">
     <value>Email is required.</value>
   </data>
+  <data name="IdMustBePositive" xml:space="preserve">
+    <value>ID must be greater than zero</value>
+  </data>
   <data name="ImgSrcRequired" xml:space="preserve">
     <value>Image source is required.</value>
   </data>
@@ -170,6 +176,9 @@
   </data>
   <data name="PriceGreaterThanZero" xml:space="preserve">
     <value>Price must be greater than zero.</value>
+  </data>
+  <data name="ProductNotFound" xml:space="preserve">
+    <value>Product with ID {0} was not found.</value>
   </data>
   <data name="SortOrderInvalid" xml:space="preserve">
     <value>Sort order must be a positive number.</value>

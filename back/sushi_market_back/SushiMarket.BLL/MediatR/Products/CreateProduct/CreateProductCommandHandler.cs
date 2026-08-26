@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
 using static SushiMarket.BLL.Helpers.TranslatorHelper;
@@ -8,10 +9,12 @@ namespace SushiMarket.BLL.MediatR.Products.CreateProduct
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
     {
         private readonly SushiMarketDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CreateProductCommandHandler(SushiMarketDbContext context)
+        public CreateProductCommandHandler(SushiMarketDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -31,18 +34,12 @@ namespace SushiMarket.BLL.MediatR.Products.CreateProduct
             else if (string.IsNullOrWhiteSpace(descUa) && !string.IsNullOrWhiteSpace(descEn))
                 descUa = await Translator.TranslateAsync(descEn, "en", "uk");
 
-            var product = new Product
-            {
-                TitleUa = titleUa,
-                TitleEn = titleEn,
-                DescriptionUa = descUa,
-                DescriptionEn = descEn,
-                WeightOrVolume = request.WeightOrVolume,
-                Price = request.Price,
-                ImgSrc = request.ImgSrc,
-                SortOrder = request.SortOrder,
-                CategoryId = request.CategoryId
-            };
+            var product = _mapper.Map<Product>(request);
+
+            product.TitleUa = titleUa;
+            product.TitleEn = titleEn;
+            product.DescriptionUa = descUa;
+            product.DescriptionEn = descEn;
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync(cancellationToken);

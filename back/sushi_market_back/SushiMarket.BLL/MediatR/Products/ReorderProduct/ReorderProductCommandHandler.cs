@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SushiMarket.BLL.Resources;
 using SushiMarket.DAL;
 
 namespace SushiMarket.BLL.MediatR.Products.ReorderProduct
@@ -20,7 +21,7 @@ namespace SushiMarket.BLL.MediatR.Products.ReorderProduct
 
             if (product == null)
             {
-                throw new KeyNotFoundException($"Product with ID {request.ProductId} was not found.");
+                throw new KeyNotFoundException(string.Format(ErrorMessages.ProductNotFound, request.ProductId));
             }
 
             product.SortOrder = request.NewSortOrder;

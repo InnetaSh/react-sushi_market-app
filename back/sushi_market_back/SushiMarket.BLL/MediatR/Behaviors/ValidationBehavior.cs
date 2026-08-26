@@ -32,7 +32,7 @@ public class ValidationBehavior<TRequest, TResponse>
 
         if (failures.Count > 0)
         {
-            throw new Shared.Web.Exceptions.ValidationException(failures);
+            throw new ValidationException(failures);
         }
 
         return await next();

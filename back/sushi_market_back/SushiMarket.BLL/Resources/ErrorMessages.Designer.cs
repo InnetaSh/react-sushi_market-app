@@ -70,6 +70,15 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category with ID {0} was not found..
+        /// </summary>
+        public static string CategoryNotFound {
+            get {
+                return ResourceManager.GetString("CategoryNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English title must not exceed {0} characters..
         /// </summary>
         public static string CategoryTitleEnMaxLength {
@@ -151,6 +160,15 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ID must be greater than zero.
+        /// </summary>
+        public static string IdMustBePositive {
+            get {
+                return ResourceManager.GetString("IdMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Image source is required..
         /// </summary>
         public static string ImgSrcRequired {
@@ -219,6 +237,15 @@ namespace SushiMarket.BLL.Resources {
         public static string PriceGreaterThanZero {
             get {
                 return ResourceManager.GetString("PriceGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product with ID {0} was not found..
+        /// </summary>
+        public static string ProductNotFound {
+            get {
+                return ResourceManager.GetString("ProductNotFound", resourceCulture);
             }
         }
         
