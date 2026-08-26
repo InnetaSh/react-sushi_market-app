@@ -33,9 +33,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validators\Category\" />
-    <Folder Include="Validators\Product\" />
-  </ItemGroup>
-
 </Project>

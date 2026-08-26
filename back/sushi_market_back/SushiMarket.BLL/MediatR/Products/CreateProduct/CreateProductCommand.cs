@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SushiMarket.BLL.MediatR.Interface;
 
 namespace SushiMarket.BLL.MediatR.Products.CreateProduct
 {
@@ -12,5 +13,5 @@ namespace SushiMarket.BLL.MediatR.Products.CreateProduct
         string ImgSrc,
         double? SortOrder,
         int CategoryId
-    ) : IRequest<int>;
+    ) : IRequest<int>, IHasCategoryId;
 }

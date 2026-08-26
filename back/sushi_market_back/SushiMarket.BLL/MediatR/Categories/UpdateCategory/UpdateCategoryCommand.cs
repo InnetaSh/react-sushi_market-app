@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SushiMarket.BLL.MediatR.Interface;
 
 namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
 {
@@ -8,5 +9,5 @@ namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
         string? TitleEn,
         double? SortOrder,
         string? ImgSrc
-    ) : IRequest<Unit>;
+    ) : IRequest<Unit>, IHasId;
 }
