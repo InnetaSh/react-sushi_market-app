@@ -10,7 +10,8 @@ namespace SushiMarket.BLL.MediatR.Auth.Login
             RuleLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(x => x.Model)
-                .SetValidator(new LoginDtoValidator());
+                 .NotNull()
+                 .SetValidator(new LoginDtoValidator());
         }
     }
 }
