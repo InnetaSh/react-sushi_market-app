@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Flex, Typography, Pagination } from 'antd';
 import { useTranslation } from 'react-i18next';
 
@@ -39,6 +39,9 @@ const SubmenuSection: React.FC<SubmenuSectionProps> = ({
     const { i18n } = useTranslation();
     const currentLang = i18n.language;
 
+    // Создаем реф для ссылки на верх секции
+    const sectionTopRef = useRef<HTMLDivElement>(null);
+
     const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5292/api';
     const BASE_HOST = API_URL.replace(/\/api\/?$/, '');
 
@@ -75,10 +78,20 @@ const SubmenuSection: React.FC<SubmenuSectionProps> = ({
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
+        
+       if (sectionTopRef.current) {
+            const elementPosition = sectionTopRef.current.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - 250;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
     };
 
     return (
-        <section className={styles.section}>
+        <section className={styles.section} ref={sectionTopRef}>
             <div className={styles.sectionContainer}>
                 <div className={styles.container}>
                     <div className={styles.containerItem}
