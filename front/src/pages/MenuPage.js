@@ -5,6 +5,8 @@ import { Layout, Spin, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
 import '../style.css';
 
+import styles from './Pages.module.scss';
+
 
 import CategoryStore from "../stores/CategoryStore";
 import SubmenuSection from "../components/sections/SubmenuSection/SubmenuSection";

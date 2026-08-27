@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using sushi_market_back.Middleware;
 using SushiMarket.BLL;
 using SushiMarket.BLL.Seeders;
 using SushiMarket.DAL;
@@ -37,7 +38,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SameSite = SameSiteMode.Lax;
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
     options.ExpireTimeSpan = TimeSpan.FromDays(7);
-    options.ExpireTimeSpan = TimeSpan.FromDays(7);
     options.Events.OnRedirectToLogin = context =>
     {
         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -58,6 +58,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// 1. Сидинг базы данных при старте
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -80,6 +81,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+// 2. HTTP Request Pipeline
 app.UseCors("AllowReactApp");
 
 if (app.Environment.IsDevelopment())
@@ -90,6 +92,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
+// Кастомные мидлвары (логирование, ошибки, корреляция)
+app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<CorrelationIdMiddleware>();
+
+// 3. ВАЖНО: Аутентификация и Авторизация должны идти перед MapControllers
 app.UseAuthentication();
 app.UseAuthorization();
 
