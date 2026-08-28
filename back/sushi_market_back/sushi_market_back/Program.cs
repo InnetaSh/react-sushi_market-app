@@ -58,7 +58,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// 1. Сидинг базы данных при старте
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -80,8 +79,6 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while seeding the database.");
     }
 }
-
-// 2. HTTP Request Pipeline
 app.UseCors("AllowReactApp");
 
 if (app.Environment.IsDevelopment())
@@ -92,12 +89,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-// Кастомные мидлвары (логирование, ошибки, корреляция)
+
 app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
 
-// 3. ВАЖНО: Аутентификация и Авторизация должны идти перед MapControllers
+
 app.UseAuthentication();
 app.UseAuthorization();
 

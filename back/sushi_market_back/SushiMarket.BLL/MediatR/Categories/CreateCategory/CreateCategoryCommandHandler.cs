@@ -6,29 +6,45 @@ using static SushiMarket.BLL.Helpers.TranslatorHelper;
 
 namespace SushiMarket.BLL.MediatR.Categories.CreateCategory
 {
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, int>
+    public class CreateCategoryCommandHandler
+        : IRequestHandler<CreateCategoryCommand, int>
     {
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
+        private readonly Translator _translator;
 
-        public CreateCategoryCommandHandler(SushiMarketDbContext context, IMapper mapper)
+        public CreateCategoryCommandHandler(
+            SushiMarketDbContext context,
+            IMapper mapper,
+            Translator translator)
         {
             _context = context;
             _mapper = mapper;
+            _translator = translator;
         }
 
-        public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(
+            CreateCategoryCommand request,
+            CancellationToken cancellationToken)
         {
             string titleUa = request.TitleUa;
             string titleEn = request.TitleEn;
 
-            if (string.IsNullOrWhiteSpace(titleEn) && !string.IsNullOrWhiteSpace(titleUa))
+            if (string.IsNullOrWhiteSpace(titleEn) &&
+                !string.IsNullOrWhiteSpace(titleUa))
             {
-                titleEn = await Translator.TranslateAsync(titleUa, "uk", "en");
+                titleEn = await _translator.TranslateAsync(
+                    titleUa,
+                    "uk",
+                    "en");
             }
-            else if (string.IsNullOrWhiteSpace(titleUa) && !string.IsNullOrWhiteSpace(titleEn))
+            else if (string.IsNullOrWhiteSpace(titleUa) &&
+                     !string.IsNullOrWhiteSpace(titleEn))
             {
-                titleUa = await Translator.TranslateAsync(titleEn, "en", "uk");
+                titleUa = await _translator.TranslateAsync(
+                    titleEn,
+                    "en",
+                    "uk");
             }
 
             var category = _mapper.Map<Category>(request);
@@ -37,6 +53,7 @@ namespace SushiMarket.BLL.MediatR.Categories.CreateCategory
             category.TitleEn = titleEn;
 
             _context.Categories.Add(category);
+
             await _context.SaveChangesAsync(cancellationToken);
 
             return category.Id;

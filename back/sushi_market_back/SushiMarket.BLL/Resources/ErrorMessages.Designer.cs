@@ -286,6 +286,15 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registration failed: {0}.
+        /// </summary>
+        public static string RegistrationFailed {
+            get {
+                return ResourceManager.GetString("RegistrationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sort order must be a positive number..
         /// </summary>
         public static string SortOrderInvalid {
@@ -318,6 +327,15 @@ namespace SushiMarket.BLL.Resources {
         public static string SurnameRequired {
             get {
                 return ResourceManager.GetString("SurnameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User with this email already exists..
+        /// </summary>
+        public static string UserAlreadyExists {
+            get {
+                return ResourceManager.GetString("UserAlreadyExists", resourceCulture);
             }
         }
         
