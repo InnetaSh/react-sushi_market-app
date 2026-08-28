@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.MediatR.Behaviors;
+using System.Reflection;
 
 namespace SushiMarket.BLL
 {
@@ -17,6 +18,8 @@ namespace SushiMarket.BLL
             });
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            services.AddScoped<TranslatorHelper.Translator>();
 
             services.AddAutoMapper(cfg =>
             {

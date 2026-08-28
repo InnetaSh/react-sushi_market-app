@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.MediatR.Products.CreateProduct;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
@@ -12,6 +14,7 @@ namespace SushiMarket.Tests.MediatR.Products
     {
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
+        private readonly TranslatorHelper.Translator _translator;
         private readonly CreateProductCommandHandler _handler;
 
         public CreateProductCommandHandlerTests()
@@ -31,9 +34,16 @@ namespace SushiMarket.Tests.MediatR.Products
 
             _mapper = config.CreateMapper();
 
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection()
+                .Build();
+
+            _translator = new TranslatorHelper.Translator(configuration);
+
             _handler = new CreateProductCommandHandler(
                 _context,
-                _mapper);
+                _mapper,
+                _translator);
         }
 
         [Fact]

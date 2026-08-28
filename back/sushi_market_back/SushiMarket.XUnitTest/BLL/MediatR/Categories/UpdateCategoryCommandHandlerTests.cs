@@ -2,7 +2,9 @@
 using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.MediatR.Categories.UpdateCategory;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
@@ -13,6 +15,7 @@ namespace SushiMarket.Tests.MediatR.Categories
     {
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
+        private readonly TranslatorHelper.Translator _translator;
         private readonly UpdateCategoryCommandHandler _handler;
 
         public UpdateCategoryCommandHandlerTests()
@@ -32,9 +35,16 @@ namespace SushiMarket.Tests.MediatR.Categories
 
             _mapper = config.CreateMapper();
 
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection()
+                .Build();
+
+            _translator = new TranslatorHelper.Translator(configuration);
+
             _handler = new UpdateCategoryCommandHandler(
                 _context,
-                _mapper);
+                _mapper,
+                _translator);
         }
 
         [Fact]

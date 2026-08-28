@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moq;
+using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.MediatR.Categories.CreateCategory;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
@@ -12,6 +14,7 @@ namespace SushiMarket.Tests.MediatR.Categories
     {
         private readonly SushiMarketDbContext _context;
         private readonly Mock<IMapper> _mapperMock;
+        private readonly TranslatorHelper.Translator _translator;
         private readonly CreateCategoryCommandHandler _handler;
 
         public CreateCategoryCommandHandlerTests()
@@ -23,7 +26,16 @@ namespace SushiMarket.Tests.MediatR.Categories
             _context = new SushiMarketDbContext(options);
             _mapperMock = new Mock<IMapper>();
 
-            _handler = new CreateCategoryCommandHandler(_context, _mapperMock.Object);
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection()
+                .Build();
+
+            _translator = new TranslatorHelper.Translator(configuration);
+
+            _handler = new CreateCategoryCommandHandler(
+                _context,
+                _mapperMock.Object,
+                _translator);
         }
 
         [Fact]
@@ -51,14 +63,17 @@ namespace SushiMarket.Tests.MediatR.Categories
                 .Returns(categoryEntity);
 
             // Act
-            var resultId = await _handler.Handle(command, CancellationToken.None);
+            var resultId = await _handler.Handle(
+                command,
+                CancellationToken.None);
 
             // Assert
             resultId.Should().Be(1);
 
             var categoryInDb = await _context.Categories.FindAsync(1);
+
             categoryInDb.Should().NotBeNull();
-            categoryInDb.TitleUa.Should().Be("Суші");
+            categoryInDb!.TitleUa.Should().Be("Суші");
             categoryInDb.TitleEn.Should().Be("Sushi");
             categoryInDb.ImgSrc.Should().Be("img/sushi.png");
         }
