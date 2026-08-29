@@ -92,6 +92,20 @@
     }
   }
 
+  .cancelBtn{
+    padding: 0 !important;
+    height: auto !important;
+
+    color: transparent !important;
+    font-size: 15px;
+    font-weight: 500;
+
+    &:hover {
+      color: colors.$color-orange-primary !important;
+      text-decoration: underline;
+    }
+  }
+
   .actions {
     display: flex;
     flex-direction: column;

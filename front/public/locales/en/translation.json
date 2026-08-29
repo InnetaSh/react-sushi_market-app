@@ -124,7 +124,8 @@
     "SUCCESS_PRODUCT_DELETE": "Product deleted",
     "ERROR_SELECT_CATEGORY": "Please select a category for the product!",
     "ERROR_SAVE": "Error saving data",
-    "ERROR_DELETE": "Error deleting"
+    "ERROR_DELETE": "Error deleting",
+    "BTN_SAVE_ORDER": "Save the order"
   },
   "CONTACTS": {
     "TITLE": "Contacts",
