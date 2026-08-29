@@ -1,40 +1,69 @@
 @use '@colors/variables.colors' as colors;
 
 .adminContainer {
+  position: relative;
   padding: 24px;
   background: transparent;
-  min-height: 100vh;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 
   .adminCard {
+    position: relative;
     background: colors.$color-bg-dark;
     padding: 24px;
     border-radius: 8px;
     box-shadow: 0 1px 2px colors.$color-overlay;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
 
     h2 {
       color: colors.$color-text-white;
       font-weight: 600;
+      flex-shrink: 0;
+      margin-bottom: 0;
     }
 
     :global {
-        .ant-tabs-nav {
-            margin-bottom: 24px !important;
-        }
+      .ant-tabs {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+      }
 
-        .ant-tabs-tab:hover {
-            color: colors.$color-text-green !important;
-        }
+      .ant-tabs-content-holder {
+        overflow-y: auto;
+        flex: 1;
+        padding-right: 4px;
+      }
 
-        .ant-tabs-tab.ant-tabs-tab-active {
-            .ant-tabs-tab-btn {
-                color: colors.$color-text-green !important;
-                font-weight: 650;
-            }
-        }
+      .ant-tabs-content {
+        height: 100%;
+      }
 
-        .ant-tabs-ink-bar {
-            background: colors.$color-text-green !important;
+      .ant-tabs-nav {
+        margin-bottom: 0 !important;
+        flex-shrink: 0;
+      }
+
+      .ant-tabs-tab:hover {
+        color: colors.$color-text-green !important;
+      }
+
+      .ant-tabs-tab.ant-tabs-tab-active {
+        .ant-tabs-tab-btn {
+          color: colors.$color-text-green !important;
+          font-weight: 650;
         }
+      }
+
+      .ant-tabs-ink-bar {
+        background: colors.$color-text-green !important;
+      }
     }
   }
 
@@ -76,6 +105,7 @@
 
   .addContainer {
     margin-bottom: 16px;
+    margin-top: 16px;
   }
 
   .addLink {
@@ -92,7 +122,7 @@
     }
   }
 
-  .cancelBtn{
+  .cancelBtn {
     padding: 0 !important;
     height: auto !important;
 
@@ -155,3 +185,4 @@
   border-left: 3px solid colors.$color-orange-primary;
   border-radius: 0 8px 8px 0;
 }
+

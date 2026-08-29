@@ -62,20 +62,20 @@
     text-decoration: none;
     flex-direction: column;
     justify-content: flex-end;
+    align-items: center;
     flex-grow: 1;
     flex-shrink: 0;
     position: relative;
     flex-wrap: wrap;
-    margin-left: 10%;
+    margin-left: 7%;
 }
 
 .itemText {
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    margin-left: 10px;
     margin-bottom: 10px;
     height: 50px;
 }

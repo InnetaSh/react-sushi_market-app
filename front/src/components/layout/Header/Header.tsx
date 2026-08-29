@@ -60,42 +60,45 @@ const Header: React.FC = () => {
                             </Typography.Text>
                         </div>
 
-                        {AuthStore.isLoggedIn && (
-                            <div className={styles.userInfo} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
-                                <UserOutlined />
-                                <span style={{ fontSize: '14px', fontWeight: 500 }}>
-                                    {AuthStore.user?.name || AuthStore.user?.email || 'User'}
-                                </span>
-                                
-                                {AuthStore.isAdmin && (
-                                    <ButtonOrange
-                                        text="Админ"
-                                        onClick={() => navigate('/admin')}
-                                        width="80px"
-                                        icon={<SettingOutlined />}
-                                    />
-                                )}
-                            </div>
-                        )}
 
-                        <ButtonOrange
-                            text={i18n.language.toUpperCase()}
-                            onClick={toggleLanguage}
-                            width="60px"
-                        />
-
-                        <ButtonOrange
-                            text="МЕНЮ"
-                            onClick={toggleMenu}
-                            width="150px"
-                            icon={
-                                <img
-                                    src={icon}
-                                    alt="Menu"
-                                    style={{ width: 20, height: 20 }}
+                        <div className={styles.containerItems}>
+                            {AuthStore.isLoggedIn && (
+                                <div className={styles.userInfo} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
+                                    <UserOutlined />
+                                    <span style={{ fontSize: '14px', fontWeight: 500 }}>
+                                        {AuthStore.user?.name || AuthStore.user?.email || 'User'}
+                                    </span>
+                                </div>
+                            )}
+                            <div className={styles.containerBtn}>
+                                {AuthStore.isLoggedIn && AuthStore.isAdmin && (
+                                        <ButtonOrange
+                                            text=""
+                                            onClick={() => navigate('/admin')}
+                                            width="80px"
+                                            icon={<SettingOutlined />}
+                                        />
+                            )}
+                                <ButtonOrange
+                                    text={i18n.language.toUpperCase()}
+                                    onClick={toggleLanguage}
+                                    width="60px"
                                 />
-                            }
-                        />
+
+                                <ButtonOrange
+                                    text="МЕНЮ"
+                                    onClick={toggleMenu}
+                                    width="150px"
+                                    icon={
+                                        <img
+                                            src={icon}
+                                            alt="Menu"
+                                            style={{ width: 20, height: 20 }}
+                                        />
+                                    }
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -138,9 +141,9 @@ const Header: React.FC = () => {
                                     {t('MENU.ADMIN', 'Панель администратора')}
                                 </Link>
                             )}
-                            <Link 
-                                to="#" 
-                                onClick={(e) => { e.preventDefault(); handleLogout(); toggleMenu(); }} 
+                            <Link
+                                to="#"
+                                onClick={(e) => { e.preventDefault(); handleLogout(); toggleMenu(); }}
                                 className={styles.menuItem}
                             >
                                 {t('MENU.LOGOUT', 'Вийти')}

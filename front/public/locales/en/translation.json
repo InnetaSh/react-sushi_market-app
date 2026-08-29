@@ -41,7 +41,8 @@
     "NEWS": "News",
     "REVIEWS": "Reviews",
     "CONTACTS": "Contacts",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "GO_ TO_MENU": "GO TO MENU"
   },
   "AUTH": {
     "TITLE_LOGIN": "Login",

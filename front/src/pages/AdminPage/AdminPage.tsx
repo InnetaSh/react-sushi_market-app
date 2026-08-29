@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Layout, message, Button, Tabs } from "antd";
+import { Layout, message, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
 import {
-  DndContext,
-  closestCenter,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
-  SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -25,8 +19,10 @@ import ProductStore from "@stores/ProductStore";
 import CategoryApi from "@api/CategoryApi";
 import ProductApi from "@api/ProductApi";
 import { EntityModal } from "@UI/EntityModal/EntityModal";
-import { EntityRow } from "@UI/EntityRow/EntityRow";
-import ButtonOrangeBrdr  from "@UI/ButtonOrangeBrdr/ButtonOrangeBrdr";
+
+import { useEntityOrder } from "@hooks/useEntityOrder";
+import { CategoriesTab } from "./components/CategoriesTab";
+import { ProductsTab } from "./components/ProductsTab";
 import styles from "./AdminPage.module.scss";
 
 const { Content } = Layout;
@@ -59,21 +55,9 @@ const AdminPage = observer(() => {
   const [localCategories, setLocalCategories] = useState<any[]>([]);
   const [localProducts, setLocalProducts] = useState<any[]>([]);
 
-  const [hasOrderChanges, setHasOrderChanges] = useState(false);
-  const [pendingMovedItems, setPendingMovedItems] = useState<Map<number, number>>(new Map());
-
-  const [previousCategories, setPreviousCategories] = useState<any[]>([]);
-  const [previousProducts, setPreviousProducts] = useState<any[]>([]);
-
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 5,
-      },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
   const [modalConfig, setModalConfig] = useState<{
@@ -123,102 +107,53 @@ const AdminPage = observer(() => {
     }
   }, [selectedCategoryId]);
 
-  const calculateNewSortOrder = (items: any[], oldIndex: number, newIndex: number) => {
-    const targetItem = items[oldIndex];
-    const reordered = arrayMove(items, oldIndex, newIndex);
-    
-    const prevItem = reordered[newIndex - 1];
-    const nextItem = reordered[newIndex + 1];
 
-    let newSortOrder = targetItem.sortOrder;
-
-    if (prevItem && nextItem) {
-      newSortOrder = (Number(prevItem.sortOrder) + Number(nextItem.sortOrder)) / 2;
-    } else if (prevItem) {
-      newSortOrder = Number(prevItem.sortOrder) + 10;
-    } else if (nextItem) {
-      newSortOrder = Number(nextItem.sortOrder) / 2 || 1;
-    }
-
-    return { reordered, newSortOrder };
-  };
-
-  const handleDragEndCategories = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    const oldIndex = localCategories.findIndex((c) => c.id === active.id);
-    const newIndex = localCategories.findIndex((c) => c.id === over.id);
-
-    if (oldIndex !== -1 && newIndex !== -1) {
-      setPreviousCategories([...localCategories]);
-
-      const { reordered, newSortOrder } = calculateNewSortOrder(localCategories, oldIndex, newIndex);
-      
-      setLocalCategories(reordered);
-      
-      const itemId = Number(active.id);
-      setPendingMovedItems((prev) => new Map(prev).set(itemId, newSortOrder));
-      setHasOrderChanges(true);
-    }
-  };
-
-  const handleSaveOrder = async () => {
-    try {
-      const promises = Array.from(pendingMovedItems.entries()).map(async ([id, sortOrder]) => {
-        if (activeTab === "categories") {
-          return CategoryApi.reorderCategory(id, sortOrder);
-        } else {
-          return ProductApi.reorderProduct(id, sortOrder);
-        }
-      });
-
-      await Promise.all(promises);
-      message.success(t("ADMIN_PAGE.SUCCESS_ORDER_UPDATE", "Порядок успішно збережено"));
-      
-      setHasOrderChanges(false);
-      setPendingMovedItems(new Map());
-
+  const categoriesOrder = useEntityOrder(
+    localCategories,
+    setLocalCategories,
+    (id, sortOrder) => CategoryApi.reorderCategory(id, sortOrder),
+    async () => {
       await CategoryStore.fetchCategories();
       await ProductStore.fetchProducts();
       if (selectedCategoryId) {
         await CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
       }
-    } catch (e) {
-      console.error(e);
-      message.error(t("ADMIN_PAGE.ERROR_SAVE", "Помилка збереження порядку"));
     }
-  };
+  );
 
-  const handleDragEndProducts = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
+  const productsOrder = useEntityOrder(
+    localProducts,
+    setLocalProducts,
+    (id, sortOrder) => ProductApi.reorderProduct(id, sortOrder),
+    async () => {
+      await CategoryStore.fetchCategories();
+      await ProductStore.fetchProducts();
+      if (selectedCategoryId) {
+        await CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
+      }
+    }
+  );
 
-    const oldIndex = localProducts.findIndex((p) => p.id === active.id);
-    const newIndex = localProducts.findIndex((p) => p.id === over.id);
-
-    if (oldIndex !== -1 && newIndex !== -1) {
-      setPreviousProducts([...localProducts]);
-
-      const { reordered, newSortOrder } = calculateNewSortOrder(localProducts, oldIndex, newIndex);
-
-      setLocalProducts(reordered);
-
-      const itemId = Number(active.id);
-      setPendingMovedItems((prev) => new Map(prev).set(itemId, newSortOrder));
-      setHasOrderChanges(true);
+  const handleSaveOrder = async () => {
+    if (activeTab === "categories") {
+      await categoriesOrder.handleSaveOrder(
+        t("ADMIN_PAGE.SUCCESS_ORDER_UPDATE", "Порядок успішно збережено"),
+        t("ADMIN_PAGE.ERROR_SAVE", "Помилка збереження порядку")
+      );
+    } else {
+      await productsOrder.handleSaveOrder(
+        t("ADMIN_PAGE.SUCCESS_ORDER_UPDATE", "Порядок успішно збережено"),
+        t("ADMIN_PAGE.ERROR_SAVE", "Помилка збереження порядку")
+      );
     }
   };
 
   const handleCancelOrder = () => {
-    if (activeTab === "categories" && previousCategories.length > 0) {
-      setLocalCategories(previousCategories);
-    } else if (activeTab === "products" && previousProducts.length > 0) {
-      setLocalProducts(previousProducts);
+    if (activeTab === "categories") {
+      categoriesOrder.handleCancelOrder();
+    } else {
+      productsOrder.handleCancelOrder();
     }
-    
-    setPendingMovedItems(new Map());
-    setHasOrderChanges(false);
   };
 
   const handleOpenModal = (type: "category" | "product", item: any = null) => {
@@ -353,137 +288,43 @@ const AdminPage = observer(() => {
   const selectedCategoryObj = CategoryStore.categories.find((c: any) => c.id === selectedCategoryId);
 
   const categoriesTabContent = (
-    <div>
-      <div className={styles.addContainer} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <Button type="link" className={styles.addLink} onClick={() => handleOpenModal("category")}>
-          {t("ADMIN_PAGE.BTN_ADD_CATEGORY", "+ Додати категорію")}
-        </Button>
-        {hasOrderChanges && (
-          <div style={{ display: "flex", gap: "8px" }}>
-            <Button 
-            type="link"
-            className={styles.cancelBtn}
-            onClick={handleCancelOrder}>
-              {t("ADMIN_PAGE.BTN_CANCEL_ORDER", "Скасувати")}
-            </Button>
-            <ButtonOrangeBrdr 
-              onClick={handleSaveOrder} 
-              text={t("ADMIN_PAGE.BTN_SAVE_ORDER", "Зберегти порядок")} 
-            />
-          </div>
-        )}
-      </div>
-
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEndCategories}>
-        <SortableContext items={localCategories.map((c) => c.id)} strategy={verticalListSortingStrategy}>
-          <div className={styles.listContainer}>
-            {localCategories.map((cat: any) => {
-              const isSelected = selectedCategoryId === cat.id;
-
-              return (
-                <React.Fragment key={cat.id}>
-                  <SortableEntityRow id={cat.id}>
-                    <EntityRow
-                      sortOrder={cat.sortOrder}
-                      imgSrc={formatImageUrl(cat)}
-                      title={(isEn ? cat.titleEn : cat.titleUa) || cat.title}
-                      isSelected={isSelected}
-                      onClick={() => setSelectedCategoryId(isSelected ? null : cat.id)}
-                      onEdit={() => handleOpenModal("category", cat)}
-                      onDelete={() => handleDeleteCategory(cat.id)}
-                    />
-                  </SortableEntityRow>
-
-                  {isSelected && (
-                    <div className={styles.nestedSubProducts}>
-                      <div className={styles.subProductsHeader}>
-                        <h3>
-                          {t("ADMIN_PAGE.PRODUCTS_OF_CATEGORY", "Продукти категорії:")}{" "}
-                          {(isEn ? selectedCategoryObj?.titleEn : selectedCategoryObj?.titleUa) || selectedCategoryObj?.title}
-                        </h3>
-                        <Button type="link" className={styles.addLink} onClick={() => handleOpenModal("product")}>
-                          {t("ADMIN_PAGE.BTN_ADD_PRODUCT_TO_CAT", "+ Додати продукт у категорію")}
-                        </Button>
-                      </div>
-
-                      <div className={styles.listContainer}>
-                        {CategoryStore.currentCategoryProducts.length > 0 ? (
-                          CategoryStore.currentCategoryProducts.map((prod: any) => (
-                            <EntityRow
-                              key={prod.id}
-                              sortOrder={prod.sortOrder}
-                              imgSrc={formatImageUrl(prod)}
-                              title={(isEn ? prod.titleEn : prod.titleUa) || prod.title}
-                              subtitle={(isEn ? prod.descriptionEn : prod.descriptionUa) || prod.description}
-                              price={prod.price}
-                              weight={prod.weightOrVolume}
-                              onEdit={() => handleOpenModal("product", prod)}
-                              onDelete={() => handleDeleteProduct(prod.id)}
-                            />
-                          ))
-                        ) : (
-                          <div style={{ padding: "12px 0", color: "#8c8c8c", fontSize: "14px" }}>
-                            {t("ADMIN_PAGE.NO_PRODUCTS_IN_CATEGORY", "У цій категорії поки немає продуктів")}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </div>
-        </SortableContext>
-      </DndContext>
-    </div>
+    <CategoriesTab
+      t={t}
+      isEn={isEn}
+      localCategories={localCategories}
+      selectedCategoryId={selectedCategoryId}
+      selectedCategoryObj={selectedCategoryObj}
+      currentCategoryProducts={CategoryStore.currentCategoryProducts}
+      hasOrderChanges={categoriesOrder.hasOrderChanges}
+      sensors={sensors}
+      formatImageUrl={formatImageUrl}
+      SortableEntityRow={SortableEntityRow}
+      onOpenModal={handleOpenModal}
+      onSelectCategory={setSelectedCategoryId}
+      onDeleteCategory={handleDeleteCategory}
+      onDeleteProduct={handleDeleteProduct}
+      onDragEnd={categoriesOrder.handleDragEnd}
+      onSaveOrder={handleSaveOrder}
+      onCancelOrder={handleCancelOrder}
+    />
   );
 
   const productsTabContent = (
-    <div>
-      <div className={styles.addContainer} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <Button type="link" className={styles.addLink} onClick={() => handleOpenModal("product")}>
-          {t("ADMIN_PAGE.BTN_ADD_PRODUCT", "+ Додати продукт")}
-        </Button>
-        {hasOrderChanges && (
-          <div style={{ display: "flex", gap: "8px" }}>
-            <Button onClick={handleCancelOrder}>
-              {t("ADMIN_PAGE.BTN_CANCEL_ORDER", "Скасувати")}
-            </Button>
-            <ButtonOrangeBrdr 
-              onClick={handleSaveOrder} 
-              text={t("ADMIN_PAGE.BTN_SAVE_ORDER", "Зберегти порядок")} 
-            />
-          </div>
-        )}
-      </div>
-
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEndProducts}>
-        <SortableContext items={localProducts.map((p) => p.id)} strategy={verticalListSortingStrategy}>
-          <div className={styles.listContainer}>
-            {localProducts.map((prod: any) => {
-              const category = CategoryStore.categories.find((c: any) => c.id === prod.categoryId);
-              const catName = category ? (isEn ? category.titleEn : category.titleUa) || category.title : "—";
-
-              return (
-                <SortableEntityRow key={prod.id} id={prod.id}>
-                  <EntityRow
-                    sortOrder={prod.sortOrder}
-                    imgSrc={formatImageUrl(prod)}
-                    title={(isEn ? prod.titleEn : prod.titleUa) || prod.title}
-                    subtitle={(isEn ? prod.descriptionEn : prod.descriptionUa) || prod.description}
-                    categoryName={catName}
-                    price={prod.price}
-                    weight={prod.weightOrVolume}
-                    onEdit={() => handleOpenModal("product", prod)}
-                    onDelete={() => handleDeleteProduct(prod.id)}
-                  />
-                </SortableEntityRow>
-              );
-            })}
-          </div>
-        </SortableContext>
-      </DndContext>
-    </div>
+    <ProductsTab
+      t={t}
+      isEn={isEn}
+      localProducts={localProducts}
+      categories={CategoryStore.categories}
+      hasOrderChanges={productsOrder.hasOrderChanges}
+      sensors={sensors}
+      formatImageUrl={formatImageUrl}
+      SortableEntityRow={SortableEntityRow}
+      onOpenModal={handleOpenModal}
+      onDeleteProduct={handleDeleteProduct}
+      onDragEnd={productsOrder.handleDragEnd}
+      onSaveOrder={handleSaveOrder}
+      onCancelOrder={handleCancelOrder}
+    />
   );
 
   const tabItems = [

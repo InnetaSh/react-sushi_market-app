@@ -14,8 +14,10 @@ class ProductStore {
         this.loading = true;
         try {
             const data = await ProductApi.fetchProducts(categoryId);
+        
+            const sortedProducts = (data || []).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
             runInAction(() => {
-                this.products = data;
+                this.products = sortedProducts;
                 this.loading = false;
             });
         } catch (error) {

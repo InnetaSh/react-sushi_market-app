@@ -10,7 +10,7 @@
     background-repeat: no-repeat;
 }
 
-.promotionsLayout {
+.container {
     position: relative;
     top: 0;
     left: 3%;
@@ -21,13 +21,13 @@
 }
 
 @media (min-width: 1400px) {
-    .promotionsLayout {
+    .container {
         display: flex;
         justify-content: center;
     }
 }
 
-.promotionsInfo {
+.wrapperItems {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -61,7 +61,7 @@
 
 
 
-.promotionImage {
+.image {
     width: 125% !important;
     height: 550px !important;
     object-fit: no-repeat;
@@ -73,7 +73,7 @@
         background-position: 10px 10px;
     }
 
-    .promotionsLayout {
+    .container {
         top: 70px;
         left: 50px;
         width: 86%;
@@ -82,7 +82,7 @@
         justify-content: flex-start;
     }
 
-    .promotionsInfo {
+    .wrapperItems {
         width: 100%;
     }
 
@@ -91,8 +91,45 @@
         height: auto;
     }
 
-    .promotionImage {
+    .image {
         width: 100%;
         height: auto;
+    }
+}
+
+@media (max-width: 960px) {
+    .container {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: center;
+        left: 0;
+    }
+
+    .imageContainer {
+        margin-left: 0 !important;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .image {
+        max-width: 100%;
+        width: 90%;
+        min-width: 70%;
+    }
+
+    .wrapperItems {
+        flex: unset;
+        max-width: 100%;
+        width: 70%;
+        align-items: center;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .subtitle,
+    .title {
+        text-align: center;
     }
 }

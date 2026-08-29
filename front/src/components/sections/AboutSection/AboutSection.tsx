@@ -24,10 +24,10 @@ const AboutSection: React.FC<AboutSectionProps> = ({
 }) => {
     return (
         <PageSectionLayout backgroundImage={backImg}>
-            <Flex className={styles.containerImg}>
+            <Flex className={styles.container}>
                 <Flex
                     vertical
-                    className={styles.containerImgLeft}
+                    className={styles.wrapperItems}
                 >
                     <Typography.Text className={styles.primaryText}>
                         {title}

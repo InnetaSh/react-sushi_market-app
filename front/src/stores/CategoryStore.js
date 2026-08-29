@@ -15,8 +15,10 @@ class CategoryStore {
         this.loading = true;
         try {
             const data = await CategoryApi.getCategories();
+            
+            const sortedCategories = (data || []).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
             runInAction(() => {
-                this.categories = data;
+                this.categories = sortedCategories;
                 this.loading = false;
             });
         } catch (error) {
@@ -28,8 +30,12 @@ class CategoryStore {
         this.loading = true;
         try {
             const data = await CategoryApi.getCategoryWithProducts(id);
+            const products = data.products || data || [];
+            
+            const sortedProducts = products.sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+            
             runInAction(() => {
-                this.currentCategoryProducts = data.products || data;
+                this.currentCategoryProducts = sortedProducts;
                 this.loading = false;
             });
         } catch (error) {
@@ -38,13 +44,20 @@ class CategoryStore {
         }
     }
 
-   
     async fetchCategoriesWithProducts() {
         this.loading = true;
         try {
             const data = await CategoryApi.getCategoriesWithProducts();
+            
+            const sortedData = (data || [])
+                .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+                .map(cat => ({
+                    ...cat,
+                    products: (cat.products || []).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+                }));
+
             runInAction(() => {
-                this.categoriesWithProducts = data;
+                this.categoriesWithProducts = sortedData;
                 this.loading = false;
             });
         } catch (error) {
