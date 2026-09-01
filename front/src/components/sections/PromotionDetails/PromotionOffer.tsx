@@ -1,8 +1,10 @@
 import React from "react";
 import { Card, Image, Typography } from "antd";
+import { useTranslation } from "react-i18next";
 
 import styles from "./PromotionDetails.module.scss";
 import type { PromotionOffer as PromotionOfferType } from "./types";
+
 
 const { Title, Paragraph } = Typography;
 
@@ -11,7 +13,9 @@ interface PromotionOfferProps {
 }
 
 const PromotionOffer: React.FC<PromotionOfferProps> = ({ offer }) => {
-    return (
+        const { t } = useTranslation();
+        
+        return (
         <Card
             className={styles.offerCard}
             bordered={false}
@@ -31,11 +35,14 @@ const PromotionOffer: React.FC<PromotionOfferProps> = ({ offer }) => {
                     level={4}
                     className={styles.title}
                 >
-                    {offer.title}
+                    {t(offer.titleKey)}
                 </Title>
 
+                <Paragraph className={styles.date}>
+                    {t(offer.dateKey) }
+                </Paragraph>
                 <Paragraph className={styles.description}>
-                    {offer.description}
+                    {t(offer.descriptionKey )}
                 </Paragraph>
             </div>
         </Card>

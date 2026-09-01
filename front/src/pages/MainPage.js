@@ -1,4 +1,4 @@
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
@@ -8,8 +8,9 @@ import '../style.scss';
 import CategoryStore from "@stores/CategoryStore";
 
 import PromotionsSection from '@section/PromotionsSection/PromotionsSection';
-import AboutSection from '@section/AboutSection/AboutSection';
 import MenuSection from '@section/MenuSection/MenuSection';
+
+import RestaurantsCarousel from '@section/RestaurantsCarousel/RestaurantsCarousel';
 
 import imageUrl1 from "@img/img1.png";
 
@@ -43,16 +44,12 @@ const MainPage = observer(() => {
         ) : (
           <MenuSection
             menuItems={CategoryStore.categories}
-            onCategoryClick={sentCategory} 
+            onCategoryClick={sentCategory}
           />
         )}
-
-        <AboutSection
-          imageUrl={imageUrl1}
+        <RestaurantsCarousel
           title={t("PAGE_1_TEXT.RESTAURANTS_TITLE")}
-          descriptionFirst={t("PAGE_1_TEXT.RESTAURANTS_DESC_1")}
-          descriptionSecond={t("PAGE_1_TEXT.RESTAURANTS_DESC_2")}
-          buttonText={t("PAGE_1_TEXT.BTN_READ_MORE")}
+          description={t("PAGE_1_TEXT.RESTAURANTS_DESC_1")}
         />
       </Flex>
     </div>

@@ -11,13 +11,15 @@
     "BOTTOM_MSG": "OUR RESTAURANTS",
     "BOTTOM_DESC": "WE VALUE EVERY CUSTOMER and we do everything to ensure that you enjoy your visit to our restaurants and taste the best dishes of Japanese cuisine"
   },
-  "PAGE_3_TEXT": {
+"PAGE_3_TEXT": {
     "TITLE": "SPECIAL OFFERS",
     "DESCRIPTION": "Traditions of Japan, the taste of your city!",
-    "SALE_1_DATE": "FROM NOVEMBER 20 TO DECEMBER 30",
-    "SALE_1_NAME": "EVERY FIFTH",
-    "SALE_2_DATE": "FROM OCTOBER 10 TO NOVEMBER 10",
-    "SALE_2_NAME": "10% OFF TAKEAWAY"
+    "SALE_1_DATE": "Weekdays from 12:00 to 16:00",
+    "SALE_1_NAME": "Happy Hours",
+    "SALE_1_DESC": "20% discount on the entire menu for pickup orders during daytime",
+    "SALE_2_DATE": "Valid on your Birthday",
+    "SALE_2_NAME": "Birthday Discount",
+    "SALE_2_DESC": "Celebrate with us! 15% discount on orders 3 days before and 3 days after your special day"
   },
   "UI_TEXT": {
     "LOADING": "Loading menu..."

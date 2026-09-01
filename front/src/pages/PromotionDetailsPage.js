@@ -3,27 +3,10 @@ import { useTranslation } from "react-i18next";
 
 import PromotionDetails from "@section/PromotionDetails/PromotionDetails";
 
-
-import img_1 from "@img/sale_1.png";
-import img_2 from "@img/sale_2.png";
+import { PROMOTION_DATA } from '@mocks/promotionsData';
 
 const PromotionDetailsPage = () => {
   const { t } = useTranslation();
-
-  const offers = [
-    {
-      image: img_1,
-      title: t("PAGE_3_TEXT.SALE_1_DATE"),
-      description:
-        t("PAGE_3_TEXT.SALE_1_NAME"),
-    },
-    {
-      image: img_2,
-      title: t("PAGE_3_TEXT.SALE_2_DATE"),
-      description:
-        t("PAGE_3_TEXT.SALE_2_NAME"),
-    },
-  ];
 
   return (
     <div className="App">
@@ -31,7 +14,7 @@ const PromotionDetailsPage = () => {
         vertical
         align="center"
       >
-        <PromotionDetails offers={offers} />
+        <PromotionDetails offers={PROMOTION_DATA} />
       </Flex>
     </div>
   );
