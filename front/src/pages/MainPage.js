@@ -3,13 +3,13 @@ import { observer } from "mobx-react-lite";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import { Spin, Flex } from "antd";
-import '../style.css';
+import '../style.scss';
 
 import CategoryStore from "@stores/CategoryStore";
 
-import PromotionsSection from '@sections/PromotionsSection/PromotionsSection';
-import AboutSection from '@sections/AboutSection/AboutSection';
-import MenuSection from '@sections/MenuSection/MenuSection';
+import PromotionsSection from '@section/PromotionsSection/PromotionsSection';
+import AboutSection from '@section/AboutSection/AboutSection';
+import MenuSection from '@section/MenuSection/MenuSection';
 
 import imageUrl1 from "@img/img1.png";
 

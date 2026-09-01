@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Layout } from "antd";
-import '../style.css';
+import '../style.scss';
 
 import ContactsSection from "@section/ContactsSection/ContactsSection";
 
