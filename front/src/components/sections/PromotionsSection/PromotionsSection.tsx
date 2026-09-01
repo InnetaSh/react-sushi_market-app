@@ -3,7 +3,7 @@ import { Flex, Image, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
-import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
+import ButtonGreen from '@UI/ButtonGreen/ButtonGreen';
 
 import styles from './PromotionsSection.module.scss';
 import backImg from '@img/back_promotion.jpg';
@@ -31,8 +31,8 @@ const PromotionsSection: React.FC<PromotionsSectionProps> = ({
 
     return (
         <PageSectionLayout backgroundImage={backImg}>
-            <Flex className={styles.promotionsLayout}>
-                <Flex vertical className={styles.promotionsInfo}>
+            <Flex className={styles.container}>
+                <Flex vertical className={styles.wrapperItems}>
                     <Typography.Text className={styles.subtitle}>
                         {secondaryText}
                     </Typography.Text>
@@ -60,7 +60,7 @@ const PromotionsSection: React.FC<PromotionsSectionProps> = ({
                         src={imageUrl}
                         alt="Promotion"
                         preview={false}
-                        className={styles.promotionImage}
+                        className={styles.image}
                     />
                 </div>
             </Flex>

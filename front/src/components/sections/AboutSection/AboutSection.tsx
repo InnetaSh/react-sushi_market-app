@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Image, Typography } from 'antd';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
-import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
+import ButtonGreen from '@UI/ButtonGreen/ButtonGreen';
 
 import styles from './AboutSection.module.scss';
 import backImg from '@img/back_small_house.png';
@@ -24,10 +24,10 @@ const AboutSection: React.FC<AboutSectionProps> = ({
 }) => {
     return (
         <PageSectionLayout backgroundImage={backImg}>
-            <Flex className={styles.containerImg}>
+            <Flex className={styles.container}>
                 <Flex
                     vertical
-                    className={styles.containerImgLeft}
+                    className={styles.wrapperItems}
                 >
                     <Typography.Text className={styles.primaryText}>
                         {title}

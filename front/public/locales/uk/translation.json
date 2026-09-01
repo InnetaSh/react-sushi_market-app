@@ -41,7 +41,8 @@
     "NEWS": "Новини",
     "REVIEWS": "Відгуки про нас",
     "CONTACTS": "Контакти",
-    "LOGIN": "Вхід"
+    "LOGIN": "Вхід",
+    "GO_ TO_MENU": "Перейти до меню"
   },
   "AUTH": {
     "TITLE_LOGIN": "Вхід",
@@ -124,7 +125,8 @@
     "SUCCESS_PRODUCT_DELETE": "Продукт видалено",
     "ERROR_SELECT_CATEGORY": "Будь ласка, оберіть категорію для продукту!",
     "ERROR_SAVE": "Помилка збереження даних",
-    "ERROR_DELETE": "Помилка видалення"
+    "ERROR_DELETE": "Помилка видалення",
+    "BTN_SAVE_ORDER": "Зберігти порядок"
   },
   "CONTACTS": {
     "TITLE": "Контакти",

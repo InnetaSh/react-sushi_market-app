@@ -29,7 +29,8 @@
       "@routes/*": ["src/routes/*"],
       "@models/*": ["src/models/*"],
       "@UI/*": ["src/components/UI/*"],
-      "@mocks/*":["src/mocks/*"]
+      "@mocks/*":["src/mocks/*"],
+      "@hooks/*":["src/hooks/*"]
     },
     "resolveJsonModule": true,
     "isolatedModules": true,

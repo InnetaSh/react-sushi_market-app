@@ -1,17 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Layout, message, Button, Tabs } from "antd";
+import { Layout, message, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
+import {
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 import CategoryStore from "@stores/CategoryStore";
 import ProductStore from "@stores/ProductStore";
 import CategoryApi from "@api/CategoryApi";
 import ProductApi from "@api/ProductApi";
 import { EntityModal } from "@UI/EntityModal/EntityModal";
-import { EntityRow } from "@UI/EntityRow/EntityRow";
+
+import { useEntityOrder } from "@hooks/useEntityOrder";
+import { CategoriesTab } from "./components/CategoriesTab";
+import { ProductsTab } from "./components/ProductsTab";
 import styles from "./AdminPage.module.scss";
 
 const { Content } = Layout;
+
+const SortableEntityRow = ({ id, children }: { id: number | string; children: React.ReactNode }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 10 : 1,
+    opacity: isDragging ? 0.6 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      {children}
+    </div>
+  );
+};
 
 const AdminPage = observer(() => {
   const { t, i18n } = useTranslation();
@@ -20,6 +51,14 @@ const AdminPage = observer(() => {
 
   const [activeTab, setActiveTab] = useState("categories");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+
+  const [localCategories, setLocalCategories] = useState<any[]>([]);
+  const [localProducts, setLocalProducts] = useState<any[]>([]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
 
   const [modalConfig, setModalConfig] = useState<{
     isOpen: boolean;
@@ -31,18 +70,22 @@ const AdminPage = observer(() => {
     item: null,
   });
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5292/api';
-  const BASE_HOST = API_URL.replace(/\/api\/?$/, '');
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5292/api";
+  const BASE_HOST = API_URL.replace(/\/api\/?$/, "");
 
   const formatImageUrl = (itemOrString: any) => {
-    const rawImg = typeof itemOrString === 'string'
-      ? itemOrString
-      : (itemOrString?.imgSrc || itemOrString?.ImgSrc || itemOrString?.imageUrl || itemOrString?.ImageUrl || itemOrString?.image || '');
+    const rawImg =
+      typeof itemOrString === "string"
+        ? itemOrString
+        : itemOrString?.imgSrc ||
+          itemOrString?.ImgSrc ||
+          itemOrString?.imageUrl ||
+          itemOrString?.ImageUrl ||
+          itemOrString?.image ||
+          "";
 
     if (!rawImg) return undefined;
-    return rawImg.startsWith('http')
-      ? rawImg
-      : `${BASE_HOST}${rawImg.startsWith('/') ? '' : '/'}${rawImg}`;
+    return rawImg.startsWith("http") ? rawImg : `${BASE_HOST}${rawImg.startsWith("/") ? "" : "/"}${rawImg}`;
   };
 
   useEffect(() => {
@@ -51,10 +94,67 @@ const AdminPage = observer(() => {
   }, []);
 
   useEffect(() => {
+    setLocalCategories(CategoryStore.categories);
+  }, [CategoryStore.categories]);
+
+  useEffect(() => {
+    setLocalProducts(ProductStore.products);
+  }, [ProductStore.products]);
+
+  useEffect(() => {
     if (selectedCategoryId) {
       CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
     }
   }, [selectedCategoryId]);
+
+
+  const categoriesOrder = useEntityOrder(
+    localCategories,
+    setLocalCategories,
+    (id, sortOrder) => CategoryApi.reorderCategory(id, sortOrder),
+    async () => {
+      await CategoryStore.fetchCategories();
+      await ProductStore.fetchProducts();
+      if (selectedCategoryId) {
+        await CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
+      }
+    }
+  );
+
+  const productsOrder = useEntityOrder(
+    localProducts,
+    setLocalProducts,
+    (id, sortOrder) => ProductApi.reorderProduct(id, sortOrder),
+    async () => {
+      await CategoryStore.fetchCategories();
+      await ProductStore.fetchProducts();
+      if (selectedCategoryId) {
+        await CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
+      }
+    }
+  );
+
+  const handleSaveOrder = async () => {
+    if (activeTab === "categories") {
+      await categoriesOrder.handleSaveOrder(
+        t("ADMIN_PAGE.SUCCESS_ORDER_UPDATE", "Порядок успішно збережено"),
+        t("ADMIN_PAGE.ERROR_SAVE", "Помилка збереження порядку")
+      );
+    } else {
+      await productsOrder.handleSaveOrder(
+        t("ADMIN_PAGE.SUCCESS_ORDER_UPDATE", "Порядок успішно збережено"),
+        t("ADMIN_PAGE.ERROR_SAVE", "Помилка збереження порядку")
+      );
+    }
+  };
+
+  const handleCancelOrder = () => {
+    if (activeTab === "categories") {
+      categoriesOrder.handleCancelOrder();
+    } else {
+      productsOrder.handleCancelOrder();
+    }
+  };
 
   const handleOpenModal = (type: "category" | "product", item: any = null) => {
     const itemWithFormattedImage = item ? { ...item, imgSrc: formatImageUrl(item) } : null;
@@ -67,15 +167,11 @@ const AdminPage = observer(() => {
 
   const handleSaveEntity = async (values: any) => {
     try {
-      console.log("VALUES FROM MODAL:", values);
       const { type, item } = modalConfig;
 
       if (type === "category") {
         const formData = new FormData();
-
-        if (item) {
-          formData.append("Id", item.id.toString());
-        }
+        if (item) formData.append("Id", item.id.toString());
 
         const currentTitle = values.title || "";
         if (isEn) {
@@ -92,9 +188,8 @@ const AdminPage = observer(() => {
           formData.append("SortOrder", item.sortOrder.toString());
         }
 
-        const imageFile = values.imageFile;
-        if (imageFile instanceof File) {
-          formData.append("Image", imageFile);
+        if (values.imageFile instanceof File) {
+          formData.append("Image", values.imageFile);
         }
 
         if (item) {
@@ -107,10 +202,7 @@ const AdminPage = observer(() => {
         await CategoryStore.fetchCategories();
       } else {
         const formData = new FormData();
-
-        if (item) {
-          formData.append("Id", item.id.toString());
-        }
+        if (item) formData.append("Id", item.id.toString());
 
         const currentTitle = values.title || "";
         const currentDesc = values.description || "";
@@ -144,9 +236,8 @@ const AdminPage = observer(() => {
           formData.append("SortOrder", item.sortOrder.toString());
         }
 
-        const imageFile = values.imageFile;
-        if (imageFile instanceof File) {
-          formData.append("Image", imageFile);
+        if (values.imageFile instanceof File) {
+          formData.append("Image", values.imageFile);
         }
 
         if (item) {
@@ -197,101 +288,43 @@ const AdminPage = observer(() => {
   const selectedCategoryObj = CategoryStore.categories.find((c: any) => c.id === selectedCategoryId);
 
   const categoriesTabContent = (
-    <div>
-      <div className={styles.addContainer}>
-        <Button type="link" className={styles.addLink} onClick={() => handleOpenModal("category")}>
-          {t("ADMIN_PAGE.BTN_ADD_CATEGORY", "+ Додати категорію")}
-        </Button>
-      </div>
-
-      <div className={styles.listContainer}>
-        {CategoryStore.categories.map((cat: any) => {
-          const isSelected = selectedCategoryId === cat.id;
-
-          return (
-            <React.Fragment key={cat.id}>
-              {/* Сама строка категории */}
-              <EntityRow
-                sortOrder={cat.sortOrder}
-                imgSrc={formatImageUrl(cat)}
-                title={(isEn ? cat.titleEn : cat.titleUa) || cat.title}
-                isSelected={isSelected}
-                onClick={() => setSelectedCategoryId(isSelected ? null : cat.id)}
-                onEdit={() => handleOpenModal("category", cat)}
-                onDelete={() => handleDeleteCategory(cat.id)}
-              />
-
-              {isSelected && (
-                <div className={styles.nestedSubProducts}>
-                  <div className={styles.subProductsHeader}>
-                    <h3>
-                      {t("ADMIN_PAGE.PRODUCTS_OF_CATEGORY", "Продукти категорії:")} {(isEn ? selectedCategoryObj?.titleEn : selectedCategoryObj?.titleUa) || selectedCategoryObj?.title}
-                    </h3>
-                    <Button type="link" className={styles.addLink} onClick={() => handleOpenModal("product")}>
-                      {t("ADMIN_PAGE.BTN_ADD_PRODUCT_TO_CAT", "+ Додати продукт у категорію")}
-                    </Button>
-                  </div>
-
-                  <div className={styles.listContainer}>
-                    {CategoryStore.currentCategoryProducts.length > 0 ? (
-                      CategoryStore.currentCategoryProducts.map((prod: any) => (
-                        <EntityRow
-                          key={prod.id}
-                          sortOrder={prod.sortOrder}
-                          imgSrc={formatImageUrl(prod)}
-                          title={(isEn ? prod.titleEn : prod.titleUa) || prod.title}
-                          subtitle={(isEn ? prod.descriptionEn : prod.descriptionUa) || prod.description}
-                          price={prod.price}
-                          weight={prod.weightOrVolume}
-                          onEdit={() => handleOpenModal("product", prod)}
-                          onDelete={() => handleDeleteProduct(prod.id)}
-                        />
-                      ))
-                    ) : (
-                      <div style={{ padding: '12px 0', color: '#8c8c8c', fontSize: '14px' }}>
-                        {t("ADMIN_PAGE.NO_PRODUCTS_IN_CATEGORY", "У цій категорії поки немає продуктів")}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </React.Fragment>
-          );
-        })}
-      </div>
-    </div>
+    <CategoriesTab
+      t={t}
+      isEn={isEn}
+      localCategories={localCategories}
+      selectedCategoryId={selectedCategoryId}
+      selectedCategoryObj={selectedCategoryObj}
+      currentCategoryProducts={CategoryStore.currentCategoryProducts}
+      hasOrderChanges={categoriesOrder.hasOrderChanges}
+      sensors={sensors}
+      formatImageUrl={formatImageUrl}
+      SortableEntityRow={SortableEntityRow}
+      onOpenModal={handleOpenModal}
+      onSelectCategory={setSelectedCategoryId}
+      onDeleteCategory={handleDeleteCategory}
+      onDeleteProduct={handleDeleteProduct}
+      onDragEnd={categoriesOrder.handleDragEnd}
+      onSaveOrder={handleSaveOrder}
+      onCancelOrder={handleCancelOrder}
+    />
   );
 
   const productsTabContent = (
-    <div>
-      <div className={styles.addContainer}>
-        <Button type="link" className={styles.addLink} onClick={() => handleOpenModal("product")}>
-          {t("ADMIN_PAGE.BTN_ADD_PRODUCT", "+ Додати продукт")}
-        </Button>
-      </div>
-
-      <div className={styles.listContainer}>
-        {ProductStore.products.map((prod: any) => {
-          const category = CategoryStore.categories.find((c: any) => c.id === prod.categoryId);
-          const catName = category ? (isEn ? category.titleEn : category.titleUa) || category.title : "—";
-
-          return (
-            <EntityRow
-              key={prod.id}
-              sortOrder={prod.sortOrder}
-              imgSrc={formatImageUrl(prod)}
-              title={(isEn ? prod.titleEn : prod.titleUa) || prod.title}
-              subtitle={(isEn ? prod.descriptionEn : prod.descriptionUa) || prod.description}
-              categoryName={catName}
-              price={prod.price}
-              weight={prod.weightOrVolume}
-              onEdit={() => handleOpenModal("product", prod)}
-              onDelete={() => handleDeleteProduct(prod.id)}
-            />
-          );
-        })}
-      </div>
-    </div>
+    <ProductsTab
+      t={t}
+      isEn={isEn}
+      localProducts={localProducts}
+      categories={CategoryStore.categories}
+      hasOrderChanges={productsOrder.hasOrderChanges}
+      sensors={sensors}
+      formatImageUrl={formatImageUrl}
+      SortableEntityRow={SortableEntityRow}
+      onOpenModal={handleOpenModal}
+      onDeleteProduct={handleDeleteProduct}
+      onDragEnd={productsOrder.handleDragEnd}
+      onSaveOrder={handleSaveOrder}
+      onCancelOrder={handleCancelOrder}
+    />
   );
 
   const tabItems = [

@@ -10,3 +10,9 @@
   align-items: center;
   justify-content: center;
 }
+
+@media (max-width: 760px) {
+    .mainContent {
+        padding: 280px 0 0 0 !important;
+    }
+  }

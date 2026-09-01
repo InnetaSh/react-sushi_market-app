@@ -1,0 +1,78 @@
+@use '@colors/variables.colors' as colors;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: colors.$text-color;
+}
+
+
+html,
+body {
+    min-width: 740px !important;
+    width: 100%;
+    margin: 0;
+    min-height: 100vh;
+    
+    background-image: url('./img/back.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background: colors.$gradient-bg-dark;
+    
+    pointer-events: none;
+    z-index: 1; 
+}
+
+.header, main, .content {
+    position: relative;
+    z-index: 2; 
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*---------------------------------*/
+.orangeBlock {
+    width: 200px;
+    position: absolute;
+    display: block;
+    height: 200px;
+    background-color: colors.$color-orange-primary;
+    margin-top: -30px;
+    margin-left: -30px;
+    top: auto;
+}
+
+.orangeBlockRight {
+    width: 200px;
+    position: absolute;
+    display: inline-block;
+    ;
+    height: 200px;
+    background-color: colors.$color-orange-primary;
+    top: 0;
+    right: 0;
+}

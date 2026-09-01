@@ -1,8 +1,9 @@
 import React from 'react';
 import { Image, Typography } from 'antd';
+import { useTranslation } from 'react-i18next';
 
-import CornerAccent from '../../../UI/CornerAccent';
-import ButtonGreen from '../../../UI/ButtonGreen/ButtonGreen';
+import CornerAccent from '@UI/CornerAccent';
+import ButtonGreen from '@UI/ButtonGreen/ButtonGreen';
 
 import styles from './MenuItem.module.scss';
 
@@ -19,6 +20,10 @@ const MenuItem: React.FC<MenuItemProps> = ({
     title,
     onClick,
 }) => {
+    const { t } = useTranslation();
+    const currentLang = useTranslation().i18n.language;
+    const isEn = currentLang === 'en';
+
     return (
         <div className={styles.menuItem}>
             <div className={styles.imageContainer}>
@@ -49,8 +54,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
                 <ButtonGreen
                     name="stock"
                     id="stock"
-                    text="Перейти в меню"
-                      width="480px"
+                    text={t("MENU.GO_ TO_MENU", isEn ? "Go to menu" : "Перейти в меню")}
                     onClick={onClick}
                 />
             </div>

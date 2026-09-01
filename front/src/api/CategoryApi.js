@@ -71,9 +71,9 @@ class CategoryApi {
         }
     }
 
-    async reorderCategories(orderedCategories) {
+   async reorderCategory(categoryId, newSortOrder) {
         try {
-            const response = await api.post('/Categories/reorder', orderedCategories);
+            const response = await api.patch('/Categories/reorder', { categoryId, newSortOrder });
             return response.data;
         } catch (error) {
             throw new Error(error.response?.data?.message || 'Помилка при збереженні порядку категорій');

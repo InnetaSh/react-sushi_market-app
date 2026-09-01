@@ -54,9 +54,9 @@ class ProductApi {
         }
     }
 
-    async reorderProducts(orderedProducts) {
+    async reorderProduct(productId, newSortOrder) {
         try {
-            const response = await api.post('/Products/reorder', orderedProducts);
+            const response = await api.patch('/Products/reorder', { productId, newSortOrder });
             return response.data;
         } catch (error) {
             throw new Error(error.response?.data?.message || 'Помилка при збереженні порядку продуктів');
