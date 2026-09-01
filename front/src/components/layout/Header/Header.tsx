@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { CloseOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react-lite';
 
-import { ButtonOrange } from '../../UI/ButtonOrange/ButtonOrange';
+import { ButtonOrange } from '@UI/ButtonOrange/ButtonOrange';
 import AuthStore from '@stores/AuthStore';
 import styles from './Header.module.scss';
 
-import logo from '../../../img/logo.png';
-import icon from '../../../img/icon.png';
+import logo from '@img/logo.png';
+import icon from '@img/icon.png';
 
 const Header: React.FC = () => {
     const navigate = useNavigate();

@@ -11,7 +11,7 @@
     "BOTTOM_MSG": "OUR RESTAURANTS",
     "BOTTOM_DESC": "WE VALUE EVERY CUSTOMER and we do everything to ensure that you enjoy your visit to our restaurants and taste the best dishes of Japanese cuisine"
   },
-"PAGE_3_TEXT": {
+  "PAGE_3_TEXT": {
     "TITLE": "SPECIAL OFFERS",
     "DESCRIPTION": "Traditions of Japan, the taste of your city!",
     "SALE_1_DATE": "Weekdays from 12:00 to 16:00",
@@ -32,7 +32,8 @@
     "HOME": "Main",
     "NEWS": "News",
     "CONTACTS": "Contacts",
-    "PROMOTIONS":"Promotions"
+    "PROMOTIONS": "Promotions",
+    "MENU": "Menu"
   },
   "MENU": {
     "HOME": "Main",
@@ -132,7 +133,7 @@
   },
   "CONTACTS": {
     "TITLE": "Contacts",
-    "DESCRIPTION": "Traditions of Japan, the taste of your city!",
+    "DESCRIPTION": "Book a table right now! The taste of life in every dish!",
     "LOCATIONS": {
       "KYIV": {
         "CITY": "Kyiv",
