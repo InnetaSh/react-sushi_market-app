@@ -7,7 +7,6 @@ import '../style.css';
 
 import styles from './Pages.module.scss';
 
-
 import CategoryStore from "../stores/CategoryStore";
 import SubmenuSection from "../components/sections/SubmenuSection/SubmenuSection";
 

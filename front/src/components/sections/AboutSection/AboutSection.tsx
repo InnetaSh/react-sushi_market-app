@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Image, Typography } from 'antd';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
-import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
+import ButtonGreen from '@UI/ButtonGreen/ButtonGreen';
 
 import styles from './AboutSection.module.scss';
 import backImg from '@img/back_small_house.png';

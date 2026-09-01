@@ -5,13 +5,13 @@ import { useTranslation } from "react-i18next";
 import { Spin, Flex } from "antd";
 import '../style.css';
 
-import CategoryStore from "../stores/CategoryStore";
+import CategoryStore from "@stores/CategoryStore";
 
-import PromotionsSection from '../components/sections/PromotionsSection/PromotionsSection';
-import AboutSection from '../components/sections/AboutSection/AboutSection';
-import MenuSection from '../components/sections/MenuSection/MenuSection';
+import PromotionsSection from '@sections/PromotionsSection/PromotionsSection';
+import AboutSection from '@sections/AboutSection/AboutSection';
+import MenuSection from '@sections/MenuSection/MenuSection';
 
-import imageUrl1 from "../img/img1.png";
+import imageUrl1 from "@img/img1.png";
 
 const MainPage = observer(() => {
   const navigate = useNavigate();

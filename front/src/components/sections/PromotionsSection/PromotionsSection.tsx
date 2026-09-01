@@ -3,7 +3,7 @@ import { Flex, Image, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
-import ButtonGreen from '../../UI/ButtonGreen/ButtonGreen';
+import ButtonGreen from '@UI/ButtonGreen/ButtonGreen';
 
 import styles from './PromotionsSection.module.scss';
 import backImg from '@img/back_promotion.jpg';

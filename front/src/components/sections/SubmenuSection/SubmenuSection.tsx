@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Flex, Typography, Pagination } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-import CornerAccent from '../../UI/CornerAccent';
+import CornerAccent from '@UI/CornerAccent';
 import SubmenuCard from './components/SubmenuCard/SubmenuCard';
 
 import styles from './SubmenuSection.module.scss';
@@ -39,7 +39,6 @@ const SubmenuSection: React.FC<SubmenuSectionProps> = ({
     const { i18n } = useTranslation();
     const currentLang = i18n.language;
 
-    // Создаем реф для ссылки на верх секции
     const sectionTopRef = useRef<HTMLDivElement>(null);
 
     const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5292/api';

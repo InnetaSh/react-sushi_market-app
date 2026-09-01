@@ -1,8 +1,10 @@
+@use '@colors/variables.colors' as colors;
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: #eeeeee;
+    color: colors.$text-color;
 }
 
 
@@ -28,14 +30,7 @@ body::before {
     width: 100%;
     height: 100%;
     
-    background: linear-gradient(
-        to bottom, 
-        rgba(40, 40, 40, 0.95), 
-        rgba(41, 41, 41, 0.85), 
-        rgba(52, 52, 52, 0.85), 
-        rgba(41, 41, 41, 0.85), 
-        rgba(41, 41, 41, 0.85)
-    );
+    background: colors.$gradient-bg-dark;
     
     pointer-events: none;
     z-index: 1; 
@@ -65,7 +60,7 @@ body::before {
     position: absolute;
     display: block;
     height: 200px;
-    background-color: rgba(254, 121, 46, 1);
+    background-color: colors.$color-orange-primary;
     margin-top: -30px;
     margin-left: -30px;
     top: auto;
@@ -77,7 +72,7 @@ body::before {
     display: inline-block;
     ;
     height: 200px;
-    background-color: rgba(254, 121, 46, 1);
+    background-color: colors.$color-orange-primary;
     top: 0;
     right: 0;
 }
