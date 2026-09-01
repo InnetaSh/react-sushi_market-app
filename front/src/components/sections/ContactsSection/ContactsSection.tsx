@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { APIProvider, Map, AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
 import { ClockCircleFilled, PhoneFilled } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,15 @@ import styles from './ContactsSection.module.scss';
 
 const ContactsSection: React.FC = () => {
     const { t } = useTranslation();
-    const [selected, setSelected] = useState(LOCATIONS[0]);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const restaurantIdParam = searchParams.get('restaurant');
+
+    const selected = LOCATIONS.find(loc => loc.id === Number(restaurantIdParam)) || LOCATIONS[0];
+
+    const handleSelectLocation = (id: number) => {
+        setSearchParams({ restaurant: String(id) });
+    };
 
     return (
         <PageSectionLayout
@@ -27,7 +36,7 @@ const ContactsSection: React.FC = () => {
                             <div
                                 key={loc.id}
                                 className={`${styles.addressItem} ${selected.id === loc.id ? styles.active : ''}`}
-                                onClick={() => setSelected(loc)}
+                                onClick={() => handleSelectLocation(loc.id)}
                             >
                                 <h3 className={styles.city}>{t(loc.cityKey)}</h3>
                                 <p className={styles.address}>{t(loc.addressKey)}</p>

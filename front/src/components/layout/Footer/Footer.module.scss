@@ -1,71 +1,86 @@
-@use '../../../assets/variables/variables.colors' as colors;
+@use '@colors/variables.colors' as colors;
 
 .footerLayout {
     position: relative;
     top: 0;
-    left: 3%;
     width: 100%;
     display: flex;
-    padding: 50px 30px;
-    align-items: center;
-    justify-content: flex-start;
+    padding: 40px 60px;
+    box-sizing: border-box;
+    justify-content: center;
 }
 
-.footerInfo {
-    width: 80%;
-    margin-left: 7%;
+.footerContainer {
+    width: 90%;
+    max-width: 1200px;
+    gap: 30px;
 }
 
-.footerText {
+.footerTopRow {
     width: 100%;
+    border-bottom: 1px solid rgba(colors.$color-text-white, 0.15);
+    padding-bottom: 24px;
 }
 
-.title {
-    font-size: 26px;
-    font-weight: 700;
-    font-family: 'PT Serif', serif;
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+
+    img {
+        width: 70px;
+        height: 70px;
+        object-fit: contain;
+    }
+
+    .logoTitle {
+        display: flex;
+        flex-direction: column;
+        margin-left: 12px;
+        line-height: 1.1;
+
+        .logoName {
+            font-size: 20px;
+            font-weight: 700;
+            color: colors.$color-text-white;
+            letter-spacing: 1px;
+        }
+
+        .logoSubtitle {
+            font-size: 13px;
+            font-weight: 400;
+            color: colors.$color-text-secondary;
+            text-transform: lowercase;
+        }
+    }
+}
+
+.navLinks {
+    display: flex;
+    gap: 32px;
+}
+
+.navLink {
+    font-size: 16px;
+    font-weight: 600;
     color: colors.$color-text-white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: colors.$color-orange-primary;
+    }
+}
+
+.footerBottomRow {
+    width: 100%;
+    text-align: center;
 }
 
 .subtitle {
     font-size: 15px;
     font-weight: 500;
     color: colors.$color-text-secondary;
-    text-align: start;
-}
-
-.imageList {
-    width: 100%;
-}
-
-.imageCard {
-    position: relative;
-    width: 25%;
-    margin: 5px;
-    padding: 40px 30px;
-    border: 2px solid colors.$color-border-dark;
-    margin-top: 30px;
-}
-
-@media (max-width: 1000px) {
-    .footerLayout {
-        top: 70px;
-        left: 50px;
-        width: 86%;
-        padding: 10px;
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-
-    .footerInfo {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    .imageCard {
-        width: 100%;
-        padding: 20px;
-        margin-top: 30px;
-        margin-bottom: 120px;
-    }
+    text-align: center;
 }

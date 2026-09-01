@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Layout} from "antd";
 
-import '../style.css';
+import '../style.scss';
 
 import LoginSection from "@section/LoginSection/LoginSection";
 

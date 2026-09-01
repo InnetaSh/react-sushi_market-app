@@ -1,31 +1,17 @@
 import React from 'react';
-import { Flex, Image, Typography } from 'antd';
+import { Flex, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
-import imageUrl1 from '../../../img/magazine_1.png';
-import imageUrl2 from '../../../img/magazine_2.png';
-import imageUrl3 from '../../../img/magazine_3.png';
-import imageUrl4 from '../../../img/magazine_4.png';
+import logo from '@img/logo.png';
 
 import styles from './Footer.module.scss';
-import backImg from '../../../img/back_footer.jpg';
-
-interface ImageData {
-    imageUrl: string;
-}
-
-const imageList: ImageData[] = [
-    { imageUrl: imageUrl1 },
-    { imageUrl: imageUrl2 },
-    { imageUrl: imageUrl3 },
-    { imageUrl: imageUrl4 },
-];
+import backImg from '@img/back_footer.jpg';
 
 const Footer: React.FC = () => {
     const { t } = useTranslation();
 
-    const primaryText = t("PAGE_1_TEXT.BOTTOM_MSG");
     const secondaryText = t("PAGE_1_TEXT.BOTTOM_DESC");
 
     return (
@@ -33,41 +19,54 @@ const Footer: React.FC = () => {
             <div className={styles.footerLayout}>
                 <Flex
                     vertical
-                    justify="center"
-                    className={styles.footerInfo}
+                    className={styles.footerContainer}
                 >
                     <Flex
-                        vertical
-                        align="flex-start"
-                        className={styles.footerText}
+                        justify="space-between"
+                        align="center"
+                        className={styles.footerTopRow}
                     >
-                        <Typography.Text className={styles.title}>
-                            {primaryText}
-                        </Typography.Text>
+                        <Link to="/" className={styles.logo}>
+                            <img
+                                src={logo}
+                                alt="OSAMA sushi-bar logo"
+                                className={styles.logoImage}
+                            />
+                            <div className={styles.logoTitle}>
+                                <Typography.Text className={styles.logoName}>
+                                    OSAMA
+                                </Typography.Text>
+                                <Typography.Text className={styles.logoSubtitle}>
+                                    sushi-bar
+                                </Typography.Text>
+                            </div>
+                        </Link>
 
-                        <Typography.Text className={styles.subtitle}>
-                            {secondaryText}
-                        </Typography.Text>
+                        <Flex
+                            align="center"
+                            className={styles.navLinks}
+                            gap="large"
+                        >
+                            <Link to="/menu" className={styles.navLink}>
+                                {t("BREADCRUMBS.MENU") || "Меню"}
+                            </Link>
+                            <Link to="/sale" className={styles.navLink}>
+                                {t("BREADCRUMBS.PROMOTIONS") || "Акції"}
+                            </Link>
+                            <Link to="/contacts" className={styles.navLink}>
+                                {t("BREADCRUMBS.CONTACTS") || "Контакти"}
+                            </Link>
+                        </Flex>
                     </Flex>
 
                     <Flex
-                        justify="center"
+                        vertical
                         align="center"
-                        className={styles.imageList}
+                        className={styles.footerBottomRow}
                     >
-                        {imageList.map(({ imageUrl }) => (
-                            <div
-                                className={styles.imageCard}
-                                key={imageUrl}
-                            >
-                                <Image
-                                    src={imageUrl}
-                                    width="100%"
-                                    preview={false}
-                                    alt="Magazine"
-                                />
-                            </div>
-                        ))}
+                        <Typography.Text className={styles.subtitle}>
+                            {secondaryText}
+                        </Typography.Text>
                     </Flex>
                 </Flex>
             </div>

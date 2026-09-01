@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useParams, useNavigate } from 'react-router-dom';
 import { Layout, Spin, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
-import '../style.css';
+import '../style.scss';
 
 import styles from './Pages.module.scss';
 
