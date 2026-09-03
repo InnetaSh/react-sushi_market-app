@@ -6,7 +6,7 @@ import PromotionDetails from "@section/PromotionDetails/PromotionDetails";
 import { PROMOTION_DATA } from '@mocks/promotionsData';
 
 const PromotionDetailsPage = () => {
-  const { t } = useTranslation();
+const { t } = useTranslation();
 
   return (
     <div className="App">
@@ -14,7 +14,7 @@ const PromotionDetailsPage = () => {
         vertical
         align="center"
       >
-        <PromotionDetails offers={PROMOTION_DATA} />
+        <PromotionDetails />
       </Flex>
     </div>
   );
