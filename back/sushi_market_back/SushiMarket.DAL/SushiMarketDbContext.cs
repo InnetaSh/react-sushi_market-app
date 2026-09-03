@@ -11,6 +11,8 @@ namespace SushiMarket.DAL
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
 
+        public DbSet<Promotion> Promotions { get; set; } = null!;
+
         public SushiMarketDbContext(DbContextOptions<SushiMarketDbContext> options)
             : base(options)
         {

@@ -13,12 +13,12 @@ namespace SushiMarket.BLL.Seeders
 
             var categories = new List<Category>
             {
-                new Category { Id = 1, TitleUa = "САШИМІ", TitleEn = "SASHIMI", ImgSrc = "img/menu_1.png", SortOrder = 1 },
-                new Category { Id = 2, TitleUa = "СУШІ", TitleEn = "SUSHI", ImgSrc = "img/menu_2.png", SortOrder = 2 },
-                new Category { Id = 3, TitleUa = "РОЛИ", TitleEn = "ROLLS", ImgSrc = "img/menu_3.png", SortOrder = 3 },
-                new Category { Id = 4, TitleUa = "НАБОРИ", TitleEn = "SETS", ImgSrc = "img/menu_4.png", SortOrder = 4 },
-                new Category { Id = 5, TitleUa = "САЛАТИ", TitleEn = "SALADS", ImgSrc = "img/menu_5.png", SortOrder = 5 },
-                new Category { Id = 6, TitleUa = "ГАРЯЧІ БЛЮДА", TitleEn = "HOT DISHES", ImgSrc = "img/menu_6.png", SortOrder = 6 }
+                new Category { Id = 1, TitleUa = "САШИМІ", TitleEn = "SASHIMI", ImgSrc = "img/categories/SASHIMI.png", SortOrder = 1 },
+                new Category { Id = 2, TitleUa = "СУШІ", TitleEn = "SUSHI", ImgSrc = "img/categories/SUSHI.png", SortOrder = 2 },
+                new Category { Id = 3, TitleUa = "РОЛИ", TitleEn = "ROLLS", ImgSrc = "img/categories/ROLLS.png", SortOrder = 3 },
+                new Category { Id = 4, TitleUa = "НАБОРИ", TitleEn = "SETS", ImgSrc = "img/categories/SETS.png", SortOrder = 4 },
+                new Category { Id = 5, TitleUa = "САЛАТИ", TitleEn = "SALADS", ImgSrc = "img/categories/SALADS.png", SortOrder = 5 },
+                new Category { Id = 6, TitleUa = "ГАРЯЧІ БЛЮДА", TitleEn = "HOT DISHES", ImgSrc = "img/categories/HOT_DISHES.png", SortOrder = 6 }
             };
 
             await context.Categories.AddRangeAsync(categories);
