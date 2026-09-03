@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SushiMarket.DAL.Entities;
+using SushiMarket.DAL.Entities.NewsItem;
 using SushiMarket.DAL.Entities.Users;
 
 namespace SushiMarket.DAL
@@ -12,6 +13,7 @@ namespace SushiMarket.DAL
         public DbSet<Product> Products { get; set; } = null!;
 
         public DbSet<Promotion> Promotions { get; set; } = null!;
+        public DbSet<NewsItem> News { get; set; } = null!;
 
         public SushiMarketDbContext(DbContextOptions<SushiMarketDbContext> options)
             : base(options)

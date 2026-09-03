@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SushiMarket.DAL;
 
@@ -10,9 +11,11 @@ using SushiMarket.DAL;
 namespace SushiMarket.DAL.Migrations
 {
     [DbContext(typeof(SushiMarketDbContext))]
-    partial class SushiMarketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260903181306_AddNewsTable")]
+    partial class AddNewsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.30");
