@@ -58,13 +58,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
         var context = services.GetRequiredService<SushiMarketDbContext>();
-        await context.Database.EnsureCreatedAsync();
+        await context.Database.MigrateAsync();
 
         var userManager = services.GetRequiredService<UserManager<User>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
@@ -79,6 +80,11 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while seeding the database.");
     }
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
+
 app.UseCors("AllowReactApp");
 
 if (app.Environment.IsDevelopment())
@@ -89,17 +95,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-
-app.UseMiddleware<RequestLoggingMiddleware>();
-app.UseMiddleware<ExceptionMiddleware>();
-app.UseMiddleware<CorrelationIdMiddleware>();
-
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.Urls.Add("http://localhost:5292");
 
 app.Run();
