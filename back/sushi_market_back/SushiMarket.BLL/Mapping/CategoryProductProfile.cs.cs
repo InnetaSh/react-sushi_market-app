@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.Categories;
+using SushiMarket.BLL.DTOs.Products;
 using SushiMarket.BLL.MediatR.Categories.CreateCategory;
 using SushiMarket.BLL.MediatR.Categories.UpdateCategory;
 using SushiMarket.BLL.MediatR.Products.CreateProduct;

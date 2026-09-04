@@ -1,4 +1,6 @@
-﻿namespace SushiMarket.BLL.DTOs
+﻿using SushiMarket.BLL.DTOs.Products;
+
+namespace SushiMarket.BLL.DTOs.Categories
 {
     public class CategoryWithProductsDto
     {

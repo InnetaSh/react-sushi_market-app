@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
 import AuthStore from "@stores/AuthStore";
-import UserApi from "@api/UserApi";
+import UserApi from "@/api/userApi";
 import styles from './LoginSection.module.scss';
 
 const LoginSection: React.FC = () => {
@@ -42,7 +42,7 @@ const LoginSection: React.FC = () => {
                     email: values.login,
                     password: values.password,
                 });
-                message.success(t('AUTH.SUCCESS_REGISTER'));
+                message.success(t('AUTH.SUCCESS_REGISTER' as any));
 
                 setIsRegistering(false);
                 setIsLoading(false);
@@ -56,12 +56,12 @@ const LoginSection: React.FC = () => {
             });
 
             AuthStore.setUserLoginResponse(response);
-            message.success(t('AUTH.SUCCESS_LOGIN'));
+            message.success(t('AUTH.SUCCESS_LOGIN' as any));
 
             redirectAfterLogin(response?.user || response);
         } catch (error) {
             console.error(error);
-            message.error(isRegistering ? t('AUTH.ERROR_REGISTER_FAIL') : t('AUTH.ERROR_LOGIN_FAIL'));
+            message.error(isRegistering ? t('AUTH.ERROR_REGISTER_FAIL' as any) : t('AUTH.ERROR_LOGIN_FAIL' as any));
         } finally {
             setIsLoading(false);
         }
@@ -69,20 +69,20 @@ const LoginSection: React.FC = () => {
 
     return (
         <PageSectionLayout
-            title={isRegistering ? t('AUTH.TITLE_REGISTER') : t('AUTH.TITLE_LOGIN')}
-            description={isRegistering ? t('AUTH.SUBTITLE_REGISTER') : t('PAGE_3_TEXT.DESCRIPTION')}
+            title={isRegistering ? t('AUTH.TITLE_REGISTER' as any) : t('AUTH.TITLE_LOGIN' as any)}
+            description={isRegistering ? t('AUTH.SUBTITLE_REGISTER' as any) : t('PAGE_3_TEXT.DESCRIPTION' as any)}
             breadcrumbs={[
-                { label: t('AUTH.BREADCRUMB_HOME'), path: '/' },
-                { label: isRegistering ? t('AUTH.BREADCRUMB_REGISTER') : t('AUTH.BREADCRUMB_LOGIN') }
+                { label: t('AUTH.BREADCRUMB_HOME' as any), path: '/' },
+                { label: isRegistering ? t('AUTH.BREADCRUMB_REGISTER' as any) : t('AUTH.BREADCRUMB_LOGIN' as any) }
             ]}
         >
             <div className={styles.loginContainer}>
                 <div className={styles.loginCard}>
                     <h1 className={styles.loginTitle}>
-                        {isRegistering ? t('AUTH.TITLE_REGISTER') : t('AUTH.TITLE_LOGIN')}
+                        {isRegistering ? t('AUTH.TITLE_REGISTER' as any) : t('AUTH.TITLE_LOGIN' as any)}
                     </h1>
                     <p className={styles.loginSubtitle}>
-                        {isRegistering ? t('AUTH.DESC_REGISTER') : t('AUTH.SUBTITLE_LOGIN')}
+                        {isRegistering ? t('AUTH.DESC_REGISTER' as any) : t('AUTH.SUBTITLE_LOGIN' as any)}
                     </p>
 
                     <Form
@@ -92,61 +92,61 @@ const LoginSection: React.FC = () => {
                     >
                         {isRegistering && (
                             <Form.Item
-                                label={t('AUTH.LABEL_NAME')}
+                                label={t('AUTH.LABEL_NAME' as any)}
                                 name="name"
-                                rules={[{ required: true, message: t('AUTH.ERROR_NAME') }]}
+                                rules={[{ required: true, message: t('AUTH.ERROR_NAME' as any) }]}
                             >
-                                <Input maxLength={100} placeholder={t('AUTH.PLACEHOLDER_NAME')} />
+                                <Input maxLength={100} placeholder={t('AUTH.PLACEHOLDER_NAME' as any)} />
                             </Form.Item>
                         )}
 
                         <Form.Item
-                            label={t('AUTH.LABEL_EMAIL')}
+                            label={t('AUTH.LABEL_EMAIL' as any)}
                             name="login"
                             rules={[
-                                { required: true, message: t('AUTH.ERROR_EMAIL_REQUIRED') },
-                                { type: 'email', message: t('AUTH.ERROR_EMAIL_INVALID') }
+                                { required: true, message: t('AUTH.ERROR_EMAIL_REQUIRED' as any) },
+                                { type: 'email', message: t('AUTH.ERROR_EMAIL_INVALID' as any) }
                             ]}
                         >
-                            <Input maxLength={256} placeholder={t('AUTH.PLACEHOLDER_EMAIL')} />
+                            <Input maxLength={256} placeholder={t('AUTH.PLACEHOLDER_EMAIL' as any)} />
                         </Form.Item>
 
                         <Form.Item
-                            label={t('AUTH.LABEL_PASSWORD')}
+                            label={t('AUTH.LABEL_PASSWORD' as any)}
                             name="password"
-                            rules={[{ required: true, message: t('AUTH.ERROR_PASSWORD') }]}
+                            rules={[{ required: true, message: t('AUTH.ERROR_PASSWORD' as any) }]}
                         >
-                            <Input.Password placeholder={t('AUTH.PLACEHOLDER_PASSWORD')} />
+                            <Input.Password placeholder={t('AUTH.PLACEHOLDER_PASSWORD' as any)} />
                         </Form.Item>
 
                         {isRegistering && (
                             <Form.Item
-                                label={t('AUTH.LABEL_CONFIRM_PASSWORD')}
+                                label={t('AUTH.LABEL_CONFIRM_PASSWORD' as any)}
                                 name="confirmPassword"
                                 dependencies={['password']}
                                 rules={[
-                                    { required: true, message: t('AUTH.ERROR_CONFIRM_REQUIRED') },
+                                    { required: true, message: t('AUTH.ERROR_CONFIRM_REQUIRED' as any) },
                                     ({ getFieldValue }) => ({
                                         validator(_, value) {
                                             if (!value || getFieldValue('password') === value) {
                                                 return Promise.resolve();
                                             }
-                                            return Promise.reject(new Error(t('AUTH.ERROR_PASSWORDS_MATCH')));
+                                            return Promise.reject(new Error(t('AUTH.ERROR_PASSWORDS_MATCH' as any)));
                                         },
                                     }),
                                 ]}
                             >
-                                <Input.Password placeholder={t('AUTH.PLACEHOLDER_CONFIRM_PASSWORD')} />
+                                <Input.Password placeholder={t('AUTH.PLACEHOLDER_CONFIRM_PASSWORD' as any)} />
                             </Form.Item>
                         )}
 
                         {!isRegistering && (
                             <div className={styles.loginOptions}>
                                 <Button type="link" disabled className={styles.linkButton}>
-                                    {t('AUTH.FORGOT_PASSWORD')}
+                                    {t('AUTH.FORGOT_PASSWORD' as any)}
                                 </Button>
                                 <Checkbox defaultChecked>
-                                    {t('AUTH.REMEMBER_ME')}
+                                    {t('AUTH.REMEMBER_ME' as any)}
                                 </Checkbox>
                             </div>
                         )}
@@ -158,11 +158,11 @@ const LoginSection: React.FC = () => {
                             loading={isLoading}
                             block
                         >
-                            {isRegistering ? t('AUTH.BTN_REGISTER') : t('AUTH.BTN_LOGIN')}
+                            {isRegistering ? t('AUTH.BTN_REGISTER' as any) : t('AUTH.BTN_LOGIN' as any)}
                         </Button>
 
                         <div className={styles.loginRegister}>
-                            {isRegistering ? t('AUTH.TEXT_HAS_ACCOUNT') : t('AUTH.TEXT_NO_ACCOUNT')}
+                            {isRegistering ? t('AUTH.TEXT_HAS_ACCOUNT' as any) : t('AUTH.TEXT_NO_ACCOUNT' as any)}
                             <Button
                                 type="link"
                                 onClick={() => {
@@ -171,7 +171,7 @@ const LoginSection: React.FC = () => {
                                 }}
                                 className={styles.inlineLink}
                             >
-                                {isRegistering ? t('AUTH.BTN_LOGIN') : t('AUTH.BTN_REGISTER')}
+                                {isRegistering ? t('AUTH.BTN_LOGIN' as any) : t('AUTH.BTN_REGISTER' as any)}
                             </Button>
                         </div>
 
@@ -179,7 +179,7 @@ const LoginSection: React.FC = () => {
                             <>
                                 <div className={styles.loginDivider}>
                                     <span className={styles.dividerLine} />
-                                    <span className={styles.dividerText}>{t('AUTH.DIVIDER_OR')}</span>
+                                    <span className={styles.dividerText}>{t('AUTH.DIVIDER_OR' as any)}</span>
                                     <span className={styles.dividerLine} />
                                 </div>
 
@@ -200,13 +200,13 @@ const LoginSection: React.FC = () => {
                                                 redirectAfterLogin(response?.user || response);
                                             } catch (e) {
                                                 console.error('Google Auth Error:', e);
-                                                message.error(t('AUTH.ERROR_GOOGLE_FAIL'));
+                                                message.error(t('AUTH.ERROR_GOOGLE_FAIL' as any));
                                             } finally {
                                                 setIsLoading(false);
                                             }
                                         }}
                                         onError={() => {
-                                            message.error(t('AUTH.ERROR_GOOGLE_CANCEL'));
+                                            message.error(t('AUTH.ERROR_GOOGLE_CANCEL' as any));
                                         }}
                                     />
                                 </div>

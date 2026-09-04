@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.News;
 using SushiMarket.DAL;
 
 namespace SushiMarket.BLL.MediatR.SushiMarket.GetSushiMarket

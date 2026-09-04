@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.News;
 
 namespace SushiMarket.BLL.MediatR.SushiMarket.GetSushiMarket
 {

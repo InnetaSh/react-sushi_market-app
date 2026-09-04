@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import CategoryApi from "@api/CategoryApi"; 
+import CategoryApi from "@/api/categoryApi"; 
 
 class CategoryStore {
     categories = [];

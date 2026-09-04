@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.News;
 using SushiMarket.DAL.Entities;
 using SushiMarket.DAL.Entities.NewsItem;
 

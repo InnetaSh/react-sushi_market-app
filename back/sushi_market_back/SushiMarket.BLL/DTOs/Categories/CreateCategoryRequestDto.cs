@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace SushiMarket.BLL.DTOs
+namespace SushiMarket.BLL.DTOs.Categories
 {
     public class CreateCategoryRequestDto
     {

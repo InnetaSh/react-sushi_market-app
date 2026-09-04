@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.News;
 using SushiMarket.BLL.MediatR.SushiMarket.GetSushiMarket;
 
 namespace sushi_market_back.Controllers

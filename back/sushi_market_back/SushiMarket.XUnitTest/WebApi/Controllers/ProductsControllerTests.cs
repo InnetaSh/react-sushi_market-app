@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using SushiMarket.BLL.DTOs;
 using SushiMarket.BLL.MediatR.Products.CreateProduct;
 using SushiMarket.BLL.MediatR.Products.DeleteProduct;
 using SushiMarket.BLL.MediatR.Products.GetProductById;
@@ -10,6 +9,8 @@ using SushiMarket.BLL.MediatR.Products.GetProductsList;
 using SushiMarket.BLL.MediatR.Products.ReorderProduct;
 using SushiMarket.BLL.MediatR.Products.UpdateProduct;
 using sushi_market_back.Controllers;
+using SushiMarket.BLL.DTOs.Products;
+using SushiMarket.BLL.DTOs.Categories;
 
 namespace SushiMarket.Tests.Controllers
 {

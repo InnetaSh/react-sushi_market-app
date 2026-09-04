@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.Categories;
 
 namespace SushiMarket.BLL.MediatR.Categories.GetCategoriesWithProducts
 {

@@ -75,6 +75,7 @@ using (var scope = app.Services.CreateScope())
         await MenuSeeder.SeedAsync(context);
         await PromotionSeeder.SeedAsync(context);
         await NewsSeeder.SeedAsync(context);
+        await LocationSeeder.SeedAsync(context);
     }
     catch (Exception ex)
     {

@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import ProductApi from "@api/ProductApi";
+import ProductApi from "@/api/productApi";
 
 class ProductStore {
     products = [];

@@ -18,7 +18,7 @@ const PromotionOffer: React.FC<PromotionOfferProps> = ({ offer }) => {
         >
             <div className={styles.imageWrapper}>
                 <Image
-                    src={offer.imageUrl || offer.image}
+                    src={offer.image}
                     alt={offer.title}
                     preview={false}
                     className={styles.image}

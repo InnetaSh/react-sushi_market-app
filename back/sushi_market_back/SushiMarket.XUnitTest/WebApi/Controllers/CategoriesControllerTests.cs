@@ -13,6 +13,7 @@ using SushiMarket.BLL.MediatR.Categories.ReorderCategory;
 using SushiMarket.BLL.MediatR.Categories.UpdateCategory;
 using sushi_market_back.Controllers;
 using Xunit;
+using SushiMarket.BLL.DTOs.Categories;
 
 namespace SushiMarket.Tests.Controllers
 {

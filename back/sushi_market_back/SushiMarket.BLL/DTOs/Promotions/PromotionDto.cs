@@ -1,9 +1,11 @@
-﻿namespace SushiMarket.BLL.DTOs;
+﻿namespace SushiMarket.BLL.DTOs.Promotions;
 
-public class NewsItemDto
+public class PromotionDto
 {
     public int Id { get; set; }
-    public string Date { get; set; } = string.Empty;
+    public string ImageUrl { get; set; } = string.Empty;
+    public string DateKeyUa { get; set; } = string.Empty;
+    public string DateKeyEn { get; set; } = string.Empty;
     public string TitleKeyUa { get; set; } = string.Empty;
     public string TitleKeyEn { get; set; } = string.Empty;
     public string DescriptionKeyUa { get; set; } = string.Empty;

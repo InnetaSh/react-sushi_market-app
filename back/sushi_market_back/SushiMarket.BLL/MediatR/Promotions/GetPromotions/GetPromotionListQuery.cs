@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.Promotions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

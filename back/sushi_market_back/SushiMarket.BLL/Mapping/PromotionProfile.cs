@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.Promotions;
 using SushiMarket.DAL.Entities;
 
 namespace SushiMarket.BLL.Mapping;

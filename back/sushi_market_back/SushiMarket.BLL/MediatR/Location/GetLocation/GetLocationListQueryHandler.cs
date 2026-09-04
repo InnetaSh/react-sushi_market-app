@@ -2,12 +2,12 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SushiMarket.BLL.DTOs.Promotions;
+using SushiMarket.BLL.DTOs.Locations;
 using SushiMarket.DAL;
 
-namespace SushiMarket.BLL.MediatR.Promotions.GetPromotions
+namespace SushiMarket.BLL.MediatR.Locations.GetLocations
 {
-    public class GetLocationListQueryHandler : IRequestHandler<GetPromotionListQuery, IEnumerable<PromotionDto>>
+    public class GetLocationListQueryHandler : IRequestHandler<GetLocationListQuery, IEnumerable<LocationDto>>
     {
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
@@ -18,10 +18,10 @@ namespace SushiMarket.BLL.MediatR.Promotions.GetPromotions
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<PromotionDto>> Handle(GetPromotionListQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<LocationDto>> Handle(GetLocationListQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Promotions
-                .ProjectTo<PromotionDto>(_mapper.ConfigurationProvider)
+            return await _context.Locations
+                .ProjectTo<LocationDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
         }
     }

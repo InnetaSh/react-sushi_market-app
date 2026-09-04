@@ -12,7 +12,7 @@ public static class PromotionSeeder
             return;
 
         var promotions = new List<Promotion>
-{
+        {
         new Promotion
             {
                 ImageUrl = "img/promotion/hours.png",
@@ -24,7 +24,7 @@ public static class PromotionSeeder
                 DescriptionKeyEn = "20% discount on the entire menu for pickup orders during daytime",
                 Link = "/sale/happy-hours"
             },
-            new Promotion
+        new Promotion
             {
                 ImageUrl = "img/promotion/birthday.png",
                 DateKeyUa = "діє у ваш День народження",
