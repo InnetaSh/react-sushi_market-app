@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.Categories;
 using SushiMarket.BLL.Resources;
 using SushiMarket.DAL;
 

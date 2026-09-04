@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import UserApi from "@api/UserApi";
+import UserApi from "@/api/userApi";
 
 class AuthStore {
     user = null;

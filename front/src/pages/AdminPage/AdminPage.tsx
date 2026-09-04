@@ -16,8 +16,8 @@ import { CSS } from "@dnd-kit/utilities";
 
 import CategoryStore from "@stores/CategoryStore";
 import ProductStore from "@stores/ProductStore";
-import CategoryApi from "@api/CategoryApi";
-import ProductApi from "@api/ProductApi";
+import CategoryApi from "@/api/categoryApi";
+import ProductApi from "@/api/productApi";
 import { EntityModal } from "@UI/EntityModal/EntityModal";
 
 import { useEntityOrder } from "@hooks/useEntityOrder";

@@ -2,7 +2,8 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.Categories;
+using SushiMarket.BLL.DTOs.Products;
 using SushiMarket.BLL.MediatR.Categories.GetCategoriesWithProducts;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;

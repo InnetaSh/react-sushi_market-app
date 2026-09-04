@@ -73,6 +73,9 @@ using (var scope = app.Services.CreateScope())
 
         await UserSeeder.FillSeedAsync(userManager, roleManager, configuration);
         await MenuSeeder.SeedAsync(context);
+        await PromotionSeeder.SeedAsync(context);
+        await NewsSeeder.SeedAsync(context);
+        await LocationSeeder.SeedAsync(context);
     }
     catch (Exception ex)
     {

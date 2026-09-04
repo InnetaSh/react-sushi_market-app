@@ -9,27 +9,6 @@
     gap: 20px;
 }
 
-.breadcrumbs {
-    font-size: 14px;
-    font-family: 'PT Serif', serif;
-
-    .breadcrumbLink {
-        color: colors.$color-text-secondary;
-        text-decoration: none;
-        &:hover {
-            color: colors.$color-orange-primary;
-        }
-    }
-
-    .breadcrumbDivider {
-        color: colors.$color-text-secondary;
-    }
-
-    .breadcrumbCurrent {
-        color: colors.$color-text-white;
-    }
-}
-
 .headerInfo {
     display: flex;
     flex-direction: column;
@@ -51,8 +30,11 @@
     color: colors.$color-orange-primary;
 }
 
-.newsList {
+.newsGrid {
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
 }
 
 .newsCard {
@@ -63,6 +45,12 @@
     flex-direction: column;
     gap: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+
+    &:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
 }
 
 .newsDate {
@@ -89,8 +77,70 @@
     margin: 0 !important;
 }
 
+.paginationWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+
+    :global(.ant-pagination) {
+        .ant-pagination-item {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: transparent;
+            
+            a {
+                color: colors.$color-text-white;
+            }
+
+            &-active {
+                background-color: colors.$color-orange-primary;
+                border-color: colors.$color-orange-primary;
+
+                a {
+                    color: #ffffff;
+                }
+            }
+        }
+
+        .ant-pagination-prev,
+        .ant-pagination-next {
+            button {
+                color: colors.$color-text-white;
+            }
+            &.ant-pagination-disabled button {
+                color: rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+}
+
 @media (max-width: 1000px) {
     .newsLayout {
-        padding: 15px;
+        padding: 20px 16px;
+    }
+
+    .newsGrid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .newsCard {
+        padding: 16px 20px;
+        gap: 8px;
+    }
+
+    .newsTitle {
+        font-size: 18px;
+    }
+
+    .newsDescription {
+        font-size: 13px;
     }
 }

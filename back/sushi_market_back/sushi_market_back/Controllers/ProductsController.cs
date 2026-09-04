@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SushiMarket.BLL.DTOs;
+using SushiMarket.BLL.DTOs.Categories;
+using SushiMarket.BLL.DTOs.Products;
 using SushiMarket.BLL.MediatR.Products.CreateProduct;
 using SushiMarket.BLL.MediatR.Products.DeleteProduct;
 using SushiMarket.BLL.MediatR.Products.GetProductById;

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Typography } from 'antd';
+import { Typography, Skeleton, Flex } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { observer } from 'mobx-react-lite';
 
-import { LOCATIONS } from '@mocks/contactsData';
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
+import locationStore from '@stores/locationsStore';
 import backImg from '@img/back_small_house.png';
 
 import styles from './RestaurantsCarousel.module.scss';
@@ -17,7 +18,7 @@ interface AboutSectionProps {
     description: string;
 }
 
-const RestaurantsCarousel: React.FC<AboutSectionProps> = ({
+const RestaurantsCarousel: React.FC<AboutSectionProps> = observer(({
     title,
     description
 }) => {
@@ -26,23 +27,32 @@ const RestaurantsCarousel: React.FC<AboutSectionProps> = ({
     const viewportRef = useRef<HTMLDivElement>(null);
 
     const navigate = useNavigate();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const CARD_WIDTH = 380;
     const GAP = 20;
 
+    useEffect(() => {
+        locationStore.fetchLocations();
+    }, []);
+
+    const currentLang = i18n.language?.toLowerCase().startsWith('en') ? 'En' : 'Ua';
+    const locations = locationStore.locations;
 
     useEffect(() => {
+        if (locations.length === 0) return;
+
         const interval = setInterval(() => {
             setCurrentIndex((prev) => prev + 1);
         }, 5000);
 
         return () => clearInterval(interval);
-    }, []);
-
+    }, [locations.length]);
 
     useEffect(() => {
-        if (currentIndex >= LOCATIONS.length) {
+        if (locations.length === 0) return;
+
+        if (currentIndex >= locations.length) {
             setTimeout(() => {
                 setWithTransition(false);
                 setCurrentIndex(0);
@@ -52,11 +62,10 @@ const RestaurantsCarousel: React.FC<AboutSectionProps> = ({
         if (currentIndex < 0) {
             setTimeout(() => {
                 setWithTransition(false);
-                setCurrentIndex(LOCATIONS.length - 1);
+                setCurrentIndex(locations.length - 1);
             }, 400);
         }
-    }, [currentIndex]);
-
+    }, [currentIndex, locations.length]);
 
     useEffect(() => {
         if (!withTransition) {
@@ -69,10 +78,12 @@ const RestaurantsCarousel: React.FC<AboutSectionProps> = ({
     }, [withTransition]);
 
     const handlePrev = () => {
+        if (locations.length === 0) return;
         setCurrentIndex((prev) => prev - 1);
     };
 
     const handleNext = () => {
+        if (locations.length === 0) return;
         setCurrentIndex((prev) => prev + 1);
     };
 
@@ -80,14 +91,32 @@ const RestaurantsCarousel: React.FC<AboutSectionProps> = ({
         navigate(`/contacts?restaurant=${id}`);
     };
 
+    if (locationStore.loading && locations.length === 0) {
+        return (
+            <PageSectionLayout backgroundImage={backImg} title={title} description={description}>
+                <div className={styles.carouselContainer}>
+                    <Flex gap={GAP} style={{ overflow: 'hidden', padding: '20px 0' }}>
+                        <Skeleton.Node active style={{ width: CARD_WIDTH, height: 350 }} />
+                        <Skeleton.Node active style={{ width: CARD_WIDTH, height: 350 }} />
+                        <Skeleton.Node active style={{ width: CARD_WIDTH, height: 350 }} />
+                    </Flex>
+                </div>
+            </PageSectionLayout>
+        );
+    }
+
+    if (locations.length === 0) {
+        return null;
+    }
+
     const extendedList = [
-        ...LOCATIONS.slice(-LOCATIONS.length),
-        ...LOCATIONS,
-        ...LOCATIONS.slice(0, LOCATIONS.length),
+        ...locations.slice(-locations.length),
+        ...locations,
+        ...locations.slice(0, locations.length),
     ];
 
     const getOffset = () => {
-        const centerIndex = currentIndex + LOCATIONS.length;
+        const centerIndex = currentIndex + locations.length;
         return centerIndex * (CARD_WIDTH + GAP);
     };
 
@@ -106,35 +135,40 @@ const RestaurantsCarousel: React.FC<AboutSectionProps> = ({
                             gap: `${GAP}px`,
                         }}
                     >
-                        {extendedList.map((restaurant, i) => (
-                            <div
-                                key={`${restaurant.id}-${i}`}
-                                className={styles.cardWrapper}
-                                style={{ width: CARD_WIDTH, flexShrink: 0 }}
-                            >
+                        {extendedList.map((restaurant, i) => {
+                            const restaurantTitle = currentLang === 'En' ? restaurant.titleKeyEn : restaurant.titleKeyUa;
+                            const address = currentLang === 'En' ? restaurant.addressKeyEn : restaurant.addressKeyUa;
+
+                            return (
                                 <div
-                                    className={styles.restaurantCard}
-                                    onClick={() => handleCardClick(restaurant.id)}
-                                    style={{ cursor: 'pointer' }}
+                                    key={`${restaurant.id}-${i}`}
+                                    className={styles.cardWrapper}
+                                    style={{ width: CARD_WIDTH, flexShrink: 0 }}
                                 >
-                                    <div className={styles.imageContainer}>
-                                        <img
-                                            src={restaurant.imageSrc}
-                                            alt={restaurant.title}
-                                            className={styles.image}
-                                        />
-                                    </div>
-                                    <div className={styles.content}>
-                                        <Text className={styles.cardTitle}>{restaurant.title}</Text>
-                                        <Text className={styles.address}>{t(restaurant.addressKey)}</Text>
-                                        <div className={styles.scheduleWrapper}>
-                                            <span className={styles.scheduleDot} />
-                                            <Text className={styles.schedule}>{restaurant.hours}</Text>
+                                    <div
+                                        className={styles.restaurantCard}
+                                        onClick={() => handleCardClick(restaurant.id)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <div className={styles.imageContainer}>
+                                            <img
+                                                src={restaurant.imageSrc}
+                                                alt={restaurantTitle}
+                                                className={styles.image}
+                                            />
+                                        </div>
+                                        <div className={styles.content}>
+                                            <Text className={styles.cardTitle}>{restaurantTitle}</Text>
+                                            <Text className={styles.address}>{address}</Text>
+                                            <div className={styles.scheduleWrapper}>
+                                                <span className={styles.scheduleDot} />
+                                                <Text className={styles.schedule}>{restaurant.hours}</Text>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
                 <div className={styles.headerRow}>
@@ -150,6 +184,6 @@ const RestaurantsCarousel: React.FC<AboutSectionProps> = ({
             </div>
         </PageSectionLayout>
     );
-};
+});
 
 export default RestaurantsCarousel;

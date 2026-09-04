@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace SushiMarket.BLL.DTOs
+namespace SushiMarket.BLL.DTOs.Products
 {
-    public class CreateProductRequestDto
+    public class UpdateProductRequestDto
     {
+        public int Id { get; set; }
         public string TitleUa { get; set; } = string.Empty;
         public string TitleEn { get; set; } = string.Empty;
         public string DescriptionUa { get; set; } = string.Empty;
