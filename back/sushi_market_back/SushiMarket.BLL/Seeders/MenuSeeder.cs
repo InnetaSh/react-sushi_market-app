@@ -18,7 +18,7 @@ namespace SushiMarket.BLL.Seeders
                 new Category { Id = 3, TitleUa = "РОЛИ", TitleEn = "ROLLS", ImgSrc = "img/categories/ROLLS.png", SortOrder = 3 },
                 new Category { Id = 4, TitleUa = "НАБОРИ", TitleEn = "SETS", ImgSrc = "img/categories/SETS.png", SortOrder = 4 },
                 new Category { Id = 5, TitleUa = "САЛАТИ", TitleEn = "SALADS", ImgSrc = "img/categories/SALADS.png", SortOrder = 5 },
-                new Category { Id = 6, TitleUa = "ГАРЯЧІ БЛЮДА", TitleEn = "HOT DISHES", ImgSrc = "img/categories/HOT_DISHES.png", SortOrder = 6 }
+                new Category { Id = 6, TitleUa = "ГАРЯЧІ БЛЮДА", TitleEn = "HOT DISHES", ImgSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/f_auto,q_auto/HOT_DISHES", SortOrder = 6 }
             };
 
             await context.Categories.AddRangeAsync(categories);
