@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.Resources;
+using SushiMarket.BLL.Services;
 using SushiMarket.DAL;
 
 namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
@@ -13,15 +14,18 @@ namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
         private readonly TranslatorHelper.Translator _translator;
+        private readonly ICloudinaryService _cloudinaryService;
 
         public UpdateProductCommandHandler(
             SushiMarketDbContext context,
             IMapper mapper,
-            TranslatorHelper.Translator translator)
+            TranslatorHelper.Translator translator,
+            ICloudinaryService cloudinaryService)
         {
             _context = context;
             _mapper = mapper;
             _translator = translator;
+            _cloudinaryService = cloudinaryService;
         }
 
         public async Task<Unit> Handle(
@@ -41,10 +45,10 @@ namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
                         request.Id));
             }
 
-            string titleUa = request.TitleUa;
-            string titleEn = request.TitleEn;
-            string descUa = request.DescriptionUa;
-            string descEn = request.DescriptionEn;
+            string titleUa = request.TitleUa ?? "";
+            string titleEn = request.TitleEn ?? "";
+            string descUa = request.DescriptionUa ?? "";
+            string descEn = request.DescriptionEn ?? "";
 
             if (titleUa != product.TitleUa &&
                 (string.IsNullOrWhiteSpace(titleEn) || titleEn == product.TitleEn))
@@ -80,6 +84,12 @@ namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
                     "uk");
             }
 
+            string? imagePath = null;
+            if (request.Image != null && request.Image.Length > 0)
+            {
+                imagePath = await _cloudinaryService.UploadImageAsync(request.Image, "products");
+            }
+
             _mapper.Map(request, product);
 
             product.TitleUa = titleUa;
@@ -87,7 +97,22 @@ namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
             product.DescriptionUa = descUa;
             product.DescriptionEn = descEn;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                product.ImgSrc = imagePath;
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateException ex)
+            {
+                var innerMessage =
+                    ex.InnerException?.Message ?? ex.Message;
+
+                throw new Exception($"DB Error: {innerMessage}");
+            }
 
             return Unit.Value;
         }

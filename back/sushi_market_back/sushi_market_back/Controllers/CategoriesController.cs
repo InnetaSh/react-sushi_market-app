@@ -55,33 +55,11 @@ namespace sushi_market_back.Controllers
         [Authorize(Roles = "MainAdministrator")]
         public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryRequestDto request)
         {
-            string? imagePath = null;
-
-            if (request.Image != null && request.Image.Length > 0)
-            {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "categories");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + request.Image.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.Image.CopyToAsync(fileStream);
-                }
-
-                imagePath = $"/uploads/categories/{uniqueFileName}";
-            }
-
             var command = new CreateCategoryCommand(
                 request.TitleUa,
                 request.TitleEn,
-                imagePath ?? string.Empty,
+                request.Image,
                 request.SortOrder
-               
             );
 
             var id = await _mediator.Send(command);
@@ -94,34 +72,12 @@ namespace sushi_market_back.Controllers
         {
             if (id != request.Id) return BadRequest("ID mismatch");
 
-            var existingCategory = await _mediator.Send(new GetCategoryByIdQuery(id));
-            string? imagePath = existingCategory?.ImgSrc;
-
-            if (request.Image != null && request.Image.Length > 0)
-            {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "categories");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + request.Image.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.Image.CopyToAsync(fileStream);
-                }
-
-                imagePath = $"/uploads/categories/{uniqueFileName}";
-            }
-
             var command = new UpdateCategoryCommand(
                 request.Id,
                 request.TitleUa,
                 request.TitleEn,
                 request.SortOrder,
-                imagePath
+                request.Image
             );
 
             await _mediator.Send(command);

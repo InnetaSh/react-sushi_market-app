@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.MediatR.Behaviors;
+using SushiMarket.BLL.Services;
 using System.Reflection;
 
 namespace SushiMarket.BLL
@@ -20,6 +21,8 @@ namespace SushiMarket.BLL
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddScoped<TranslatorHelper.Translator>();
+
+            services.AddScoped<ICloudinaryService, CloudinaryService>();
 
             services.AddAutoMapper(cfg =>
             {

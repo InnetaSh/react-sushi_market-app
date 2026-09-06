@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using SushiMarket.BLL.MediatR.Interface;
 
 namespace SushiMarket.BLL.MediatR.Products.CreateProduct
@@ -10,7 +11,7 @@ namespace SushiMarket.BLL.MediatR.Products.CreateProduct
         string DescriptionEn,
         string WeightOrVolume,
         decimal Price,
-        string ImgSrc,
+        IFormFile? Image,
         double? SortOrder,
         int CategoryId
     ) : IRequest<int>, IHasCategoryId;
