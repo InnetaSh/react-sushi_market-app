@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Image, Typography } from "antd";
 
 import styles from "./PromotionDetails.module.scss";
-import type { PromotionOffer as PromotionOfferType } from "./types";
+import { PromotionOffer as PromotionOfferType } from "@models/promotion.types";
 
 const { Title, Paragraph } = Typography;
 

@@ -7,18 +7,18 @@ import { observer } from 'mobx-react-lite';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
 import locationStore from '@stores/locationsStore';
+import { RestaurantsCarouselProps } from '@models/location.types';
+import { getLocalizedLocation } from '@utils/location.utils';
 import backImg from '@img/back_small_house.png';
 
 import styles from './RestaurantsCarousel.module.scss';
 
 const { Text } = Typography;
 
-interface AboutSectionProps {
-    title: string;
-    description: string;
-}
+const CARD_WIDTH = 380;
+const GAP = 20;
 
-const RestaurantsCarousel: React.FC<AboutSectionProps> = observer(({
+const RestaurantsCarousel: React.FC<RestaurantsCarouselProps> = observer(({
     title,
     description
 }) => {
@@ -27,10 +27,7 @@ const RestaurantsCarousel: React.FC<AboutSectionProps> = observer(({
     const viewportRef = useRef<HTMLDivElement>(null);
 
     const navigate = useNavigate();
-    const { t, i18n } = useTranslation();
-
-    const CARD_WIDTH = 380;
-    const GAP = 20;
+    const { i18n } = useTranslation();
 
     useEffect(() => {
         locationStore.fetchLocations();
@@ -96,9 +93,9 @@ const RestaurantsCarousel: React.FC<AboutSectionProps> = observer(({
             <PageSectionLayout backgroundImage={backImg} title={title} description={description}>
                 <div className={styles.carouselContainer}>
                     <Flex gap={GAP} style={{ overflow: 'hidden', padding: '20px 0' }}>
-                        <Skeleton.Node active style={{ width: CARD_WIDTH, height: 350 }} />
-                        <Skeleton.Node active style={{ width: CARD_WIDTH, height: 350 }} />
-                        <Skeleton.Node active style={{ width: CARD_WIDTH, height: 350 }} />
+                        {Array.from({ length: 3 }).map((_, index) => (
+                            <Skeleton.Node key={index} active style={{ width: CARD_WIDTH, height: 350 }} />
+                        ))}
                     </Flex>
                 </div>
             </PageSectionLayout>
@@ -136,8 +133,7 @@ const RestaurantsCarousel: React.FC<AboutSectionProps> = observer(({
                         }}
                     >
                         {extendedList.map((restaurant, i) => {
-                            const restaurantTitle = currentLang === 'En' ? restaurant.titleKeyEn : restaurant.titleKeyUa;
-                            const address = currentLang === 'En' ? restaurant.addressKeyEn : restaurant.addressKeyUa;
+                            const { title: restaurantTitle, address } = getLocalizedLocation(restaurant, currentLang);
 
                             return (
                                 <div

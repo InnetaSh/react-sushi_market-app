@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Typography } from "antd";
-import CornerAccent from "@UI/CornerAccent";
+import CornerAccent from "@/components/UI/CornerAccent/CornerAccent";
 import Breadcrumbs, { BreadcrumbItem } from "@UI/Breadcrumbs/Breadcrumbs";
 
 import styles from "./PageSectionLayout.module.scss";

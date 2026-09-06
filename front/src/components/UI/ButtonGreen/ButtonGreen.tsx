@@ -1,15 +1,8 @@
 import React from 'react';
 import { Button, Typography } from 'antd';
 
+import { ButtonGreenProps } from '@models/button.types';
 import styles from './ButtonGreen.module.scss';
-
-interface ButtonGreenProps {
-    name?: string;
-    id?: string;
-    text: string;
-    width?: string | number;
-    onClick?: () => void;
-}
 
 const ButtonGreen: React.FC<ButtonGreenProps> = ({
     name,

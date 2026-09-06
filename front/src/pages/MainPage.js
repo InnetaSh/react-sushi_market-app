@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import { Spin, Flex } from "antd";
-import '../style.scss';
 
 import CategoryStore from "@stores/CategoryStore";
 

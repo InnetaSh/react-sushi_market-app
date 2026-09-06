@@ -8,6 +8,8 @@ import { Skeleton, Spin, Flex } from "antd";
 
 import PageSectionLayout from "@layout/PageSectionLayout/PageSectionLayout";
 import locationStore from "@stores/locationsStore";
+import { getLocalizedContactInfo } from "@utils/contact.utils";
+
 import styles from "./ContactsSection.module.scss";
 
 const ContactsSection: React.FC = observer(() => {
@@ -55,14 +57,13 @@ const ContactsSection: React.FC = observer(() => {
                             </div>
                         ) : (
                             locations.map((loc) => {
-                                const city = currentLang === 'En' ? loc.cityKeyEn : loc.cityKeyUa;
-                                const address = currentLang === 'En' ? loc.addressKeyEn : loc.addressKeyUa;
+                                const { city, address } = getLocalizedContactInfo(loc, currentLang);
                                 const isSelected = selected?.id === loc.id;
 
                                 return (
                                     <div
                                         key={loc.id}
-                                        ref={isSelected ? activeCardRef : null} // Привязываем реф только к выбранной карточке
+                                        ref={isSelected ? activeCardRef : null}
                                         className={`${styles.addressItem} ${isSelected ? styles.active : ''}`}
                                         onClick={() => setSearchParams({ restaurant: String(loc.id) })}
                                     >

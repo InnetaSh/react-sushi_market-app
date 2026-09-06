@@ -6,22 +6,26 @@ import { observer } from 'mobx-react-lite';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
 import newsStore from '@stores/newsStore';
+import { NEWS_PAGE_SIZE } from '@constants/pagination';
+import { getLocalizedNews } from '@utils/news.utils';
 import styles from './NewsSection.module.scss';
 
 const NewsSection: React.FC = observer(() => {
     const { t, i18n } = useTranslation();
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 6;
 
     useEffect(() => {
         newsStore.fetchNews();
     }, []);
 
-    const currentLang = i18n.language?.toLowerCase().startsWith('en') ? 'En' : 'Ua';
-
     const totalNews = newsStore.news.length;
-    const startIndex = (currentPage - 1) * pageSize;
-    const currentNews = newsStore.news.slice(startIndex, startIndex + pageSize);
+    const startIndex = (currentPage - 1) * NEWS_PAGE_SIZE;
+    const currentNews = newsStore.news.slice(startIndex, startIndex + NEWS_PAGE_SIZE);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     return (
         <PageSectionLayout
@@ -40,19 +44,17 @@ const NewsSection: React.FC = observer(() => {
                     </Typography.Text>
                 </Flex>
 
-                {newsStore.loading && newsStore.news.length === 0 ? (
+                {newsStore.loading && totalNews === 0 ? (
                     <div className={styles.newsGrid} style={{ marginTop: '24px' }}>
-                        <Skeleton active paragraph={{ rows: 3 }} />
-                        <Skeleton active paragraph={{ rows: 3 }} />
-                        <Skeleton active paragraph={{ rows: 3 }} />
-                        <Skeleton active paragraph={{ rows: 3 }} />
+                        {Array.from({ length: 4 }).map((_, index) => (
+                            <Skeleton key={index} active paragraph={{ rows: 3 }} />
+                        ))}
                     </div>
                 ) : (
                     <>
                         <div className={styles.newsGrid}>
                             {currentNews.map((item) => {
-                                const title = currentLang === 'En' ? item.titleKeyEn : item.titleKeyUa;
-                                const description = currentLang === 'En' ? item.descriptionKeyEn : item.descriptionKeyUa;
+                                const { title, description } = getLocalizedNews(item, i18n.language);
 
                                 return (
                                     <div key={item.id} className={styles.newsCard}>
@@ -70,16 +72,13 @@ const NewsSection: React.FC = observer(() => {
                             })}
                         </div>
 
-                        {totalNews > pageSize && (
+                        {totalNews > NEWS_PAGE_SIZE && (
                             <div className={styles.paginationWrapper}>
                                 <Pagination
                                     current={currentPage}
-                                    pageSize={pageSize}
+                                    pageSize={NEWS_PAGE_SIZE}
                                     total={totalNews}
-                                    onChange={(page) => {
-                                        setCurrentPage(page);
-                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    }}
+                                    onChange={handlePageChange}
                                     showSizeChanger={false}
                                 />
                             </div>

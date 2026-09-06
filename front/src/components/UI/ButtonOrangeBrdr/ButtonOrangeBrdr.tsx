@@ -1,17 +1,8 @@
 import React from 'react';
 import { Button } from 'antd';
 
+import { ButtonOrangeBrdrProps } from '@models/button.types';
 import styles from './ButtonOrangeBrdr.module.scss';
-
-interface ButtonOrangeBrdrProps {
-    name?: string;
-    id?: string;
-    text: string;
-    width?: string | number;
-    className?: string;
-    onClick?: () => void;
-    loading?: boolean;
-}
 
 const ButtonOrangeBrdr: React.FC<ButtonOrangeBrdrProps> = ({
     name,

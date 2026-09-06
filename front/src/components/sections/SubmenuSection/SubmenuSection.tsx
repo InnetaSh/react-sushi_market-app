@@ -2,32 +2,17 @@ import React, { useRef } from 'react';
 import { Flex, Typography, Pagination } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-import CornerAccent from '@UI/CornerAccent';
+import CornerAccent from '@/components/UI/CornerAccent/CornerAccent';
 import SubmenuCard from './components/SubmenuCard/SubmenuCard';
+import { SubmenuSectionProps } from '@models/submenu.types';
+import { 
+    getLocalizedSubmenuTitle, 
+    getLocalizedSubmenuDescription, 
+    getSubmenuImageUrl 
+} from '@utils/submenu.utils';
 
 import styles from './SubmenuSection.module.scss';
 import backImgMenu from '@img/back_menu.jpg';
-
-interface SubmenuItem {
-    id: number | string;
-    imgSrc?: string;
-    ImgSrc?: string;
-    imageUrl?: string;
-    ImageUrl?: string;
-    title?: string;
-    titleUa?: string;
-    titleEn?: string;
-    descriptionUa?: string;
-    descriptionEn?: string;
-    weightOrVolume?: string | number;
-    price: number | string;
-}
-
-interface SubmenuSectionProps {
-    menuItems: SubmenuItem[];
-    currentPage: number;
-    setCurrentPage: (page: number) => void;
-}
 
 const PAGE_SIZE = 10;
 
@@ -43,34 +28,6 @@ const SubmenuSection: React.FC<SubmenuSectionProps> = ({
 
     const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5292/api';
     const BASE_HOST = API_URL.replace(/\/api\/?$/, '');
-
-    const getLocalizedTitle = (item: SubmenuItem) => {
-        if (currentLang === 'uk' || currentLang === 'ua') {
-            return item.titleUa || item.title || '';
-        }
-        if (currentLang === 'en') {
-            return item.titleEn || item.title || '';
-        }
-        return item.title || item.titleUa || '';
-    };
-
-    const getLocalizedDescription = (item: SubmenuItem) => {
-        if (currentLang === 'uk' || currentLang === 'ua') {
-            return item.descriptionUa || '';
-        }
-        if (currentLang === 'en') {
-            return item.descriptionEn || '';
-        }
-        return item.descriptionUa || '';
-    };
-
-    const getImageUrl = (item: SubmenuItem) => {
-        const rawImg = item.imgSrc || item.ImgSrc || item.imageUrl || item.ImageUrl || '';
-        if (!rawImg) return '';
-        return rawImg.startsWith('http')
-            ? rawImg
-            : `${BASE_HOST}${rawImg.startsWith('/') ? '' : '/'}${rawImg}`;
-    };
 
     const startIndex = (currentPage - 1) * PAGE_SIZE;
     const currentItems = menuItems.slice(startIndex, startIndex + PAGE_SIZE);
@@ -108,9 +65,9 @@ const SubmenuSection: React.FC<SubmenuSectionProps> = ({
                             {currentItems.length > 0 ? (
                                 <>
                                     {currentItems.map((item) => {
-                                        const localizedTitle = getLocalizedTitle(item);
-                                        const localizedDesc = getLocalizedDescription(item);
-                                        const fullImageUrl = getImageUrl(item);
+                                        const localizedTitle = getLocalizedSubmenuTitle(item, currentLang);
+                                        const localizedDesc = getLocalizedSubmenuDescription(item, currentLang);
+                                        const fullImageUrl = getSubmenuImageUrl(item, BASE_HOST);
                                         const priceText = `${item.price} грн`;
 
                                         return (
