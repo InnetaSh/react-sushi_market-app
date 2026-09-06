@@ -27,7 +27,7 @@ public static class LocationSeeder
                 Lat = 50.4398,
                 Lng = 30.5055,
                 Hours = "10:00 - 22:00",
-                ImageSrc = "img/city/Kyiv.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788676829/kyiv-zhylianska.avif"
             },
             new Location
             {
@@ -43,7 +43,7 @@ public static class LocationSeeder
                 Lat = 50.5085,
                 Lng = 30.6087,
                 Hours = "10:00 - 22:00",
-                ImageSrc = "img/city/Kyiv.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788676806/kyiv-mayakovskoho.avif"
             },
             new Location
             {
@@ -59,7 +59,7 @@ public static class LocationSeeder
                 Lat = 49.8451,
                 Lng = 24.0152,
                 Hours = "11:00 - 22:00",
-                ImageSrc = "img/city/Lviv.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788676847/lviv-shevchenka.avif"
             },
             new Location
             {
@@ -75,7 +75,7 @@ public static class LocationSeeder
                 Lat = 49.8190,
                 Lng = 24.0173,
                 Hours = "11:00 - 22:00",
-                ImageSrc = "img/city/Lviv.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788676862/lviv-stryiska.avif"
             },
             new Location
             {
@@ -91,7 +91,7 @@ public static class LocationSeeder
                 Lat = 48.6210,
                 Lng = 22.2980,
                 Hours = "10:00 - 21:00",
-                ImageSrc = "img/city/Bukovel.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788676900/uzhgorod-koriatho.avif"
             },
             new Location
             {
@@ -107,7 +107,7 @@ public static class LocationSeeder
                 Lat = 50.2547,
                 Lng = 28.6745,
                 Hours = "10:00 - 22:00",
-                ImageSrc = "img/city/Kyiv.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788676936/zhytomyr-kyivska.avif"
             },
             new Location
             {
@@ -123,7 +123,7 @@ public static class LocationSeeder
                 Lat = 49.2331,
                 Lng = 28.4682,
                 Hours = "10:00 - 22:00",
-                ImageSrc = "img/city/Kyiv.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788676918/vinnytsia-soborna.avif"
             },
             new Location
             {
@@ -139,12 +139,12 @@ public static class LocationSeeder
                 Lat = 50.6199,
                 Lng = 26.2516,
                 Hours = "10:00 - 22:00",
-                ImageSrc = "img/city/Kyiv.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788676880/rivne-soborna.avif"
             },
             new Location
             {
                 Id = 9,
-                Slug = "Khmelnytskyi-proskurivska",
+                Slug = "khmelnytskyi-proskurivska",
                 TitleKeyUa = "Осама Суши у Хмельницькому",
                 TitleKeyEn = "Osama Sushi in Khmelnytskyi",
                 CityKeyUa = "Хмельницький",
@@ -155,7 +155,7 @@ public static class LocationSeeder
                 Lat = 49.4851,
                 Lng = 26.9871,
                 Hours = "10:00 - 22:00",
-                ImageSrc = "img/city/Kyiv.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788676757/khmelnytskyi-proskurivska.avif"
             },
             new Location
             {
@@ -171,7 +171,7 @@ public static class LocationSeeder
                 Lat = 48.2921,
                 Lng = 25.9358,
                 Hours = "10:00 - 22:00",
-                ImageSrc = "img/city/Lviv.avif"
+                ImageSrc = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788638758/chernivtsi-kobylianskoi.avif"
             }
         };
 

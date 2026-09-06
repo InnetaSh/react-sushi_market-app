@@ -15,7 +15,7 @@ public static class PromotionSeeder
         {
         new Promotion
             {
-                ImageUrl = "img/promotion/hours.png",
+                ImageUrl = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788627978/hours.png",
                 DateKeyUa = "по буднях з 12:00 до 16:00",
                 DateKeyEn = "Weekdays from 12:00 to 16:00",
                 TitleKeyUa = "Щасливі години",
@@ -26,7 +26,7 @@ public static class PromotionSeeder
             },
         new Promotion
             {
-                ImageUrl = "img/promotion/birthday.png",
+                ImageUrl = "https://res.cloudinary.com/qmiijcm1/image/upload/v1788627977/birthday.png",
                 DateKeyUa = "діє у ваш День народження",
                 DateKeyEn = "Valid on your Birthday",
                 TitleKeyUa = "Іменинникам знижка",

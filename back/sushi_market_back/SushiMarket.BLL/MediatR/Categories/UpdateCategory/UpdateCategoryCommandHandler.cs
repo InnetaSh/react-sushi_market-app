@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.Resources;
+using SushiMarket.BLL.Services;
 using SushiMarket.DAL;
 
 namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
@@ -13,15 +14,18 @@ namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
         private readonly TranslatorHelper.Translator _translator;
+        private readonly ICloudinaryService _cloudinaryService;
 
         public UpdateCategoryCommandHandler(
             SushiMarketDbContext context,
             IMapper mapper,
-            TranslatorHelper.Translator translator)
+            TranslatorHelper.Translator translator,
+            ICloudinaryService cloudinaryService)
         {
             _context = context;
             _mapper = mapper;
             _translator = translator;
+            _cloudinaryService = cloudinaryService;
         }
 
         public async Task<Unit> Handle(
@@ -44,7 +48,7 @@ namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
             string titleUa = request.TitleUa ?? "";
             string titleEn = request.TitleEn ?? "";
 
-           if (titleUa != category.TitleUa &&
+            if (titleUa != category.TitleUa &&
                 (string.IsNullOrWhiteSpace(titleEn) || titleEn == category.TitleEn))
             {
                 titleEn = await _translator.TranslateAsync(
@@ -61,10 +65,23 @@ namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
                     "uk");
             }
 
+           
+            string? imagePath = null;
+            if (request.Image != null && request.Image.Length > 0)
+            {
+                imagePath = await _cloudinaryService.UploadImageAsync(request.Image, "categories");
+            }
+
             _mapper.Map(request, category);
 
             category.TitleUa = titleUa;
             category.TitleEn = titleEn;
+
+           
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                category.ImgSrc = imagePath;
+            }
 
             try
             {

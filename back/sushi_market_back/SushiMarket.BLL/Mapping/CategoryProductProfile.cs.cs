@@ -32,7 +32,7 @@ namespace SushiMarket.BLL.Mapping
             CreateMap<UpdateCategoryCommand, Category>()
                 .ForMember(dest => dest.TitleUa, opt => opt.Ignore())
                 .ForMember(dest => dest.TitleEn, opt => opt.Ignore())
-                .ForMember(dest => dest.ImgSrc, opt => opt.Condition(src => src.ImgSrc != null))
+                .ForMember(dest => dest.ImgSrc, opt => opt.Condition(src => src.Image != null))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
 
@@ -57,7 +57,7 @@ namespace SushiMarket.BLL.Mapping
                 .ForMember(dest => dest.TitleEn, opt => opt.Ignore())
                 .ForMember(dest => dest.DescriptionUa, opt => opt.Ignore())
                 .ForMember(dest => dest.DescriptionEn, opt => opt.Ignore())
-                .ForMember(dest => dest.ImgSrc, opt => opt.Condition(src => src.ImgSrc != null))
+                .ForMember(dest => dest.ImgSrc, opt => opt.Condition(src => src.Image != null))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }

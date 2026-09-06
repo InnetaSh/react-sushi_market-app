@@ -40,27 +40,6 @@ namespace sushi_market_back.Controllers
         [Authorize(Roles = "MainAdministrator")]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductRequestDto request)
         {
-            string? imagePath = null;
-
-            if (request.Image != null && request.Image.Length > 0)
-            {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "products");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + request.Image.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.Image.CopyToAsync(fileStream);
-                }
-
-                imagePath = $"/uploads/products/{uniqueFileName}";
-            }
-
             var command = new CreateProductCommand(
                 request.TitleUa,
                 request.TitleEn,
@@ -68,7 +47,7 @@ namespace sushi_market_back.Controllers
                 request.DescriptionEn,
                 request.WeightOrVolume,
                 request.Price,
-                imagePath ?? string.Empty,
+                request.Image,
                 request.SortOrder,
                 request.CategoryId
             );
@@ -83,28 +62,6 @@ namespace sushi_market_back.Controllers
         {
             if (id != request.Id) return BadRequest("ID mismatch");
 
-            var existingProduct = await _mediator.Send(new GetProductByIdQuery(id));
-            string? imagePath = existingProduct?.ImgSrc;
-
-            if (request.Image != null && request.Image.Length > 0)
-            {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "products");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + request.Image.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.Image.CopyToAsync(fileStream);
-                }
-
-                imagePath = $"/uploads/products/{uniqueFileName}";
-            }
-
             var command = new UpdateProductCommand(
                 request.Id,
                 request.TitleUa,
@@ -113,7 +70,7 @@ namespace sushi_market_back.Controllers
                 request.DescriptionEn,
                 request.WeightOrVolume,
                 request.Price,
-                imagePath ?? string.Empty,
+                request.Image,
                 request.SortOrder,
                 request.CategoryId
             );

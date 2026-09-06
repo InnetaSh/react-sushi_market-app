@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using SushiMarket.BLL.MediatR.Interface;
 
 namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
@@ -8,6 +9,6 @@ namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
         string? TitleUa,
         string? TitleEn,
         double? SortOrder,
-        string? ImgSrc
+        IFormFile? Image
     ) : IRequest<Unit>, IHasId;
 }
