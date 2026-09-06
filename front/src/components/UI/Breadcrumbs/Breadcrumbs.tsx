@@ -1,15 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import { BreadcrumbItem, BreadcrumbsProps } from '@models/breadcrumbs.types';
 import styles from './Breadcrumbs.module.scss';
-
-export interface BreadcrumbItem {
-    label: string;
-    path?: string;
-}
-
-interface BreadcrumbsProps {
-    items: BreadcrumbItem[];
-}
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
     return (

@@ -6,8 +6,9 @@ module.exports = {
       "@": path.resolve(__dirname, "src"),
       "@app": path.resolve(__dirname, "src/app"),
       "@fonts": path.resolve(__dirname, "src/assets/fonts"),
-      "@colors": path.resolve(__dirname, "src/assets/variables"),
-      "@img": path.resolve(__dirname, "src/img"),
+      "@colors": path.resolve(__dirname, "src/assets/styles/abstracts/variables"),
+      "@styles": path.resolve(__dirname, "src/assets/styles"),
+      "@img": path.resolve(__dirname, "src/assets/images"),
       "@api": path.resolve(__dirname, "src/api"),
       "@section": path.resolve(__dirname, "src/components/sections"),
       "@pages": path.resolve(__dirname, "src/pages"),
@@ -17,7 +18,11 @@ module.exports = {
       "@models": path.resolve(__dirname, "src/models"),
       "@UI": path.resolve(__dirname, "src/components/UI"),
       "@mocks":path.resolve(__dirname,"src/mocks"),
-      "@hooks":path.resolve(__dirname,"src/hooks")
+      "@hooks":path.resolve(__dirname,"src/hooks"),
+      "@constants": path.resolve(__dirname, "src/constants"),
+      "@utils": path.resolve(__dirname, "src/utils")
+
+  
     },
   },
 };

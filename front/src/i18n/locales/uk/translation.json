@@ -1,0 +1,167 @@
+{
+  "PAGE_1_TEXT": {
+    "TITLE_1": "класика",
+    "TITLE_2": "ЯПОНСЬКОЇ",
+    "TITLE_3": "КУХНІ",
+    "BTN_ACTIONS": "акції",
+    "RESTAURANTS_TITLE": "НАШІ РЕСТОРАНИ",
+    "RESTAURANTS_DESC_1": "Суші-бар — сучасна класика японської кухні",
+    "RESTAURANTS_DESC_2": "Тут усе влаштовано так, щоб гостям було приємно провести час у невимушеній атмосфері та отримати задоволення від кухні, відпочинку й спілкування. Меню вирізняється різноманіттям страв, багатством смаків і делікатним ставленням до японської кухні",
+    "BTN_READ_MORE": "читати докладніше",
+    "BOTTOM_MSG": "НАШІ РЕСТОРАНИ",
+    "BOTTOM_DESC": "Ми цінуємо кожного клієнта і робимо все, щоб ви отримали задоволення від відвідування наших ресторанів і скуштували найкращі страви японської кухні"
+  },
+  "PAGE_3_TEXT": {
+    "TITLE": "АКЦІЇ",
+    "DESCRIPTION": "Традиції Японії, смак твого міста!",
+    "SALE_1_DATE": "по буднях з 12:00 до 16:00",
+    "SALE_1_NAME": "Щасливі години",
+    "SALE_1_DESC": "Знижка 20% на все меню при замовленні на самовинос у денний час",
+    "SALE_2_DATE": "діє у ваш День народження",
+    "SALE_2_NAME": "Іменинникам знижка",
+    "SALE_2_DESC": "Святкуйте разом із нами! Знижка 15% на замовлення за 3 дні до та 3 дні після свята"
+  },
+  "UI_TEXT": {
+    "LOADING": "Завантаження меню..."
+  },
+  "HEADER": {
+    "PHONE_LABEL": "Телефон",
+    "PHONE_NUMBER": "8(050)000-00-00"
+  },
+  "BREADCRUMBS": {
+    "HOME": "Головна",
+    "NEWS": "Новини",
+    "CONTACTS": "Контакти",
+    "PROMOTIONS": "Акції",
+    "MENU":"Меню"
+  },
+  "MENU": {
+    "HOME": "Головна",
+    "ABOUT": "Про компанію",
+    "DISHES": "Меню",
+    "DELIVERY": "Доставка",
+    "STOCK": "Акції",
+    "NEWS": "Новини",
+    "REVIEWS": "Відгуки про нас",
+    "CONTACTS": "Контакти",
+    "LOGIN": "Вхід",
+    "GO_ TO_MENU": "Перейти до меню"
+  },
+  "AUTH": {
+    "TITLE_LOGIN": "Вхід",
+    "TITLE_REGISTER": "Реєстрація",
+    "SUBTITLE_LOGIN": "Введіть свої дані для входу",
+    "SUBTITLE_REGISTER": "Створіть новий обліковий запис",
+    "DESC_REGISTER": "Заповніть дані для створення акаунта",
+    "BREADCRUMB_HOME": "Головна",
+    "BREADCRUMB_LOGIN": "Вхід",
+    "BREADCRUMB_REGISTER": "Реєстрація",
+    "LABEL_NAME": "Ім'я",
+    "PLACEHOLDER_NAME": "Ваше ім'я",
+    "ERROR_NAME": "Введіть ваше ім'я",
+    "LABEL_EMAIL": "Електронна адреса",
+    "PLACEHOLDER_EMAIL": "email@example.com",
+    "ERROR_EMAIL_REQUIRED": "Введіть логін (email)",
+    "ERROR_EMAIL_INVALID": "Введіть коректну електронну адресу",
+    "LABEL_PASSWORD": "Пароль",
+    "PLACEHOLDER_PASSWORD": "Пароль",
+    "ERROR_PASSWORD": "Введіть пароль",
+    "LABEL_CONFIRM_PASSWORD": "Підтвердіть пароль",
+    "PLACEHOLDER_CONFIRM_PASSWORD": "Повторіть пароль",
+    "ERROR_CONFIRM_REQUIRED": "Підтвердіть пароль",
+    "ERROR_PASSWORDS_MATCH": "Паролі не співпадають!",
+    "FORGOT_PASSWORD": "Забули пароль?",
+    "REMEMBER_ME": "Запам’ятати мене",
+    "BTN_LOGIN": "Увійти",
+    "BTN_REGISTER": "Зареєструватися",
+    "TEXT_HAS_ACCOUNT": " Вже є обліковий запис? ",
+    "TEXT_NO_ACCOUNT": " Немає облікового запису? ",
+    "DIVIDER_OR": "або продовжити через",
+    "SUCCESS_REGISTER": "Реєстрація успішна! Тепер увійдіть в акаунт.",
+    "SUCCESS_LOGIN": "Успішний вхід!",
+    "ERROR_REGISTER_FAIL": "Помилка реєстрації (можливо, такий користувач вже існує)",
+    "ERROR_LOGIN_FAIL": "Невірний логін або пароль",
+    "ERROR_GOOGLE_FAIL": "Помилка авторизації через Google",
+    "ERROR_GOOGLE_CANCEL": "Не вдалося увійти через Google"
+  },
+  "MODAL": {
+    "LABEL_IMAGE": "Зображення",
+    "CHANGE_PHOTO": "Змінити фото",
+    "UPLOAD_IMAGE": "Завантажити зображення",
+    "LABEL_TITLE": "Назва",
+    "ERROR_TITLE": "Введіть назву",
+    "PLACEHOLDER_TITLE": "Введіть назву...",
+    "LABEL_DESCRIPTION": "Опис",
+    "PLACEHOLDER_DESCRIPTION": "Введіть опис...",
+    "LABEL_CATEGORY": "Категорія",
+    "ERROR_CATEGORY": "Будь ласка, оберіть категорію!",
+    "PLACEHOLDER_CATEGORY": "Оберіть категорію",
+    "LABEL_PRICE": "Ціна (грн)",
+    "PLACEHOLDER_PRICE": "Введіть ціну...",
+    "LABEL_WEIGHT": "Вага / Об'єм",
+    "PLACEHOLDER_WEIGHT": "Наприклад: 250 г",
+    "BTN_SAVE": "Зберегти"
+  },
+  "ENTITY_ROW": {
+    "CURRENCY": "грн",
+    "EDIT": "Змінити",
+    "DELETE": "Видалити",
+    "DELETE_TITLE": "Видалити?",
+    "DELETE_DESC": "Цю дію неможливо скасувати.",
+    "YES": "Так",
+    "NO": "Ні"
+  },
+  "ADMIN_PAGE": {
+    "TITLE": "Адмін-панель Sushi Market",
+    "TAB_CATEGORIES": "Категорії",
+    "TAB_PRODUCTS": "Продукти",
+    "BTN_ADD_CATEGORY": "+ Додати категорію",
+    "BTN_ADD_PRODUCT": "+ Додати продукт",
+    "BTN_ADD_PRODUCT_TO_CAT": "+ Додати продукт у категорію",
+    "PRODUCTS_OF_CATEGORY": "Продукти категорії:",
+    "NO_PRODUCTS_IN_CATEGORY": "У цій категорії поки немає продуктів",
+    "SUCCESS_CATEGORY_CREATE": "Категорію успішно створено",
+    "SUCCESS_CATEGORY_UPDATE": "Категорію успішно оновлено",
+    "SUCCESS_CATEGORY_DELETE": "Категорію видалено",
+    "SUCCESS_PRODUCT_CREATE": "Продукт успішно створено",
+    "SUCCESS_PRODUCT_UPDATE": "Продукт успішно оновлено",
+    "SUCCESS_PRODUCT_DELETE": "Продукт видалено",
+    "ERROR_SELECT_CATEGORY": "Будь ласка, оберіть категорію для продукту!",
+    "ERROR_SAVE": "Помилка збереження даних",
+    "ERROR_DELETE": "Помилка видалення",
+    "BTN_SAVE_ORDER": "Зберігти порядок"
+  },
+  "CONTACTS": {
+    "TITLE": "Контакти",
+   "DESCRIPTION": "Забронюйте столик просто зараз! Смак життя в кожній страві!",
+    "LOCATIONS": {
+      "KYIV": {
+        "CITY": "Київ",
+        "ADDRESS": "вул. Ніжинська, 5"
+      },
+      "LVIV": {
+        "CITY": "Львів",
+        "ADDRESS": "вул. Новознесенська, 4"
+      },
+      "UZHGOROD": {
+        "CITY": "Ужгород",
+        "ADDRESS": "вул. Миколи Баб’яка, 8"
+      }
+    }
+  },
+  "NEWS_SECTION": {
+    "TITLE": "Новини",
+    "DESCRIPTION": "Будьте в курсі останніх подій та акцій нашого ресторану. Тут ви знайдете свіжі новини, цікаві статті та корисні поради про японську кухню.",
+    "READ_MORE": "Читати далі",
+    "ITEMS": {
+      "FIRST": {
+        "TITLE": "Нам 1 рік! Акції! Знижки!",
+        "DESCRIPTION": "При створенні новини, крім заголовка та вмісту, Ви можете задати ще низку параметрів. Тут Ви бачите приклад заповнення анонсу новини."
+      },
+      "SECOND": {
+        "TITLE": "Новорічні канікули",
+        "DESCRIPTION": "При створенні новини, крім заголовка та вмісту, Ви можете задати ще низку параметрів. Тут Ви бачите приклад заповнення анонсу новини."
+      }
+    }
+  }
+}

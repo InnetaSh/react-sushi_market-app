@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
 import AuthStore from "@stores/AuthStore";
 import UserApi from "@/api/userApi";
+import { getRedirectPath } from '@utils/auth.utils';
 import styles from './LoginSection.module.scss';
 
 const LoginSection: React.FC = () => {
@@ -17,15 +18,10 @@ const LoginSection: React.FC = () => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [form] = Form.useForm();
 
-   const redirectAfterLogin = (userData?: any) => {
+    const redirectAfterLogin = (userData?: any) => {
         const storeUser = AuthStore.user as any;
         const roles = userData?.roles || storeUser?.roles || [];
-        
-        if (roles.includes('MainAdministrator')) {
-            navigate('/admin');
-        } else {
-            navigate('/');
-        }
+        navigate(getRedirectPath(roles));
     };
 
     if (AuthStore.isLoggedIn) {

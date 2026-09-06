@@ -23,7 +23,6 @@ import { EntityModal } from "@UI/EntityModal/EntityModal";
 import { useEntityOrder } from "@hooks/useEntityOrder";
 import { CategoriesTab } from "./components/CategoriesTab";
 import { ProductsTab } from "./components/ProductsTab";
-import styles from "./AdminPage.module.scss";
 
 const { Content } = Layout;
 

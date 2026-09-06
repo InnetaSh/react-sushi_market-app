@@ -1,70 +1,242 @@
-# Getting Started with Create React App
+# 🍣 Sushi Market — Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React + TypeScript frontend for the Sushi Market e-commerce application.
 
-## Available Scripts
+The application provides a responsive customer-facing interface and an administrative dashboard for managing products, categories, locations and promotional content.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🛒 Customer Application
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* Product and category browsing
+* Product details
+* Location information
+* Responsive interface
+* Ukrainian and English localization
+* Google Maps integration
+* Google authentication
 
-### `npm test`
+### 🛠️ Admin Dashboard
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* Product management
+* Category management
+* CRUD interfaces
+* Interactive tables and forms
+* Drag-and-drop reordering
+* Responsive admin interface
 
-### `npm run build`
+### ↕️ Drag & Drop
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The admin dashboard uses **@dnd-kit** for interactive drag-and-drop functionality.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+It allows administrators to reorder managed content through an intuitive interface.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 🔵 Google Login
 
-### `npm run eject`
+The application supports authentication through a Google account using **Google OAuth 2.0**.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The frontend integrates the Google authentication flow with the backend authentication system.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🗺️ Google Maps
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The application uses **react-google-maps** to integrate Google Maps functionality into the interface.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Maps can be used to display and work with location-based information.
 
-## Learn More
+### 🌍 Localization
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The interface supports:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* 🇺🇦 Ukrainian
+* 🇬🇧 English
 
-### Code Splitting
+Localization is implemented using **i18next**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 🧰 Technologies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Core
 
-### Making a Progressive Web App
+* **React**
+* **TypeScript**
+* **React Router**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### State Management
 
-### Advanced Configuration
+* **MobX**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+MobX is used for application state management and separation of UI state from presentation components.
 
-### Deployment
+### UI
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+* **Ant Design**
+* **SCSS / SASS**
+* **BEM**
 
-### `npm run build` fails to minify
+Ant Design provides reusable UI components, while SCSS/SASS and BEM are used for custom styling and component-specific layouts.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Libraries & Integrations
+
+* **@dnd-kit** — drag-and-drop functionality
+* **i18next** — localization
+* **react-google-maps** — Google Maps integration
+* **Google OAuth 2.0** — authentication
+
+---
+
+## 📱 Responsive Design
+
+The application is designed to provide a consistent experience across:
+
+* Desktop
+* Tablet
+* Mobile
+
+The administrative dashboard also includes responsive layouts for tables, forms and management interfaces.
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
+
+Install:
+
+* [Node.js](https://nodejs.org/)
+* npm
+* Git
+
+---
+
+## 📥 Clone the Repository
+
+```bash
+git clone https://github.com/InnetaSh/react-sushi_market-app.git
+```
+
+Navigate to the frontend:
+
+```bash
+cd sushi_market_front
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+---
+
+## ⚙️ Configuration
+
+Some frontend integrations require environment variables.
+
+Create a local environment file if required by the project:
+
+```text
+.env
+```
+
+Do not commit environment files containing private API keys or credentials.
+
+For Google Maps and Google authentication, configure the required public client-side configuration according to the project's environment setup.
+
+---
+
+## ▶️ Run the Application
+
+Start the development server:
+
+```bash
+npm start
+```
+
+The application will be available at the local development URL displayed by the terminal.
+
+---
+
+## 📁 Frontend Structure
+
+A simplified project structure:
+
+```text
+sushi_market_front/
+│
+├── public/
+│
+├── src/
+        ├── @types/
+        │
+        ├── api/
+        │   ├── categoryApi.js
+        │   ├── locationApi.js
+        │   ├── newsApi.js
+        │   ├── productApi.js
+        │   ├── promotionApi.js
+        │   └── userApi.js
+        │
+        ├── assets/
+        │   └── styles/
+        │       ├── abstracts/
+        │       ├── base/
+        │       └── index.scss
+        │
+        ├── components/
+        │   ├── layout/
+        │   ├── sections/
+        │   └── UI/
+        │
+        ├── contexts/
+        │
+        ├── hooks/
+        │
+        ├── img/
+        │
+        ├── models/
+        │
+        ├── pages/
+        │
+        ├── routes/
+        │
+        ├── stores/
+        │
+        ├── App.js
+        ├── index.js
+        └── index.tsx
+│
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+The project follows a component-based architecture with reusable components, custom hooks and MobX stores.
+
+---
+
+## 🔗 Backend
+
+The frontend communicates with the Sushi Market ASP.NET Core Web API.
+
+For backend setup and architecture, see:
+
+➡️ **[Backend README](../sushi_market_back/README.md)**
+
+---
+
+## 🎯 Frontend Goals
+
+The frontend was developed with a focus on:
+
+* Reusable React components
+* Type-safe development with TypeScript
+* Centralized state management with MobX
+* Responsive UI
+* Multilingual support
+* Reusable Ant Design components
+* Maintainable SCSS architecture
+* Interactive drag-and-drop functionality
+* Integration with external services

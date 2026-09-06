@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { i18n as I18nextInstance } from "i18next";
-import i18nConfig from "../i18n";
+import i18nConfig from "../i18n/i18n";
 
 
 interface LanguageContextType {

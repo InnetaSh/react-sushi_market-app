@@ -4,17 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
 import ButtonGreen from '@UI/ButtonGreen/ButtonGreen';
+import { PromotionsSectionProps } from '@models/promotion.types';
 
 import styles from './PromotionsSection.module.scss';
 import backImg from '@img/back_promotion.jpg';
-
-interface PromotionsSectionProps {
-    imageUrl: string;
-    secondaryText: string;
-    primaryTextFirst: string;
-    primaryTextSecond: string;
-    buttonText: string;
-}
 
 const PromotionsSection: React.FC<PromotionsSectionProps> = ({
     imageUrl,
