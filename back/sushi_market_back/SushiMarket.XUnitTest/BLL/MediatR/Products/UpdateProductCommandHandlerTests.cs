@@ -4,8 +4,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Moq;
 using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.MediatR.Products.UpdateProduct;
+using SushiMarket.BLL.Services.Interfaces.Cloudinary;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
 
@@ -16,6 +18,8 @@ namespace SushiMarket.Tests.MediatR.Products
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
         private readonly TranslatorHelper.Translator _translator;
+        private readonly Mock<ICloudinaryService> _cloudinaryServiceMock;
+        private readonly Mock<ILogger<UpdateProductCommandHandler>> _loggerMock;
         private readonly UpdateProductCommandHandler _handler;
 
         public UpdateProductCommandHandlerTests()
@@ -40,17 +44,20 @@ namespace SushiMarket.Tests.MediatR.Products
                 .Build();
 
             _translator = new TranslatorHelper.Translator(configuration);
+            _cloudinaryServiceMock = new Mock<ICloudinaryService>();
+            _loggerMock = new Mock<ILogger<UpdateProductCommandHandler>>();
 
             _handler = new UpdateProductCommandHandler(
                 _context,
                 _mapper,
-                _translator);
+                _translator,
+                _cloudinaryServiceMock.Object,
+                _loggerMock.Object);
         }
 
         [Fact]
         public async Task Handle_WhenProductExists_ShouldUpdateProductAndReturnUnit()
         {
-            // Arrange
             var product = new Product
             {
                 Id = 1,
@@ -76,17 +83,15 @@ namespace SushiMarket.Tests.MediatR.Products
                 DescriptionEn: "New description",
                 WeightOrVolume: "250 г",
                 Price: 250m,
-                ImgSrc: "new.png",
+                Image: null,
                 SortOrder: 2,
                 CategoryId: 1
             );
 
-            // Act
             var result = await _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             result.Should().Be(Unit.Value);
 
             var updatedProduct = await _context.Products
@@ -100,7 +105,7 @@ namespace SushiMarket.Tests.MediatR.Products
             updatedProduct.DescriptionEn.Should().Be("New description");
             updatedProduct.WeightOrVolume.Should().Be("250 г");
             updatedProduct.Price.Should().Be(250m);
-            updatedProduct.ImgSrc.Should().Be("new.png");
+            updatedProduct.ImgSrc.Should().Be("old.png");
             updatedProduct.SortOrder.Should().Be(2);
             updatedProduct.CategoryId.Should().Be(1);
         }
@@ -108,7 +113,6 @@ namespace SushiMarket.Tests.MediatR.Products
         [Fact]
         public async Task Handle_WhenProductDoesNotExist_ShouldThrowKeyNotFoundException()
         {
-            // Arrange
             var command = new UpdateProductCommand(
                 Id: 999,
                 TitleUa: "Тест",
@@ -117,17 +121,15 @@ namespace SushiMarket.Tests.MediatR.Products
                 DescriptionEn: "Description",
                 WeightOrVolume: "100 г",
                 Price: 100m,
-                ImgSrc: "test.png",
+                Image: null,
                 SortOrder: 1,
                 CategoryId: 1
             );
 
-            // Act
             Func<Task> act = () => _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             var exception = await act
                 .Should()
                 .ThrowAsync<KeyNotFoundException>();
@@ -138,7 +140,6 @@ namespace SushiMarket.Tests.MediatR.Products
         [Fact]
         public async Task Handle_WhenBothLanguagesAreProvided_ShouldNotTranslateAndShouldUpdateProduct()
         {
-            // Arrange
             var product = new Product
             {
                 Id = 1,
@@ -164,17 +165,15 @@ namespace SushiMarket.Tests.MediatR.Products
                 DescriptionEn: "Crab roll",
                 WeightOrVolume: "300 г",
                 Price: 300m,
-                ImgSrc: "california.png",
+                Image: null,
                 SortOrder: 2,
                 CategoryId: 1
             );
 
-            // Act
             await _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             var updatedProduct = await _context.Products
                 .FindAsync(1);
 
@@ -186,7 +185,7 @@ namespace SushiMarket.Tests.MediatR.Products
             updatedProduct.DescriptionEn.Should().Be("Crab roll");
             updatedProduct.WeightOrVolume.Should().Be("300 г");
             updatedProduct.Price.Should().Be(300m);
-            updatedProduct.ImgSrc.Should().Be("california.png");
+            updatedProduct.ImgSrc.Should().Be("old.png");
             updatedProduct.SortOrder.Should().Be(2);
         }
     }

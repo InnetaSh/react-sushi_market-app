@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
 using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.MediatR.Categories.CreateCategory;
+using SushiMarket.BLL.Services.Interfaces.Cloudinary;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
 
@@ -15,6 +18,8 @@ namespace SushiMarket.Tests.MediatR.Categories
         private readonly SushiMarketDbContext _context;
         private readonly Mock<IMapper> _mapperMock;
         private readonly TranslatorHelper.Translator _translator;
+        private readonly Mock<ICloudinaryService> _cloudinaryServiceMock;
+        private readonly Mock<ILogger<CreateCategoryCommandHandler>> _loggerMock;
         private readonly CreateCategoryCommandHandler _handler;
 
         public CreateCategoryCommandHandlerTests()
@@ -31,21 +36,24 @@ namespace SushiMarket.Tests.MediatR.Categories
                 .Build();
 
             _translator = new TranslatorHelper.Translator(configuration);
+            _cloudinaryServiceMock = new Mock<ICloudinaryService>();
+            _loggerMock = new Mock<ILogger<CreateCategoryCommandHandler>>();
 
             _handler = new CreateCategoryCommandHandler(
                 _context,
                 _mapperMock.Object,
-                _translator);
+                _translator,
+                _cloudinaryServiceMock.Object,
+                _loggerMock.Object);
         }
 
         [Fact]
         public async Task Handle_WithBothTitlesProvided_ShouldSaveCategoryAndReturnId()
         {
-            // Arrange
             var command = new CreateCategoryCommand(
                 TitleUa: "Суші",
                 TitleEn: "Sushi",
-                ImgSrc: "img/sushi.png",
+                Image: null,
                 SortOrder: 1.0
             );
 
@@ -54,7 +62,7 @@ namespace SushiMarket.Tests.MediatR.Categories
                 Id = 1,
                 TitleUa = command.TitleUa,
                 TitleEn = command.TitleEn,
-                ImgSrc = command.ImgSrc,
+                ImgSrc = string.Empty,
                 SortOrder = command.SortOrder
             };
 
@@ -62,12 +70,10 @@ namespace SushiMarket.Tests.MediatR.Categories
                 .Setup(m => m.Map<Category>(command))
                 .Returns(categoryEntity);
 
-            // Act
             var resultId = await _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             resultId.Should().Be(1);
 
             var categoryInDb = await _context.Categories.FindAsync(1);
@@ -75,7 +81,6 @@ namespace SushiMarket.Tests.MediatR.Categories
             categoryInDb.Should().NotBeNull();
             categoryInDb!.TitleUa.Should().Be("Суші");
             categoryInDb.TitleEn.Should().Be("Sushi");
-            categoryInDb.ImgSrc.Should().Be("img/sushi.png");
         }
     }
 }

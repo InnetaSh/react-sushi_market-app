@@ -19,13 +19,10 @@ namespace SushiMarket.Tests.Validators.Categories
         [InlineData(100, int.MaxValue)]
         public async Task Validate_WhenModelIsValid_ShouldNotHaveAnyValidationErrors(int categoryId, double newSortOrder)
         {
-            // Arrange
             var command = new ReorderCategoryCommand(categoryId, newSortOrder);
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldNotHaveAnyValidationErrors();
         }
 
@@ -34,13 +31,10 @@ namespace SushiMarket.Tests.Validators.Categories
         [InlineData(-1, 5)]
         public async Task Validate_WhenCategoryIdIsInvalid_ShouldHaveValidationErrorForCategoryId(int categoryId, double newSortOrder)
         {
-            // Arrange
             var command = new ReorderCategoryCommand(categoryId, newSortOrder);
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldHaveValidationErrorFor(x => x.CategoryId);
         }
 
@@ -49,13 +43,10 @@ namespace SushiMarket.Tests.Validators.Categories
         [InlineData(1, -10)]
         public async Task Validate_WhenNewSortOrderIsNegative_ShouldHaveValidationErrorForNewSortOrder(int categoryId, double newSortOrder)
         {
-            // Arrange
             var command = new ReorderCategoryCommand(categoryId, newSortOrder);
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldHaveValidationErrorFor(x => x.NewSortOrder);
         }
     }

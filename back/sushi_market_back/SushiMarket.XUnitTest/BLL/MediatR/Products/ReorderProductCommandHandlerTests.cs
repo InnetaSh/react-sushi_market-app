@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using SushiMarket.BLL.MediatR.Products.ReorderProduct;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
@@ -10,6 +12,7 @@ namespace SushiMarket.Tests.MediatR.Products
     public class ReorderProductCommandHandlerTests
     {
         private readonly SushiMarketDbContext _context;
+        private readonly Mock<ILogger<ReorderProductCommandHandler>> _loggerMock;
         private readonly ReorderProductCommandHandler _handler;
 
         public ReorderProductCommandHandlerTests()
@@ -19,14 +22,16 @@ namespace SushiMarket.Tests.MediatR.Products
                 .Options;
 
             _context = new SushiMarketDbContext(options);
+            _loggerMock = new Mock<ILogger<ReorderProductCommandHandler>>();
 
-            _handler = new ReorderProductCommandHandler(_context);
+            _handler = new ReorderProductCommandHandler(
+                _context,
+                _loggerMock.Object);
         }
 
         [Fact]
         public async Task Handle_WhenProductExists_ShouldUpdateSortOrderAndReturnUnit()
         {
-            // Arrange
             var product = new Product
             {
                 Id = 1,
@@ -48,12 +53,10 @@ namespace SushiMarket.Tests.MediatR.Products
                 ProductId: 1,
                 NewSortOrder: 5);
 
-            // Act
             var result = await _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             result.Should().Be(Unit.Value);
 
             var updatedProduct = await _context.Products
@@ -66,17 +69,14 @@ namespace SushiMarket.Tests.MediatR.Products
         [Fact]
         public async Task Handle_WhenProductDoesNotExist_ShouldThrowKeyNotFoundException()
         {
-            // Arrange
             var command = new ReorderProductCommand(
                 ProductId: 999,
                 NewSortOrder: 5);
 
-            // Act
             Func<Task> act = () => _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             var exception = await act
                 .Should()
                 .ThrowAsync<KeyNotFoundException>();
@@ -87,7 +87,6 @@ namespace SushiMarket.Tests.MediatR.Products
         [Fact]
         public async Task Handle_ShouldChangeOnlySortOrder()
         {
-            // Arrange
             var product = new Product
             {
                 Id = 1,
@@ -109,12 +108,10 @@ namespace SushiMarket.Tests.MediatR.Products
                 ProductId: 1,
                 NewSortOrder: 10);
 
-            // Act
             await _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             var updatedProduct = await _context.Products
                 .FindAsync(1);
 

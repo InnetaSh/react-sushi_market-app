@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using SushiMarket.BLL.DTOs.Auth;
 
 namespace SushiMarket.BLL.MediatR.Auth.Login
 {
-    public record LoginCommand(LoginDto Model) : IRequest<Unit>;
+    public record LoginUserCommand(UserLoginDto loginRequest)
+         : IRequest<Result<AuthResponseDto>>;
 }

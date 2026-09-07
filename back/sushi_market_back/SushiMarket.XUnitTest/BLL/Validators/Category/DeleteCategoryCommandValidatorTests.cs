@@ -19,13 +19,10 @@ namespace SushiMarket.Tests.Validators.Categories
         [InlineData(int.MaxValue)]
         public async Task Validate_WhenIdIsPositive_ShouldNotHaveAnyValidationErrors(int id)
         {
-            // Arrange
             var command = new DeleteCategoryCommand(id);
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldNotHaveAnyValidationErrors();
         }
 
@@ -35,13 +32,10 @@ namespace SushiMarket.Tests.Validators.Categories
         [InlineData(-100)]
         public async Task Validate_WhenIdIsZeroOrNegative_ShouldHaveValidationErrorForId(int id)
         {
-            // Arrange
             var command = new DeleteCategoryCommand(id);
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldHaveValidationErrorFor(x => x.Id);
         }
     }

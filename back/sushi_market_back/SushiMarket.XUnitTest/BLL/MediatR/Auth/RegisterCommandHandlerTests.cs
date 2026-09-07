@@ -1,111 +1,171 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using SushiMarket.BLL.DTOs.Auth;
 using SushiMarket.BLL.MediatR.Auth.Register;
-using SushiMarket.BLL.Resources;
+using SushiMarket.BLL.Services.Interfaces.Logging;
+using SushiMarket.BLL.Services.Interfaces.Users;
+using SushiMarket.DAL;
 using SushiMarket.DAL.Entities.Users;
 using SushiMarket.DAL.Enums;
 
-public class RegisterCommandHandlerTests
+namespace SushiMarket.Tests.MediatR.Auth
 {
-    private readonly Mock<UserManager<User>> _userManagerMock;
-    private readonly RegisterCommandHandler _handler;
-
-    public RegisterCommandHandlerTests()
+    public class RegisterCommandHandlerTests
     {
-        var store = new Mock<IUserStore<User>>();
-        _userManagerMock = new Mock<UserManager<User>>(store.Object, null!, null!, null!, null!, null!, null!, null!, null!);
+        private readonly Mock<UserManager<User>> _userManagerMock;
+        private readonly Mock<ILoggerService> _loggerMock;
+        private readonly Mock<IAuthService> _authServiceMock;
+        private readonly Mock<SushiMarketDbContext> _contextMock;
+        private readonly IMapper _mapper;
+        private readonly RegisterUserHandler _handler;
 
-        _handler = new RegisterCommandHandler(_userManagerMock.Object);
-    }
-
-    [Fact]
-    public async Task Handle_WithValidData_ShouldRegisterUserSuccessfully()
-    {
-        // Arrange
-        var command = new RegisterCommand(new RegisterDto
+        public RegisterCommandHandlerTests()
         {
-            Email = "newuser@sushimarket.com",
-            Password = "StrongPassword123!",
+            _userManagerMock = new Mock<UserManager<User>>(
+                Mock.Of<IUserStore<User>>(), null!, null!, null!, null!, null!, null!, null!, null!);
+
+            _loggerMock = new Mock<ILoggerService>();
+            _authServiceMock = new Mock<IAuthService>();
+
+            _contextMock = new Mock<SushiMarketDbContext>(
+                new DbContextOptions<SushiMarketDbContext>());
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<User, UserDto>();
+                cfg.CreateMap<UserRegisterDto, User>();
+            }, NullLoggerFactory.Instance);
+
+            _mapper = config.CreateMapper();
+
+            _handler = new RegisterUserHandler(
+                _userManagerMock.Object,
+                _mapper,
+                _loggerMock.Object,
+                _authServiceMock.Object,
+                _contextMock.Object);
+        }
+
+        private static UserRegisterDto CreateValidDto() => new()
+        {
+            Name = "John",
+            Surname = "Doe",
+            Email = "john@test.com",
+            Password = "Password123!",
+            PasswordConfirmation = "Password123!"
+        };
+
+        private static RegisterUserCommand CreateCommand(UserRegisterDto dto)
+            => new(dto);
+
+        private static User CreateTestUser() => new()
+        {
+            Id = 1,
+            UserName = "testUser",
             Name = "John",
             Surname = "Doe"
-        });
+        };
 
-        _userManagerMock
-            .Setup(x => x.FindByEmailAsync(command.Model.Email))
-            .ReturnsAsync((User?)null);
-
-        _userManagerMock
-            .Setup(x => x.CreateAsync(It.IsAny<User>(), command.Model.Password))
-            .ReturnsAsync(IdentityResult.Success);
-
-        _userManagerMock
-            .Setup(x => x.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()))
-            .ReturnsAsync(IdentityResult.Success);
-
-        // Act
-        var act = async () => await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        await act.Should().NotThrowAsync();
-
-        _userManagerMock.Verify(x => x.CreateAsync(It.IsAny<User>(), command.Model.Password), Times.Once);
-        _userManagerMock.Verify(x => x.AddToRoleAsync(It.IsAny<User>(), UserRole.User.ToString()), Times.Once);
-    }
-
-    [Fact]
-    public async Task Handle_WithExistingEmail_ShouldThrowInvalidOperationException()
-    {
-        // Arrange
-        var command = new RegisterCommand(new RegisterDto
+        [Fact]
+        public async Task Handle_ShouldRegisterUser_WhenDataIsValid()
         {
-            Email = "existing@sushimarket.com",
-            Password = "Password123!",
-            Name = "Jane",
-            Surname = "Doe"
-        });
+            var dto = CreateValidDto();
 
-        var existingUser = new User { Email = command.Model.Email };
+            _userManagerMock.Setup(x => x.FindByEmailAsync(dto.Email))
+                .ReturnsAsync((User?)null);
 
-        _userManagerMock
-            .Setup(x => x.FindByEmailAsync(command.Model.Email))
-            .ReturnsAsync(existingUser);
+            _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<User>(), dto.Password))
+                .ReturnsAsync(IdentityResult.Success);
 
-        // Act
-        var act = async () => await _handler.Handle(command, CancellationToken.None);
+            _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<User>(), UserRole.User.ToString()))
+                .ReturnsAsync(IdentityResult.Success);
 
-        // Assert
-        await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage(ErrorMessages.UserAlreadyExists);
-    }
+            _authServiceMock.Setup(x => x.CreateLoginResultAsync(It.IsAny<User>()))
+                .ReturnsAsync(new AuthResponseDto
+                {
+                    Token = "jwt-token",
+                    RefreshToken = "refresh-token",
+                    User = new UserDto
+                    {
+                        Email = dto.Email,
+                        Name = dto.Name,
+                        Surname = dto.Surname
+                    }
+                });
 
-    [Fact]
-    public async Task Handle_WhenCreationFails_ShouldThrowInvalidOperationException()
-    {
-        // Arrange
-        var command = new RegisterCommand(new RegisterDto
+            _contextMock.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(1);
+
+            var result = await _handler.Handle(CreateCommand(dto), CancellationToken.None);
+
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Token.Should().Be("jwt-token");
+
+            _userManagerMock.Verify(
+                x => x.CreateAsync(It.IsAny<User>(), dto.Password),
+                Times.Once);
+        }
+
+        [Fact]
+        public async Task Handle_ShouldReturnFail_WhenUserAlreadyExists()
         {
-            Email = "user@sushimarket.com",
-            Password = "123",
-            Name = "Test",
-            Surname = "User"
-        });
+            var dto = CreateValidDto();
+            var user = CreateTestUser();
 
-        _userManagerMock
-            .Setup(x => x.FindByEmailAsync(command.Model.Email))
-            .ReturnsAsync((User?)null);
+            _userManagerMock.Setup(x => x.FindByEmailAsync(dto.Email))
+                .ReturnsAsync(user);
 
-        var identityError = new IdentityError { Description = "Password too short." };
-        _userManagerMock
-            .Setup(x => x.CreateAsync(It.IsAny<User>(), command.Model.Password))
-            .ReturnsAsync(IdentityResult.Failed(identityError));
+            var result = await _handler.Handle(CreateCommand(dto), CancellationToken.None);
 
-        // Act
-        var act = async () => await _handler.Handle(command, CancellationToken.None);
+            result.IsFailed.Should().BeTrue();
+            result.Errors.Select(e => e.Message).Should().Contain("User already exists");
+        }
 
-        // Assert
-        await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage(string.Format(ErrorMessages.RegistrationFailed, "Password too short."));
+        [Fact]
+        public async Task Handle_ShouldReturnFail_WhenCreateUserFails()
+        {
+            var dto = CreateValidDto();
+
+            _userManagerMock.Setup(x => x.FindByEmailAsync(dto.Email))
+                .ReturnsAsync((User?)null);
+
+            _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<User>(), dto.Password))
+                .ReturnsAsync(IdentityResult.Failed(new IdentityError
+                {
+                    Description = "Password too weak"
+                }));
+
+            var result = await _handler.Handle(CreateCommand(dto), CancellationToken.None);
+
+            result.IsFailed.Should().BeTrue();
+            result.Errors.Select(e => e.Message).Should().Contain("Password too weak");
+        }
+
+        [Fact]
+        public async Task Handle_ShouldReturnFail_WhenAddToRoleFails()
+        {
+            var dto = CreateValidDto();
+
+            _userManagerMock.Setup(x => x.FindByEmailAsync(dto.Email))
+                .ReturnsAsync((User?)null);
+
+            _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<User>(), dto.Password))
+                .ReturnsAsync(IdentityResult.Success);
+
+            _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Failed(new IdentityError
+                {
+                    Description = "Role assignment error"
+                }));
+
+            var result = await _handler.Handle(CreateCommand(dto), CancellationToken.None);
+
+            result.IsFailed.Should().BeTrue();
+            result.Errors.Select(e => e.Message).Should().Contain("Role assignment error");
+        }
     }
 }

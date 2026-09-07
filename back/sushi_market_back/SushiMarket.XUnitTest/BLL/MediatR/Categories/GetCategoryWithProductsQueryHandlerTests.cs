@@ -2,6 +2,8 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using SushiMarket.BLL.DTOs.Categories;
 using SushiMarket.BLL.DTOs.Products;
 using SushiMarket.BLL.MediatR.Categories.GetCategoryWithProducts;
@@ -14,6 +16,7 @@ namespace SushiMarket.Tests.MediatR.Categories
     {
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
+        private readonly Mock<ILogger<GetCategoryWithProductsQueryHandler>> _loggerMock;
         private readonly GetCategoryWithProductsQueryHandler _handler;
 
         public GetCategoryWithProductsQueryHandlerTests()
@@ -24,25 +27,24 @@ namespace SushiMarket.Tests.MediatR.Categories
 
             _context = new SushiMarketDbContext(options);
 
-            var loggerFactory = LoggerFactory.Create(builder => { });
-
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Category, CategoryWithProductsDto>();
                 cfg.CreateMap<Product, ProductDto>();
-            }, loggerFactory);
+            }, NullLoggerFactory.Instance);
 
             _mapper = config.CreateMapper();
+            _loggerMock = new Mock<ILogger<GetCategoryWithProductsQueryHandler>>();
 
             _handler = new GetCategoryWithProductsQueryHandler(
                 _context,
-                _mapper);
+                _mapper,
+                _loggerMock.Object);
         }
 
         [Fact]
         public async Task Handle_WhenCategoryExists_ShouldReturnCategoryWithProductsDto()
         {
-            // Arrange
             var category = new Category
             {
                 Id = 1,
@@ -55,12 +57,10 @@ namespace SushiMarket.Tests.MediatR.Categories
 
             var query = new GetCategoryWithProductsQuery(1);
 
-            // Act
             var result = await _handler.Handle(
                 query,
                 CancellationToken.None);
 
-            // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType<CategoryWithProductsDto>();
 
@@ -75,15 +75,12 @@ namespace SushiMarket.Tests.MediatR.Categories
         [Fact]
         public async Task Handle_WhenCategoryDoesNotExist_ShouldThrowKeyNotFoundException()
         {
-            // Arrange
             var query = new GetCategoryWithProductsQuery(999);
 
-            // Act
             Func<Task> act = () => _handler.Handle(
                 query,
                 CancellationToken.None);
 
-            // Assert
             var exception = await act
                 .Should()
                 .ThrowAsync<KeyNotFoundException>();

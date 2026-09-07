@@ -28,17 +28,14 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task GetProducts_ReturnsOkResult_WithProductsList()
         {
-            // Arrange
             int? categoryId = 1;
             var expectedList = new List<ProductDto>();
             _mediatorMock
                 .Setup(m => m.Send(It.Is<GetProductsListQuery>(q => q.CategoryId == categoryId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedList);
 
-            // Act
             var result = await _controller.GetProducts(categoryId);
 
-            // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             okResult.Value.Should().BeEquivalentTo(expectedList);
         }
@@ -46,7 +43,6 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task GetProductById_ReturnsOkResult_WithProduct()
         {
-            // Arrange
             int productId = 1;
             var expectedProduct = new ProductDto { Id = productId };
 
@@ -54,10 +50,8 @@ namespace SushiMarket.Tests.Controllers
                 .Setup(m => m.Send(It.Is<GetProductByIdQuery>(q => q.Id == productId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedProduct);
 
-            // Act
             var result = await _controller.GetProductById(productId);
 
-            // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             okResult.Value.Should().BeEquivalentTo(expectedProduct);
         }
@@ -65,7 +59,6 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task CreateProduct_WhenValidRequest_ReturnsOkResultWithId()
         {
-            // Arrange
             var request = new CreateProductRequestDto
             {
                 TitleUa = "Філадельфія",
@@ -80,10 +73,8 @@ namespace SushiMarket.Tests.Controllers
                 .Setup(m => m.Send(It.IsAny<CreateProductCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedId);
 
-            // Act
             var result = await _controller.CreateProduct(request);
 
-            // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             okResult.Value.Should().Be(expectedId);
         }
@@ -91,21 +82,17 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task UpdateProduct_WhenIdMismatch_ReturnsBadRequest()
         {
-            // Arrange
             int routeId = 1;
             var request = new UpdateProductRequestDto { Id = 2 };
 
-            // Act
             var result = await _controller.UpdateProduct(routeId, request);
 
-            // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
         public async Task UpdateProduct_WhenValid_ReturnsNoContent()
         {
-            // Arrange
             int productId = 1;
             var request = new UpdateProductRequestDto
             {
@@ -127,44 +114,36 @@ namespace SushiMarket.Tests.Controllers
                 .Setup(m => m.Send(It.IsAny<UpdateProductCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Unit.Value);
 
-            // Act
             var result = await _controller.UpdateProduct(productId, request);
 
-            // Assert
             result.Should().BeOfType<NoContentResult>();
         }
 
         [Fact]
         public async Task DeleteProduct_ReturnsNoContent()
         {
-            // Arrange
             int productId = 1;
 
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<DeleteProductCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Unit.Value);
 
-            // Act
             var result = await _controller.DeleteProduct(productId);
 
-            // Assert
             result.Should().BeOfType<NoContentResult>();
         }
 
         [Fact]
         public async Task ReorderProduct_ReturnsNoContent()
         {
-            // Arrange
             var command = new ReorderProductCommand(1, 3.0);
 
             _mediatorMock
                 .Setup(m => m.Send(command, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Unit.Value);
 
-            // Act
             var result = await _controller.ReorderProduct(command);
 
-            // Assert
             result.Should().BeOfType<NoContentResult>();
         }
     }

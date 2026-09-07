@@ -1,17 +1,14 @@
 ﻿using FluentValidation;
-using SushiMarket.BLL.Validators.Auth;
+using SushiMarket.BLL.MediatR.Validators.Auth;
 
 namespace SushiMarket.BLL.MediatR.Auth.Login
 {
-    public class LoginCommandValidator : AbstractValidator<LoginCommand>
+    public class LoginCommandValidator : AbstractValidator<LoginUserCommand>
     {
         public LoginCommandValidator()
         {
-            RuleLevelCascadeMode = CascadeMode.Stop;
-
-            RuleFor(x => x.Model)
-                 .NotNull()
-                 .SetValidator(new LoginDtoValidator());
+            RuleFor(x => x.loginRequest)
+                .SetValidator(new UserLoginDtoValidator());
         }
     }
 }

@@ -1,15 +1,13 @@
-﻿using System.Security.Claims;
-using FluentAssertions;
+﻿using FluentAssertions;
+using FluentResults;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SushiMarket.BLL.DTOs.Auth;
 using SushiMarket.BLL.MediatR.Auth.Login;
+using SushiMarket.BLL.MediatR.Auth.Logout;
 using SushiMarket.BLL.MediatR.Auth.Register;
-using SushiMarket.DAL.Entities.Users;
+using SushiMarket.BLL.Services.Interfaces.Users;
 using SushiMarket.WebAPI.Controllers;
 using Xunit;
 
@@ -18,179 +16,121 @@ namespace SushiMarket.Tests.Controllers
     public class AuthControllerTests
     {
         private readonly Mock<IMediator> _mediatorMock;
-        private readonly Mock<UserManager<User>> _userManagerMock;
-        private readonly Mock<SignInManager<User>> _signInManagerMock;
+        private readonly Mock<IGoogleAuthService> _googleAuthServiceMock;
         private readonly AuthController _controller;
 
         public AuthControllerTests()
         {
             _mediatorMock = new Mock<IMediator>();
-
-            var userStoreMock = new Mock<IUserStore<User>>();
-            _userManagerMock = new Mock<UserManager<User>>(
-                userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
-
-            var contextAccessorMock = new Mock<IHttpContextAccessor>();
-            var claimsFactoryMock = new Mock<IUserClaimsPrincipalFactory<User>>();
-            var optionsMock = new Mock<Microsoft.Extensions.Options.IOptions<IdentityOptions>>();
-            var loggerMock = new Mock<Microsoft.Extensions.Logging.ILogger<SignInManager<User>>>();
-            var schemesMock = new Mock<IAuthenticationSchemeProvider>();
-            var confirmationMock = new Mock<IUserConfirmation<User>>();
-
-            _signInManagerMock = new Mock<SignInManager<User>>(
-                _userManagerMock.Object,
-                contextAccessorMock.Object,
-                claimsFactoryMock.Object,
-                optionsMock.Object,
-                loggerMock.Object,
-                schemesMock.Object,
-                confirmationMock.Object);
+            _googleAuthServiceMock = new Mock<IGoogleAuthService>();
 
             _controller = new AuthController(
                 _mediatorMock.Object,
-                _signInManagerMock.Object,
-                _userManagerMock.Object);
+                _googleAuthServiceMock.Object);
         }
 
         [Fact]
         public async Task Register_WhenValidDto_ReturnsOkResult()
         {
-            // Arrange
-            var dto = new RegisterDto { Email = "test@test.com", Password = "Password123!", Name = "Test", Surname = "User" };
-            var user = new User { Email = dto.Email, Name = dto.Name, Surname = dto.Surname };
+            var dto = new UserRegisterDto
+            {
+                Name = "Test",
+                Surname = "User",
+                Email = "test@test.com",
+                Password = "Password123!",
+                PasswordConfirmation = "Password123!"
+            };
+
+            var authResponse = new AuthResponseDto
+            {
+                User = new UserDto(),
+                Token = "fake-jwt-token",
+                RefreshToken = "fake-refresh-token",
+                ExpireAt = DateTime.UtcNow.AddHours(1)
+            };
+
+            var expectedResponse = Result.Ok(authResponse);
 
             _mediatorMock
-                .Setup(m => m.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Unit.Value);
+                .Setup(m => m.Send(It.IsAny<RegisterUserCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(expectedResponse);
 
-            _userManagerMock
-                .Setup(um => um.FindByEmailAsync(dto.Email))
-                .ReturnsAsync(user);
-
-            _signInManagerMock
-                .Setup(sm => sm.SignInAsync(user, true, null))
-                .Returns(Task.CompletedTask);
-
-            _userManagerMock
-                .Setup(um => um.GetRolesAsync(user))
-                .ReturnsAsync(new List<string> { "User" });
-
-            // Act
             var result = await _controller.Register(dto);
 
-            // Assert
-            var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-            okResult.Value.Should().NotBeNull();
-        }
+            result.Should().BeOfType<OkObjectResult>();
 
-        [Fact]
-        public async Task Register_WhenInvalidOperationException_ReturnsBadRequest()
-        {
-            // Arrange
-            var dto = new RegisterDto { Email = "test@test.com", Password = "Password123!" };
-
-            _mediatorMock
-                .Setup(m => m.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))
-                .ThrowsAsync(new InvalidOperationException("User already exists"));
-
-            // Act
-            var result = await _controller.Register(dto);
-
-            // Assert
-            var badRequestResult = result.Should().BeOfType<BadRequestObjectResult>().Subject;
-            badRequestResult.Value.Should().NotBeNull();
+            _mediatorMock.Verify(
+                m => m.Send(It.IsAny<RegisterUserCommand>(), It.IsAny<CancellationToken>()),
+                Times.Once);
         }
 
         [Fact]
         public async Task Login_WhenValidDto_ReturnsOkResult()
         {
-            // Arrange
-            var dto = new LoginDto { Email = "test@test.com", Password = "Password123!" };
-            var user = new User { Email = dto.Email, Name = "Test", Surname = "User" };
+            var dto = new UserLoginDto
+            {
+                Login = "test@test.com",
+                Password = "Password123!"
+            };
+
+            var authResponse = new AuthResponseDto
+            {
+                User = new UserDto(),
+                Token = "fake-jwt-token",
+                RefreshToken = "fake-refresh-token",
+                ExpireAt = DateTime.UtcNow.AddHours(1)
+            };
+
+            var expectedResponse = Result.Ok(authResponse);
 
             _mediatorMock
-                .Setup(m => m.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Unit.Value);
+                .Setup(m => m.Send(It.IsAny<LoginUserCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(expectedResponse);
 
-            _userManagerMock
-                .Setup(um => um.FindByEmailAsync(dto.Email))
-                .ReturnsAsync(user);
-
-            _signInManagerMock
-                .Setup(sm => sm.SignInAsync(user, true, null))
-                .Returns(Task.CompletedTask);
-
-            _userManagerMock
-                .Setup(um => um.GetRolesAsync(user))
-                .ReturnsAsync(new List<string> { "User" });
-
-            // Act
             var result = await _controller.Login(dto);
 
-            // Assert
-            var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-            okResult.Value.Should().NotBeNull();
-        }
-
-        [Fact]
-        public async Task Login_WhenUserNotFound_ReturnsUnauthorized()
-        {
-            // Arrange
-            var dto = new LoginDto { Email = "notfound@test.com", Password = "Password123!" };
-
-            _mediatorMock
-                .Setup(m => m.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Unit.Value);
-
-            _userManagerMock
-                .Setup(um => um.FindByEmailAsync(dto.Email))
-                .ReturnsAsync((User?)null);
-
-            // Act
-            var result = await _controller.Login(dto);
-
-            // Assert
-            result.Should().BeOfType<UnauthorizedObjectResult>();
-        }
-
-        [Fact]
-        public async Task Logout_ReturnsOkResult()
-        {
-            // Arrange
-            _signInManagerMock
-                .Setup(sm => sm.SignOutAsync())
-                .Returns(Task.CompletedTask);
-
-            // Act
-            var result = await _controller.Logout();
-
-            // Assert
             result.Should().BeOfType<OkObjectResult>();
+
+            _mediatorMock.Verify(
+                m => m.Send(It.IsAny<LoginUserCommand>(), It.IsAny<CancellationToken>()),
+                Times.Once);
         }
 
         [Fact]
-        public void GetUserInfo_WhenAuthenticated_ReturnsUserData()
+        public async Task Logout_WhenValidRefreshToken_ReturnsNoContentResult()
         {
-            // Arrange
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, "test@test.com"),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
-            var identity = new ClaimsIdentity(claims, "TestAuth");
-            var claimsPrincipal = new ClaimsPrincipal(identity);
+            var refreshToken = "valid-refresh-token";
+            var expectedResponse = Result.Ok(Unit.Value);
 
-            _controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext { User = claimsPrincipal }
-            };
+            _mediatorMock
+                .Setup(m => m.Send(
+                    It.IsAny<LogoutUserCommand>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(expectedResponse);
 
-            // Act
-            var result = _controller.GetUserInfo();
+            var result = await _controller.Logout(refreshToken);
 
-            // Assert
-            var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-            okResult.Value.Should().NotBeNull();
+            result.Should().BeOfType<NoContentResult>();
+
+            _mediatorMock.Verify(
+                m => m.Send(
+                    It.IsAny<LogoutUserCommand>(),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        [Fact]
+        public async Task Logout_WhenRefreshTokenMissing_ReturnsBadRequest()
+        {
+            var refreshToken = string.Empty;
+
+            var result = await _controller.Logout(refreshToken);
+
+            result.Should().BeOfType<BadRequestObjectResult>();
+
+            _mediatorMock.Verify(
+                m => m.Send(It.IsAny<LogoutUserCommand>(), It.IsAny<CancellationToken>()),
+                Times.Never);
         }
     }
 }

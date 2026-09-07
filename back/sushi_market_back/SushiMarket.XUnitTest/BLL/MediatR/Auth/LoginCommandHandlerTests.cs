@@ -1,100 +1,114 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using SushiMarket.BLL.DTOs.Auth;
 using SushiMarket.BLL.MediatR.Auth.Login;
+using SushiMarket.BLL.Services.Interfaces.Logging;
+using SushiMarket.BLL.Services.Interfaces.Users;
 using SushiMarket.DAL.Entities.Users;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 public class LoginCommandHandlerTests
 {
-    private readonly Mock<UserManager<User>> _userManagerMock;
-    private readonly LoginCommandHandler _handler;
-
-    public LoginCommandHandlerTests()
+    public class LoginUserHandlerTests
     {
-        var store = new Mock<IUserStore<User>>();
-        _userManagerMock = new Mock<UserManager<User>>(store.Object, null!, null!, null!, null!, null!, null!, null!, null!);
+        private readonly Mock<UserManager<User>> _userManagerMock;
+        private readonly IMapper _mapper;
+        private readonly Mock<ILoggerService> _loggerMock;
+        private readonly Mock<IAuthService> _authServiceMock;
+        private readonly LoginUserHandler _handler;
 
-        _handler = new LoginCommandHandler(_userManagerMock.Object);
-    }
-
-    [Fact]
-    public async Task Handle_WithValidCredentials_ShouldSucceed()
-    {
-        // Arrange
-        var command = new LoginCommand(new LoginDto
+        public LoginUserHandlerTests()
         {
-            Email = "test@sushimarket.com",
-            Password = "ValidPassword123!"
-        });
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<User, UserDto>();
+            }, NullLoggerFactory.Instance);
 
-        var user = new User { Email = command.Model.Email };
+            _mapper = config.CreateMapper();
+            var userStoreMock = new Mock<IUserStore<User>>();
+            _userManagerMock = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
+            _loggerMock = new Mock<ILoggerService>();
+            _authServiceMock = new Mock<IAuthService>();
 
-        _userManagerMock
-            .Setup(x => x.FindByEmailAsync(command.Model.Email))
-            .ReturnsAsync(user);
+            _handler = new LoginUserHandler(_userManagerMock.Object, _mapper, _loggerMock.Object, _authServiceMock.Object);
+        }
 
-        _userManagerMock
-            .Setup(x => x.CheckPasswordAsync(user, command.Model.Password))
-            .ReturnsAsync(true);
-
-        // Act
-        var act = async () => await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        await act.Should().NotThrowAsync();
-    }
-
-    [Fact]
-    public async Task Handle_WithNonExistentEmail_ShouldThrowUnauthorizedAccessException()
-    {
-        // Arrange
-        var command = new LoginCommand(new LoginDto
+        private static User CreateTestUser() => new()
         {
-            Email = "wrong@sushimarket.com",
-            Password = "Password123!"
-        });
+            Id = 1,
+            UserName = "testUser",
+            Name = "John",
+            Surname = "Doe"
+        };
 
-        _userManagerMock
-            .Setup(x => x.FindByEmailAsync(command.Model.Email))
-            .ReturnsAsync((User?)null);
-
-        // Act
-        var act = async () => await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        await act.Should().ThrowAsync<UnauthorizedAccessException>()
-            .WithMessage("Invalid email or password.");
-    }
-
-    [Fact]
-    public async Task Handle_WithInvalidPassword_ShouldThrowUnauthorizedAccessException()
-    {
-        // Arrange
-        var command = new LoginCommand(new LoginDto
+        [Fact]
+        public async Task Handle_ValidCredentials_ReturnsSuccessResult()
         {
-            Email = "test@sushimarket.com",
-            Password = "WrongPassword!"
-        });
+            var user = CreateTestUser();
+            var loginDto = new UserLoginDto { Login = user.UserName!, Password = "password" };
 
-        var user = new User { Email = command.Model.Email };
+            var authResponse = new AuthResponseDto
+            {
+                User = new UserDto { Id = user.Id, Name = user.Name, Surname = user.Surname },
+                Token = "jwt-token",
+                RefreshToken = "refresh-token",
+                ExpireAt = DateTime.UtcNow.AddHours(1)
+            };
 
-        _userManagerMock
-            .Setup(x => x.FindByEmailAsync(command.Model.Email))
-            .ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.FindByNameAsync(loginDto.Login!)).ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.CheckPasswordAsync(user, loginDto.Password)).ReturnsAsync(true);
+            _authServiceMock.Setup(x => x.CreateLoginResultAsync(user)).ReturnsAsync(authResponse);
 
-        _userManagerMock
-            .Setup(x => x.CheckPasswordAsync(user, command.Model.Password))
-            .ReturnsAsync(false);
+            var result = await _handler.Handle(new LoginUserCommand(loginDto), CancellationToken.None);
 
-        // Act
-        var act = async () => await _handler.Handle(command, CancellationToken.None);
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Should().Be(authResponse);
+        }
 
-        // Assert
-        await act.Should().ThrowAsync<UnauthorizedAccessException>()
-            .WithMessage("Invalid email or password.");
+        [Fact]
+        public async Task Handle_UserNotFound_ReturnsFailResult()
+        {
+            var loginDto = new UserLoginDto { Login = "nonexistent", Password = "password" };
+
+            _userManagerMock.Setup(x => x.FindByNameAsync(It.IsAny<string>())).ReturnsAsync((User?)null);
+
+            var result = await _handler.Handle(new LoginUserCommand(loginDto), CancellationToken.None);
+
+            result.IsFailed.Should().BeTrue();
+            result.Errors.Should().ContainSingle(e => e.Message == "Invalid login or password.");
+            _loggerMock.Verify(x => x.LogError(It.IsAny<LoginUserCommand>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task Handle_InvalidPassword_ReturnsFailResult()
+        {
+            var user = CreateTestUser();
+            var loginDto = new UserLoginDto { Login = user.UserName!, Password = "wrongPassword" };
+
+            _userManagerMock.Setup(x => x.FindByNameAsync(user.UserName!)).ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.CheckPasswordAsync(user, loginDto.Password)).ReturnsAsync(false);
+
+            var result = await _handler.Handle(new LoginUserCommand(loginDto), CancellationToken.None);
+
+            result.IsFailed.Should().BeTrue();
+            _loggerMock.Verify(x => x.LogError(It.IsAny<LoginUserCommand>(), It.IsAny<string>()), Times.Once);
+            _authServiceMock.Verify(x => x.CreateLoginResultAsync(It.IsAny<User>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task Handle_SuccessfulLogin_LogsInformation()
+        {
+            var user = CreateTestUser();
+            var loginDto = new UserLoginDto { Login = user.UserName!, Password = "password" };
+
+            _userManagerMock.Setup(x => x.FindByNameAsync(user.UserName!)).ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.CheckPasswordAsync(user, loginDto.Password)).ReturnsAsync(true);
+
+            await _handler.Handle(new LoginUserCommand(loginDto), CancellationToken.None);
+
+            _loggerMock.Verify(x => x.LogInformation(It.Is<string>(s => s.Contains("successfully logged in"))), Times.Once);
+        }
     }
 }
