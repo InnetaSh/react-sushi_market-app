@@ -31,16 +31,13 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task GetCategories_ReturnsOkResult_WithCategoriesList()
         {
-            // Arrange
             var expectedList = new List<CategoryDto>();
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<GetCategoriesListQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedList);
 
-            // Act
             var result = await _controller.GetCategories();
 
-            // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             okResult.Value.Should().BeEquivalentTo(expectedList);
         }
@@ -48,7 +45,6 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task GetCategoryById_ReturnsOkResult_WithCategory()
         {
-            // Arrange
             int categoryId = 1;
             var expectedCategory = new CategoryDto { Id = categoryId };
 
@@ -56,10 +52,8 @@ namespace SushiMarket.Tests.Controllers
                 .Setup(m => m.Send(It.Is<GetCategoryByIdQuery>(q => q.Id == categoryId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedCategory);
 
-            // Act
             var result = await _controller.GetCategoryById(categoryId);
 
-            // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             okResult.Value.Should().BeEquivalentTo(expectedCategory);
         }
@@ -67,7 +61,6 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task GetCategoryWithProducts_ReturnsOkResult_WithCategoryAndProducts()
         {
-            // Arrange
             int categoryId = 1;
             var expectedResult = new CategoryWithProductsDto { Id = categoryId };
 
@@ -75,10 +68,8 @@ namespace SushiMarket.Tests.Controllers
                 .Setup(m => m.Send(It.Is<GetCategoryWithProductsQuery>(q => q.CategoryId == categoryId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedResult);
 
-            // Act
             var result = await _controller.GetCategoryWithProducts(categoryId);
 
-            // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             okResult.Value.Should().BeEquivalentTo(expectedResult);
         }
@@ -86,17 +77,14 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task GetCategoriesWithProducts_ReturnsOkResult_WithCategoriesAndProductsList()
         {
-            // Arrange
             var expectedList = new List<CategoryWithProductsDto>();
 
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<GetCategoriesWithProductsQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedList);
 
-            // Act
             var result = await _controller.GetCategoriesWithProducts();
 
-            // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             okResult.Value.Should().BeEquivalentTo(expectedList);
         }
@@ -104,7 +92,6 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task CreateCategory_WhenValidRequest_ReturnsOkResultWithId()
         {
-            // Arrange
             var request = new CreateCategoryRequestDto
             {
                 TitleUa = "Суші",
@@ -117,10 +104,8 @@ namespace SushiMarket.Tests.Controllers
                 .Setup(m => m.Send(It.IsAny<CreateCategoryCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedId);
 
-            // Act
             var result = await _controller.CreateCategory(request);
 
-            // Assert
             var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
             okResult.Value.Should().Be(expectedId);
         }
@@ -128,21 +113,17 @@ namespace SushiMarket.Tests.Controllers
         [Fact]
         public async Task UpdateCategory_WhenIdMismatch_ReturnsBadRequest()
         {
-            // Arrange
             int routeId = 1;
             var request = new UpdateCategoryRequestDto { Id = 2 };
 
-            // Act
             var result = await _controller.UpdateCategory(routeId, request);
 
-            // Assert
             result.Should().BeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
         public async Task UpdateCategory_WhenValid_ReturnsNoContent()
         {
-            // Arrange
             int categoryId = 1;
             var request = new UpdateCategoryRequestDto
             {
@@ -162,44 +143,36 @@ namespace SushiMarket.Tests.Controllers
                 .Setup(m => m.Send(It.IsAny<UpdateCategoryCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Unit.Value);
 
-            // Act
             var result = await _controller.UpdateCategory(categoryId, request);
 
-            // Assert
             result.Should().BeOfType<NoContentResult>();
         }
 
         [Fact]
         public async Task DeleteCategory_ReturnsNoContent()
         {
-            // Arrange
             int categoryId = 1;
 
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<DeleteCategoryCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Unit.Value);
 
-            // Act
             var result = await _controller.DeleteCategory(categoryId);
 
-            // Assert
             result.Should().BeOfType<NoContentResult>();
         }
 
         [Fact]
         public async Task ReorderCategory_ReturnsNoContent()
         {
-            // Arrange
             var command = new ReorderCategoryCommand(1, 2.0);
 
             _mediatorMock
                 .Setup(m => m.Send(command, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Unit.Value);
 
-            // Act
             var result = await _controller.ReorderCategory(command);
 
-            // Assert
             result.Should().BeOfType<NoContentResult>();
         }
     }

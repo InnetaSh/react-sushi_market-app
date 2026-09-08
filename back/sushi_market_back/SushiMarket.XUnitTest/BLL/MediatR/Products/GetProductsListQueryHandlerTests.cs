@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Moq;
 using SushiMarket.BLL.DTOs.Products;
 using SushiMarket.BLL.MediatR.Products.GetProductsList;
 using SushiMarket.DAL;
@@ -13,6 +14,7 @@ namespace SushiMarket.Tests.MediatR.Products
     {
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
+        private readonly Mock<ILogger<GetProductsListQueryHandler>> _loggerMock;
         private readonly GetProductsListQueryHandler _handler;
 
         public GetProductsListQueryHandlerTests()
@@ -31,16 +33,17 @@ namespace SushiMarket.Tests.MediatR.Products
             }, loggerFactory);
 
             _mapper = config.CreateMapper();
+            _loggerMock = new Mock<ILogger<GetProductsListQueryHandler>>();
 
             _handler = new GetProductsListQueryHandler(
                 _context,
-                _mapper);
+                _mapper,
+                _loggerMock.Object);
         }
 
         [Fact]
         public async Task Handle_WhenCategoryIdIsSpecified_ShouldReturnProductsFromCategory()
         {
-            // Arrange
             var category1 = new Category
             {
                 Id = 1,
@@ -105,12 +108,10 @@ namespace SushiMarket.Tests.MediatR.Products
 
             var query = new GetProductsListQuery(CategoryId: 1);
 
-            // Act
             var result = (await _handler.Handle(
                 query,
                 CancellationToken.None)).ToList();
 
-            // Assert
             result.Should().HaveCount(2);
 
             result.Should().OnlyContain(p =>
@@ -123,7 +124,6 @@ namespace SushiMarket.Tests.MediatR.Products
         [Fact]
         public async Task Handle_WhenCategoryIdIsNull_ShouldReturnAllProducts()
         {
-            // Arrange
             var category1 = new Category
             {
                 Id = 1,
@@ -185,12 +185,10 @@ namespace SushiMarket.Tests.MediatR.Products
 
             var query = new GetProductsListQuery(CategoryId: null);
 
-            // Act
             var result = (await _handler.Handle(
                 query,
                 CancellationToken.None)).ToList();
 
-            // Assert
             result.Should().HaveCount(3);
 
             result.Select(p => p.Id)
@@ -201,7 +199,6 @@ namespace SushiMarket.Tests.MediatR.Products
         [Fact]
         public async Task Handle_ShouldReturnProductsOrderedBySortOrder()
         {
-            // Arrange
             _context.Products.AddRange(
                 new Product
                 {
@@ -247,12 +244,10 @@ namespace SushiMarket.Tests.MediatR.Products
 
             var query = new GetProductsListQuery(CategoryId: null);
 
-            // Act
             var result = (await _handler.Handle(
                 query,
                 CancellationToken.None)).ToList();
 
-            // Assert
             result.Should().HaveCount(3);
 
             result[0].Id.Should().Be(2);
@@ -263,15 +258,12 @@ namespace SushiMarket.Tests.MediatR.Products
         [Fact]
         public async Task Handle_WhenNoProductsExist_ShouldReturnEmptyList()
         {
-            // Arrange
             var query = new GetProductsListQuery(CategoryId: null);
 
-            // Act
             var result = (await _handler.Handle(
                 query,
                 CancellationToken.None)).ToList();
 
-            // Assert
             result.Should().NotBeNull();
             result.Should().BeEmpty();
         }

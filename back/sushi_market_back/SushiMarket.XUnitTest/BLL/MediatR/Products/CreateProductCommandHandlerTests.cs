@@ -3,8 +3,10 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Moq;
 using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.MediatR.Products.CreateProduct;
+using SushiMarket.BLL.Services.Interfaces.Cloudinary;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
 
@@ -15,6 +17,8 @@ namespace SushiMarket.Tests.MediatR.Products
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
         private readonly TranslatorHelper.Translator _translator;
+        private readonly Mock<ICloudinaryService> _cloudinaryServiceMock;
+        private readonly Mock<ILogger<CreateProductCommandHandler>> _loggerMock;
         private readonly CreateProductCommandHandler _handler;
 
         public CreateProductCommandHandlerTests()
@@ -39,17 +43,20 @@ namespace SushiMarket.Tests.MediatR.Products
                 .Build();
 
             _translator = new TranslatorHelper.Translator(configuration);
+            _cloudinaryServiceMock = new Mock<ICloudinaryService>();
+            _loggerMock = new Mock<ILogger<CreateProductCommandHandler>>();
 
             _handler = new CreateProductCommandHandler(
                 _context,
                 _mapper,
-                _translator);
+                _translator,
+                _cloudinaryServiceMock.Object,
+                _loggerMock.Object);
         }
 
         [Fact]
         public async Task Handle_WhenValidCommand_ShouldCreateProductAndReturnId()
         {
-            // Arrange
             var category = new Category
             {
                 Id = 1,
@@ -67,17 +74,15 @@ namespace SushiMarket.Tests.MediatR.Products
                 DescriptionEn: "Roll with salmon and cheese",
                 WeightOrVolume: "250 г",
                 Price: 250m,
-                ImgSrc: "philadelphia.png",
+                Image: null,
                 SortOrder: 1,
                 CategoryId: 1
             );
 
-            // Act
             var result = await _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             result.Should().BeGreaterThan(0);
 
             var product = await _context.Products
@@ -90,7 +95,7 @@ namespace SushiMarket.Tests.MediatR.Products
             product.DescriptionEn.Should().Be("Roll with salmon and cheese");
             product.WeightOrVolume.Should().Be("250 г");
             product.Price.Should().Be(250m);
-            product.ImgSrc.Should().Be("philadelphia.png");
+            product.ImgSrc.Should().BeEmpty();
             product.SortOrder.Should().Be(1);
             product.CategoryId.Should().Be(1);
         }
@@ -98,7 +103,6 @@ namespace SushiMarket.Tests.MediatR.Products
         [Fact]
         public async Task Handle_WhenValidCommand_ShouldAddProductToDatabase()
         {
-            // Arrange
             var category = new Category
             {
                 Id = 1,
@@ -116,17 +120,15 @@ namespace SushiMarket.Tests.MediatR.Products
                 DescriptionEn: "Roll with crab meat",
                 WeightOrVolume: "300 г",
                 Price: 220m,
-                ImgSrc: "california.png",
+                Image: null,
                 SortOrder: 2,
                 CategoryId: 1
             );
 
-            // Act
             var productId = await _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             var productsCount = await _context.Products.CountAsync();
 
             productsCount.Should().Be(1);

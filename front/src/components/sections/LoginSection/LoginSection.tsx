@@ -33,21 +33,25 @@ const LoginSection: React.FC = () => {
             setIsLoading(true);
 
             if (isRegistering) {
-                await UserApi.register({
+                const response = await UserApi.register({
                     name: values.name,
+                    surname: values.surname || '',
                     email: values.login,
                     password: values.password,
                 });
-                message.success(t('AUTH.SUCCESS_REGISTER' as any));
 
+                if (response && response.token) {
+                    AuthStore.setUserLoginResponse(response);
+                }
+
+                message.success(t('AUTH.SUCCESS_REGISTER' as any));
                 setIsRegistering(false);
-                setIsLoading(false);
                 form.resetFields();
                 return;
             }
 
             const response = await UserApi.login({
-                email: values.login,
+                login: values.login,
                 password: values.password,
             });
 
@@ -87,13 +91,23 @@ const LoginSection: React.FC = () => {
                         onFinish={handleFinish}
                     >
                         {isRegistering && (
-                            <Form.Item
-                                label={t('AUTH.LABEL_NAME' as any)}
-                                name="name"
-                                rules={[{ required: true, message: t('AUTH.ERROR_NAME' as any) }]}
-                            >
-                                <Input maxLength={100} placeholder={t('AUTH.PLACEHOLDER_NAME' as any)} />
-                            </Form.Item>
+                            <>
+                                <Form.Item
+                                    label={t('AUTH.LABEL_NAME' as any)}
+                                    name="name"
+                                    rules={[{ required: true, message: t('AUTH.ERROR_NAME' as any) }]}
+                                >
+                                    <Input maxLength={100} placeholder={t('AUTH.PLACEHOLDER_NAME' as any)} />
+                                </Form.Item>
+
+                                <Form.Item
+                                    label={t('AUTH.LABEL_SURNAME' as any)}
+                                    name="surname"
+                                    rules={[{ required: true, message: t('AUTH.ERROR_SURNAME' as any) }]}
+                                >
+                                    <Input maxLength={100} placeholder={t('AUTH.PLACEHOLDER_SURNAME' as any)} />
+                                </Form.Item>
+                            </>
                         )}
 
                         <Form.Item
@@ -189,9 +203,9 @@ const LoginSection: React.FC = () => {
                                         onSuccess={async (credentialResponse) => {
                                             try {
                                                 setIsLoading(true);
-                                                const response = await UserApi.googleLogin({
-                                                    idToken: credentialResponse.credential as string
-                                                });
+                                                const response = await UserApi.googleLogin(
+                                                    credentialResponse.credential as string
+                                                );
                                                 AuthStore.setUserLoginResponse(response);
                                                 redirectAfterLogin(response?.user || response);
                                             } catch (e) {

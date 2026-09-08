@@ -4,3 +4,12 @@ export interface IMenuItemProps {
     title: string;
     onClick: () => void;
 }
+
+export interface IProduct {
+    id: number | string;
+    title?: string;
+    name?: string;
+    price?: number;
+    sortOrder?: number;
+    [key: string]: any;
+}

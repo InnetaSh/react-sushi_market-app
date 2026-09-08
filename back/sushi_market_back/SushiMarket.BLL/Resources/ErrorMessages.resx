@@ -147,7 +147,13 @@
   <data name="EmailInvalidFormat" xml:space="preserve">
     <value>Invalid email format.</value>
   </data>
+  <data name="EmailIsRequired" xml:space="preserve">
+    <value>Email is required.</value>
+  </data>
   <data name="EmailMaxLength" xml:space="preserve">
+    <value>Email must not exceed {0} characters.</value>
+  </data>
+  <data name="EmailMustNotExceedCharacters" xml:space="preserve">
     <value>Email must not exceed {0} characters.</value>
   </data>
   <data name="EmailRequired" xml:space="preserve">
@@ -156,23 +162,53 @@
   <data name="FieldIsRequired" xml:space="preserve">
     <value>The field {0} is required.</value>
   </data>
+  <data name="GoogleIDTokenIsRequired" xml:space="preserve">
+    <value>Google ID Token is required.</value>
+  </data>
   <data name="IdMustBePositive" xml:space="preserve">
     <value>ID must be greater than zero</value>
   </data>
   <data name="ImgSrcRequired" xml:space="preserve">
     <value>Image source is required.</value>
   </data>
+  <data name="InvalidEmailFormat" xml:space="preserve">
+    <value>Invalid email format.</value>
+  </data>
+  <data name="InvalidTokenFormat" xml:space="preserve">
+    <value>Invalid Google Token Format.</value>
+  </data>
+  <data name="InvalidUserRole" xml:space="preserve">
+    <value>Invalid user role.</value>
+  </data>
   <data name="LikesCountInvalid" xml:space="preserve">
     <value>Likes count must be greater than or equal to zero.</value>
+  </data>
+  <data name="LoginIsRequired" xml:space="preserve">
+    <value>Login is required.</value>
+  </data>
+  <data name="LoginMustNotExceedCharacters" xml:space="preserve">
+    <value>Login must not exceed {0} characters.</value>
   </data>
   <data name="MaxLengthExceeded" xml:space="preserve">
     <value>The field exceeds the maximum length of {0} characters.</value>
   </data>
+  <data name="NameIsRequired" xml:space="preserve">
+    <value>Name is required.</value>
+  </data>
   <data name="NameMaxLength" xml:space="preserve">
+    <value>Name must not exceed {0} characters.</value>
+  </data>
+  <data name="NameMustNotExceedCharacters" xml:space="preserve">
     <value>Name must not exceed {0} characters.</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Name is required.</value>
+  </data>
+  <data name="PasswordConfirmationIsRequired" xml:space="preserve">
+    <value>Password Confirmation is required.</value>
+  </data>
+  <data name="PasswordIsRequired" xml:space="preserve">
+    <value>Password is required.</value>
   </data>
   <data name="PasswordMaxLength" xml:space="preserve">
     <value>Password must not exceed {0} characters.</value>
@@ -180,8 +216,17 @@
   <data name="PasswordMinLength" xml:space="preserve">
     <value>Password must be at least {0} characters long.</value>
   </data>
+  <data name="PasswordMustBeAtLeastCharacters" xml:space="preserve">
+    <value>Password must not exceed {0} characters.</value>
+  </data>
+  <data name="PasswordMustNotExceedCharacters" xml:space="preserve">
+    <value>Password must not exceed {0} characters.</value>
+  </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>Password is required.</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>Passwords did not match.</value>
   </data>
   <data name="PriceGreaterThanZero" xml:space="preserve">
     <value>Price must be greater than zero.</value>
@@ -201,7 +246,13 @@
   <data name="SortOrderMustBeNonNegative" xml:space="preserve">
     <value>Sort order must be greater than or equal to zero.</value>
   </data>
+  <data name="SurnameIsRequired" xml:space="preserve">
+    <value>Surname is required.</value>
+  </data>
   <data name="SurnameMaxLength" xml:space="preserve">
+    <value>Surname must not exceed {0} characters.</value>
+  </data>
+  <data name="SurnameMustNotExceedCharacters" xml:space="preserve">
     <value>Surname must not exceed {0} characters.</value>
   </data>
   <data name="SurnameRequired" xml:space="preserve">

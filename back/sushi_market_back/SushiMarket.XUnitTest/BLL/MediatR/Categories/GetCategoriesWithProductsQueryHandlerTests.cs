@@ -2,6 +2,8 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using SushiMarket.BLL.DTOs.Categories;
 using SushiMarket.BLL.DTOs.Products;
 using SushiMarket.BLL.MediatR.Categories.GetCategoriesWithProducts;
@@ -14,6 +16,7 @@ namespace SushiMarket.Tests.MediatR.Categories
     {
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
+        private readonly Mock<ILogger<GetCategoriesWithProductsQueryHandler>> _loggerMock;
         private readonly GetCategoriesWithProductsQueryHandler _handler;
 
         public GetCategoriesWithProductsQueryHandlerTests()
@@ -24,29 +27,24 @@ namespace SushiMarket.Tests.MediatR.Categories
 
             _context = new SushiMarketDbContext(options);
 
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-            });
-
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Category, CategoryWithProductsDto>();
-
                 cfg.CreateMap<Product, ProductDto>();
-            }, loggerFactory);
+            }, NullLoggerFactory.Instance);
 
             _mapper = config.CreateMapper();
+            _loggerMock = new Mock<ILogger<GetCategoriesWithProductsQueryHandler>>();
 
             _handler = new GetCategoriesWithProductsQueryHandler(
                 _context,
-                _mapper);
+                _mapper,
+                _loggerMock.Object);
         }
 
         [Fact]
         public async Task Handle_WhenCategoriesWithProductsExist_ShouldReturnOrderedList()
         {
-            // Arrange
             _context.Categories.AddRange(
                 new Category
                 {
@@ -68,12 +66,10 @@ namespace SushiMarket.Tests.MediatR.Categories
 
             var query = new GetCategoriesWithProductsQuery();
 
-            // Act
             var result = await _handler.Handle(
                 query,
                 CancellationToken.None);
 
-            // Assert
             result.Should().NotBeNull();
             result.Should().HaveCount(2);
 
@@ -84,15 +80,12 @@ namespace SushiMarket.Tests.MediatR.Categories
         [Fact]
         public async Task Handle_WhenNoCategoriesExist_ShouldReturnEmptyList()
         {
-            // Arrange
             var query = new GetCategoriesWithProductsQuery();
 
-            // Act
             var result = await _handler.Handle(
                 query,
                 CancellationToken.None);
 
-            // Assert
             result.Should().NotBeNull();
             result.Should().BeEmpty();
         }

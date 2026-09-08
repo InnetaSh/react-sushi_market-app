@@ -1,17 +1,16 @@
 ﻿using FluentValidation;
+using SushiMarket.BLL.MediatR.Validators.Auth;
 using SushiMarket.BLL.Validators.Auth;
 
 namespace SushiMarket.BLL.MediatR.Auth.Register
 {
-    public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+    public class RegisterCommandValidator
+        : AbstractValidator<RegisterUserCommand>
     {
         public RegisterCommandValidator()
         {
-            RuleLevelCascadeMode = CascadeMode.Stop;
-
-            RuleFor(x => x.Model)
-                .NotNull()
-                .SetValidator(new RegisterDtoValidator());
+            RuleFor(x => x.registerRequest)
+                .SetValidator(new UserRegisterDtoValidator());
         }
     }
 }

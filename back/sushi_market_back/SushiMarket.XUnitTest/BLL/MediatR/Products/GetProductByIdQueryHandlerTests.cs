@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Moq;
 using SushiMarket.BLL.DTOs.Products;
 using SushiMarket.BLL.MediatR.Products.GetProductById;
 using SushiMarket.DAL;
@@ -13,6 +14,7 @@ namespace SushiMarket.Tests.MediatR.Products
     {
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
+        private readonly Mock<ILogger<GetProductByIdQueryHandler>> _loggerMock;
         private readonly GetProductByIdQueryHandler _handler;
 
         public GetProductByIdQueryHandlerTests()
@@ -31,16 +33,17 @@ namespace SushiMarket.Tests.MediatR.Products
             }, loggerFactory);
 
             _mapper = config.CreateMapper();
+            _loggerMock = new Mock<ILogger<GetProductByIdQueryHandler>>();
 
             _handler = new GetProductByIdQueryHandler(
                 _context,
-                _mapper);
+                _mapper,
+                _loggerMock.Object);
         }
 
         [Fact]
         public async Task Handle_WhenProductExists_ShouldReturnProductDto()
         {
-            // Arrange
             var category = new Category
             {
                 Id = 1,
@@ -69,12 +72,10 @@ namespace SushiMarket.Tests.MediatR.Products
 
             var query = new GetProductByIdQuery(1);
 
-            // Act
             var result = await _handler.Handle(
                 query,
                 CancellationToken.None);
 
-            // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType<ProductDto>();
 
@@ -92,15 +93,12 @@ namespace SushiMarket.Tests.MediatR.Products
         [Fact]
         public async Task Handle_WhenProductDoesNotExist_ShouldThrowKeyNotFoundException()
         {
-            // Arrange
             var query = new GetProductByIdQuery(999);
 
-            // Act
             Func<Task> act = () => _handler.Handle(
                 query,
                 CancellationToken.None);
 
-            // Assert
             var exception = await act
                 .Should()
                 .ThrowAsync<KeyNotFoundException>();

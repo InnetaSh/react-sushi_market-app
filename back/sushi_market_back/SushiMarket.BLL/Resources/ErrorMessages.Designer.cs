@@ -151,11 +151,29 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email is required..
+        /// </summary>
+        public static string EmailIsRequired {
+            get {
+                return ResourceManager.GetString("EmailIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email must not exceed {0} characters..
         /// </summary>
         public static string EmailMaxLength {
             get {
                 return ResourceManager.GetString("EmailMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email must not exceed {0} characters..
+        /// </summary>
+        public static string EmailMustNotExceedCharacters {
+            get {
+                return ResourceManager.GetString("EmailMustNotExceedCharacters", resourceCulture);
             }
         }
         
@@ -178,6 +196,15 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Google ID Token is required..
+        /// </summary>
+        public static string GoogleIDTokenIsRequired {
+            get {
+                return ResourceManager.GetString("GoogleIDTokenIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID must be greater than zero.
         /// </summary>
         public static string IdMustBePositive {
@@ -196,11 +223,56 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid email format..
+        /// </summary>
+        public static string InvalidEmailFormat {
+            get {
+                return ResourceManager.GetString("InvalidEmailFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Google Token Format..
+        /// </summary>
+        public static string InvalidTokenFormat {
+            get {
+                return ResourceManager.GetString("InvalidTokenFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid user role..
+        /// </summary>
+        public static string InvalidUserRole {
+            get {
+                return ResourceManager.GetString("InvalidUserRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Likes count must be greater than or equal to zero..
         /// </summary>
         public static string LikesCountInvalid {
             get {
                 return ResourceManager.GetString("LikesCountInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login is required..
+        /// </summary>
+        public static string LoginIsRequired {
+            get {
+                return ResourceManager.GetString("LoginIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login must not exceed {0} characters..
+        /// </summary>
+        public static string LoginMustNotExceedCharacters {
+            get {
+                return ResourceManager.GetString("LoginMustNotExceedCharacters", resourceCulture);
             }
         }
         
@@ -214,6 +286,15 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name is required..
+        /// </summary>
+        public static string NameIsRequired {
+            get {
+                return ResourceManager.GetString("NameIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name must not exceed {0} characters..
         /// </summary>
         public static string NameMaxLength {
@@ -223,11 +304,38 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name must not exceed {0} characters..
+        /// </summary>
+        public static string NameMustNotExceedCharacters {
+            get {
+                return ResourceManager.GetString("NameMustNotExceedCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name is required..
         /// </summary>
         public static string NameRequired {
             get {
                 return ResourceManager.GetString("NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password Confirmation is required..
+        /// </summary>
+        public static string PasswordConfirmationIsRequired {
+            get {
+                return ResourceManager.GetString("PasswordConfirmationIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is required..
+        /// </summary>
+        public static string PasswordIsRequired {
+            get {
+                return ResourceManager.GetString("PasswordIsRequired", resourceCulture);
             }
         }
         
@@ -250,11 +358,38 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password must not exceed {0} characters..
+        /// </summary>
+        public static string PasswordMustBeAtLeastCharacters {
+            get {
+                return ResourceManager.GetString("PasswordMustBeAtLeastCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must not exceed {0} characters..
+        /// </summary>
+        public static string PasswordMustNotExceedCharacters {
+            get {
+                return ResourceManager.GetString("PasswordMustNotExceedCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password is required..
         /// </summary>
         public static string PasswordRequired {
             get {
                 return ResourceManager.GetString("PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords did not match..
+        /// </summary>
+        public static string PasswordsDoNotMatch {
+            get {
+                return ResourceManager.GetString("PasswordsDoNotMatch", resourceCulture);
             }
         }
         
@@ -313,11 +448,29 @@ namespace SushiMarket.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Surname is required..
+        /// </summary>
+        public static string SurnameIsRequired {
+            get {
+                return ResourceManager.GetString("SurnameIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Surname must not exceed {0} characters..
         /// </summary>
         public static string SurnameMaxLength {
             get {
                 return ResourceManager.GetString("SurnameMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surname must not exceed {0} characters..
+        /// </summary>
+        public static string SurnameMustNotExceedCharacters {
+            get {
+                return ResourceManager.GetString("SurnameMustNotExceedCharacters", resourceCulture);
             }
         }
         

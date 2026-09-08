@@ -10,7 +10,7 @@ interface CategoriesTabProps {
   t: any;
   isEn: boolean;
   localCategories: any[];
-  selectedCategoryId: number | null;
+  selectedCategoryId: number | string | null;
   selectedCategoryObj: any;
   currentCategoryProducts: any[];
   hasOrderChanges: boolean;

@@ -1,4 +1,6 @@
 ﻿using FluentValidation.TestHelper;
+using Microsoft.AspNetCore.Http;
+using Moq;
 using SushiMarket.BLL.MediatR.Products.CreateProduct;
 using Xunit;
 
@@ -7,32 +9,31 @@ namespace SushiMarket.Tests.Validators.Products
     public class CreateProductCommandValidatorTests
     {
         private readonly CreateProductCommandValidator _validator;
+        private readonly Mock<IFormFile> _fileMock;
 
         public CreateProductCommandValidatorTests()
         {
             _validator = new CreateProductCommandValidator();
+            _fileMock = new Mock<IFormFile>();
         }
 
         [Fact]
         public async Task Validate_WhenModelIsValid_ShouldNotHaveAnyValidationErrors()
         {
-            // Arrange
             var command = new CreateProductCommand(
-                CategoryId: 1,
                 TitleUa: "Філадельфія",
                 TitleEn: "Philadelphia",
-                Price: 250.0m,
-                WeightOrVolume: "250г",
-                ImgSrc: "img.png",
                 DescriptionUa: "Опис",
                 DescriptionEn: "Description",
-                SortOrder: 1.0
+                WeightOrVolume: "250г",
+                Price: 250.0m,
+                Image: _fileMock.Object,
+                SortOrder: 1.0,
+                CategoryId: 1
             );
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldNotHaveAnyValidationErrors();
         }
 
@@ -41,97 +42,85 @@ namespace SushiMarket.Tests.Validators.Products
         [InlineData(-1)]
         public async Task Validate_WhenCategoryIdIsInvalid_ShouldHaveValidationErrorForCategoryId(int categoryId)
         {
-            // Arrange
             var command = new CreateProductCommand(
-                CategoryId: categoryId,
                 TitleUa: "Філадельфія",
                 TitleEn: "Philadelphia",
-                Price: 250.0m,
-                WeightOrVolume: "250г",
-                ImgSrc: "img.png",
                 DescriptionUa: null!,
                 DescriptionEn: null!,
-                SortOrder: null
+                WeightOrVolume: "250г",
+                Price: 250.0m,
+                Image: _fileMock.Object,
+                SortOrder: null,
+                CategoryId: categoryId
             );
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldHaveValidationErrorFor(x => x.CategoryId);
         }
 
         [Theory]
         [InlineData("", "")]
         [InlineData(null, null)]
-        [InlineData("   ", "   ")]
+        [InlineData("    ", "    ")]
         public async Task Validate_WhenBothTitlesAreMissing_ShouldHaveValidationError(string? titleUa, string? titleEn)
         {
-            // Arrange
             var command = new CreateProductCommand(
-                CategoryId: 1,
                 TitleUa: titleUa!,
                 TitleEn: titleEn!,
-                Price: 250.0m,
-                WeightOrVolume: "250г",
-                ImgSrc: "img.png",
                 DescriptionUa: null!,
                 DescriptionEn: null!,
-                SortOrder: null
+                WeightOrVolume: "250г",
+                Price: 250.0m,
+                Image: _fileMock.Object,
+                SortOrder: null,
+                CategoryId: 1
             );
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldHaveValidationErrorFor(x => x);
         }
 
         [Fact]
         public async Task Validate_WhenTitleUaExceedsMaxLength_ShouldHaveValidationErrorForTitleUa()
         {
-            // Arrange
             var longTitle = new string('a', 101);
             var command = new CreateProductCommand(
-                CategoryId: 1,
                 TitleUa: longTitle,
                 TitleEn: null!,
-                Price: 250.0m,
-                WeightOrVolume: "250г",
-                ImgSrc: "img.png",
                 DescriptionUa: null!,
                 DescriptionEn: null!,
-                SortOrder: null
+                WeightOrVolume: "250г",
+                Price: 250.0m,
+                Image: _fileMock.Object,
+                SortOrder: null,
+                CategoryId: 1
             );
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldHaveValidationErrorFor(x => x.TitleUa);
         }
 
         [Fact]
         public async Task Validate_WhenTitleEnExceedsMaxLength_ShouldHaveValidationErrorForTitleEn()
         {
-            // Arrange
             var longTitle = new string('a', 101);
             var command = new CreateProductCommand(
-                CategoryId: 1,
                 TitleUa: null!,
                 TitleEn: longTitle,
-                Price: 250.0m,
-                WeightOrVolume: "250г",
-                ImgSrc: "img.png",
                 DescriptionUa: null!,
                 DescriptionEn: null!,
-                SortOrder: null
+                WeightOrVolume: "250г",
+                Price: 250.0m,
+                Image: _fileMock.Object,
+                SortOrder: null,
+                CategoryId: 1
             );
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldHaveValidationErrorFor(x => x.TitleEn);
         }
 
@@ -140,49 +129,43 @@ namespace SushiMarket.Tests.Validators.Products
         [InlineData(-10.5)]
         public async Task Validate_WhenPriceIsZeroOrNegative_ShouldHaveValidationErrorForPrice(decimal price)
         {
-            // Arrange
             var command = new CreateProductCommand(
-                CategoryId: 1,
                 TitleUa: "Філадельфія",
                 TitleEn: null!,
-                Price: price,
-                WeightOrVolume: "250г",
-                ImgSrc: "img.png",
                 DescriptionUa: null!,
                 DescriptionEn: null!,
-                SortOrder: null
+                WeightOrVolume: "250г",
+                Price: price,
+                Image: _fileMock.Object,
+                SortOrder: null,
+                CategoryId: 1
             );
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldHaveValidationErrorFor(x => x.Price);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("   ")]
+        [InlineData("    ")]
         public async Task Validate_WhenWeightOrVolumeIsEmpty_ShouldHaveValidationErrorForWeightOrVolume(string? weight)
         {
-            // Arrange
             var command = new CreateProductCommand(
-                CategoryId: 1,
                 TitleUa: "Філадельфія",
                 TitleEn: null!,
-                Price: 250.0m,
-                WeightOrVolume: weight!,
-                ImgSrc: "img.png",
                 DescriptionUa: null!,
                 DescriptionEn: null!,
-                SortOrder: null
+                WeightOrVolume: weight!,
+                Price: 250.0m,
+                Image: _fileMock.Object,
+                SortOrder: null,
+                CategoryId: 1
             );
 
-            // Act
             var result = await _validator.TestValidateAsync(command);
 
-            // Assert
             result.ShouldHaveValidationErrorFor(x => x.WeightOrVolume);
         }
     }

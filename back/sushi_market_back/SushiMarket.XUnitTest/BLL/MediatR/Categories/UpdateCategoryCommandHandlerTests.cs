@@ -4,8 +4,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Moq;
 using SushiMarket.BLL.Helpers;
 using SushiMarket.BLL.MediatR.Categories.UpdateCategory;
+using SushiMarket.BLL.Services.Interfaces.Cloudinary;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
 
@@ -16,6 +18,8 @@ namespace SushiMarket.Tests.MediatR.Categories
         private readonly SushiMarketDbContext _context;
         private readonly IMapper _mapper;
         private readonly TranslatorHelper.Translator _translator;
+        private readonly Mock<ICloudinaryService> _cloudinaryServiceMock;
+        private readonly Mock<ILogger<UpdateCategoryCommandHandler>> _loggerMock;
         private readonly UpdateCategoryCommandHandler _handler;
 
         public UpdateCategoryCommandHandlerTests()
@@ -40,17 +44,20 @@ namespace SushiMarket.Tests.MediatR.Categories
                 .Build();
 
             _translator = new TranslatorHelper.Translator(configuration);
+            _cloudinaryServiceMock = new Mock<ICloudinaryService>();
+            _loggerMock = new Mock<ILogger<UpdateCategoryCommandHandler>>();
 
             _handler = new UpdateCategoryCommandHandler(
                 _context,
                 _mapper,
-                _translator);
+                _translator,
+                _cloudinaryServiceMock.Object,
+                _loggerMock.Object);
         }
 
         [Fact]
         public async Task Handle_WhenCategoryExists_ShouldUpdateCategoryAndReturnUnit()
         {
-            // Arrange
             var existingCategory = new Category
             {
                 Id = 1,
@@ -67,16 +74,14 @@ namespace SushiMarket.Tests.MediatR.Categories
                 Id: 1,
                 TitleUa: "Нова назва",
                 TitleEn: "New Name",
-                SortOrder: 2.0,
-                ImgSrc: "new.png"
+                Image: null,
+                SortOrder: 2.0
             );
 
-            // Act
             var result = await _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             result.Should().Be(Unit.Value);
 
             var updatedCategory = await _context.Categories
@@ -85,28 +90,24 @@ namespace SushiMarket.Tests.MediatR.Categories
             updatedCategory.Should().NotBeNull();
             updatedCategory!.TitleUa.Should().Be("Нова назва");
             updatedCategory.TitleEn.Should().Be("New Name");
-            updatedCategory.ImgSrc.Should().Be("new.png");
             updatedCategory.SortOrder.Should().Be(2.0);
         }
 
         [Fact]
         public async Task Handle_WhenCategoryDoesNotExist_ShouldThrowKeyNotFoundException()
         {
-            // Arrange
             var command = new UpdateCategoryCommand(
                 Id: 999,
                 TitleUa: "Тест",
                 TitleEn: "Test",
-                SortOrder: 1.0,
-                ImgSrc: "test.png"
+                Image: null,
+                SortOrder: 1.0
             );
 
-            // Act
             Func<Task> act = () => _handler.Handle(
                 command,
                 CancellationToken.None);
 
-            // Assert
             await act
                 .Should()
                 .ThrowAsync<KeyNotFoundException>();
