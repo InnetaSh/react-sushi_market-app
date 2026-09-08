@@ -41,24 +41,23 @@ class UserApi {
         return response.data;
     }
 
-    async googleLogin(idToken) {
+    async googleLogin(idTokenOrObj) {
+        let token = idTokenOrObj;
+        if (typeof idTokenOrObj === 'object' && idTokenOrObj !== null) {
+            token = idTokenOrObj.idToken || idTokenOrObj.credential;
+        }
+
         const response = await api.post(
             '/auth/google-login',
-            { idToken }
+            { idToken: token }
         );
 
         if (response.data?.accessToken) {
-            localStorage.setItem(
-                'accessToken',
-                response.data.accessToken
-            );
+            localStorage.setItem('accessToken', response.data.accessToken);
         }
 
         if (response.data?.refreshToken) {
-            localStorage.setItem(
-                'refreshToken',
-                response.data.refreshToken
-            );
+            localStorage.setItem('refreshToken', response.data.refreshToken);
         }
 
         return response.data;

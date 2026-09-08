@@ -2,7 +2,7 @@
 
 ASP.NET Core Web API backend for the Sushi Market e-commerce application.
 
-The backend provides business logic, authentication, database access, validation, media management, automatic translation and communication with external services.
+The backend provides business logic, authentication, database access, validation, media management, automatic translation, and integration with external services.
 
 ---
 
@@ -60,7 +60,7 @@ This architecture keeps controllers lightweight and separates application logic 
 
 Users can authenticate using either the standard application authentication flow or their Google account.
 
-Sensitive authentication configuration is stored outside the repository using secure configuration mechanisms.
+Authentication configuration is managed through **ASP.NET Core configuration** and **.NET User Secrets**.
 
 ---
 
@@ -73,24 +73,24 @@ The API provides CRUD operations for:
 * Locations
 * Promotional content
 
-The backend handles validation, persistence and business rules for administrative operations.
+The backend handles validation, persistence, and business rules for administrative operations.
 
 ---
 
-### 🌍 Translation
+### 🌍 Automatic Translation
 
 The backend integrates **TranslateAPI** for automatic translation of product and category:
 
 * titles
 * descriptions
 
-The API key is stored using .NET User Secrets and is not committed to source control.
+The TranslateAPI key is stored securely using **.NET User Secrets** and is not committed to source control.
 
 ---
 
 ### ☁️ Cloudinary
 
-Cloudinary is used for centralized cloud media storage.
+**Cloudinary** is used for centralized cloud media storage.
 
 Assets are organized into structured folders:
 
@@ -116,7 +116,7 @@ Supported databases:
 * SQL Server
 * SQLite
 
-Database schema changes are managed through EF Core migrations.
+Database schema changes are managed through **EF Core migrations**.
 
 Apply migrations with:
 
@@ -129,16 +129,6 @@ If the EF Core CLI is not installed:
 ```bash
 dotnet tool install --global dotnet-ef
 ```
-
----
-
-## 📨 Messaging
-
-The backend uses **MassTransit** for message-based communication.
-
-**RabbitMQ** is used as the message broker.
-
-This allows services and application components to communicate asynchronously and provides a foundation for event-driven functionality.
 
 ---
 
@@ -155,7 +145,6 @@ This allows services and application components to communicate asynchronously an
 * **FluentResults**
 * **JWT Bearer Authentication**
 * **Refresh Tokens**
-* **RabbitMQ**
 * **Cloudinary**
 * **TranslateAPI**
 * **SQL Server**
@@ -227,33 +216,49 @@ dotnet restore
 
 ## 🔐 Configuration
 
-Sensitive credentials are not stored in the repository.
+The project uses **ASP.NET Core configuration** for application settings and **.NET User Secrets** for sensitive credentials.
 
-The project uses **.NET User Secrets** for local development.
+### Google OAuth
 
-### Cloudinary
+Google authentication requires a **Client ID** created in **Google Cloud Console**.
 
-```bash
-dotnet user-secrets set "Cloudinary:CloudName" "YOUR_CLOUD_NAME"
-dotnet user-secrets set "Cloudinary:ApiKey" "YOUR_API_KEY"
-dotnet user-secrets set "Cloudinary:ApiSecret" "YOUR_API_SECRET"
+The Client ID is configured in `appsettings.json`:
+
+```json
+{
+  "GoogleAuth": {
+    "ClientId": "YOUR_CLIENT_ID.apps.googleusercontent.com"
+  }
+}
 ```
 
+Replace the placeholder with the Client ID generated in Google Cloud Console.
+
+The Google Client ID is not a private secret and can be stored in `appsettings.json`.
+
+---
+
 ### TranslateAPI
+
+The TranslateAPI key is stored securely using **.NET User Secrets**.
+
+Configure the key with:
 
 ```bash
 dotnet user-secrets set "Translator:ApiKey" "YOUR_API_KEY"
 ```
 
-### Google OAuth
+The resulting User Secrets configuration should contain:
 
-Configure the Google OAuth credentials required by the application using User Secrets:
-
-```bash
-dotnet user-secrets set "Authentication:Google:ClientId" "YOUR_CLIENT_ID"
-dotnet user-secrets set "Authentication:Google:ClientSecret" "YOUR_CLIENT_SECRET"
+```json
+{
+  "Translator": {
+    "ApiKey": "YOUR_API_KEY"
+  }
+}
 ```
 
+Never commit API keys or other sensitive credentials to source control.
 
 ---
 
@@ -272,9 +277,6 @@ The API will start using the configured development environment.
 ## 📁 Backend Structure
 
 A simplified project structure:
-
-```text
-## 📁 Backend Structure
 
 ```text
 Sushi Market

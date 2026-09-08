@@ -39,11 +39,11 @@ const LoginSection: React.FC = () => {
                     email: values.login,
                     password: values.password,
                 });
-                
+
                 if (response && response.token) {
                     AuthStore.setUserLoginResponse(response);
                 }
-                
+
                 message.success(t('AUTH.SUCCESS_REGISTER' as any));
                 setIsRegistering(false);
                 form.resetFields();
@@ -203,9 +203,9 @@ const LoginSection: React.FC = () => {
                                         onSuccess={async (credentialResponse) => {
                                             try {
                                                 setIsLoading(true);
-                                                const response = await UserApi.googleLogin({
-                                                    idToken: credentialResponse.credential as string
-                                                });
+                                                const response = await UserApi.googleLogin(
+                                                    credentialResponse.credential as string
+                                                );
                                                 AuthStore.setUserLoginResponse(response);
                                                 redirectAfterLogin(response?.user || response);
                                             } catch (e) {
