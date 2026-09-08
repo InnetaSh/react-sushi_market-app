@@ -1,19 +1,20 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import ProductApi from "@/api/productApi";
+import { IProduct } from "@models/product.types";
 
 class ProductStore {
-    products = [];
-    currentProduct = null;
+    products: IProduct[] = [];
+    currentProduct: IProduct | null = null;
     loading = false;
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    async fetchProducts(categoryId) {
+    async fetchProducts(categoryId: number | string): Promise<void> {
         this.loading = true;
         try {
-            const data = await ProductApi.fetchProducts(categoryId);
+            const data = (await ProductApi.fetchProducts(categoryId)) as IProduct[];
         
             const sortedProducts = (data || []).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
             runInAction(() => {
@@ -28,10 +29,10 @@ class ProductStore {
         }
     }
 
-    async fetchProductById(id) {
+    async fetchProductById(id: number | string): Promise<void> {
         this.loading = true;
         try {
-            const data = await ProductApi.getProductById(id);
+            const data = (await ProductApi.getProductById(id)) as IProduct;
             runInAction(() => {
                 this.currentProduct = data;
                 this.loading = false;

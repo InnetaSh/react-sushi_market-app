@@ -1,14 +1,28 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import UserApi from "@/api/userApi";
+import { IUser, IAuthResponse } from "@models/user.types";
 
 class AuthStore {
-    user = null;
+    user: IUser | null = null;
     isAuthenticated = false;
     isLoading = false;
-    error = null;
+    error: string | null = null;
 
     constructor() {
         makeAutoObservable(this);
+
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            this.isAuthenticated = true;
+            const savedUser = localStorage.getItem('user');
+            if (savedUser) {
+                try {
+                    this.user = JSON.parse(savedUser);
+                } catch {
+                    this.user = null;
+                }
+            }
+        }
     }
 
     get isLoggedIn() {
@@ -16,16 +30,31 @@ class AuthStore {
     }
 
     get isAdmin() {
-        const roles = this.user?.roles || [];
-        return roles.includes('MainAdministrator');
+        const roles = this.user?.roles;
+        const singleRole = this.user?.role;
+
+        if (Array.isArray(roles)) {
+            return roles.includes('MainAdministrator');
+        }
+        return singleRole === 'MainAdministrator';
     }
 
-    setUserLoginResponse(data) {
+    setUserLoginResponse(data: IAuthResponse) {
         this.user = data?.user || data;
         this.isAuthenticated = true;
+
+        if (this.user) {
+            localStorage.setItem('user', JSON.stringify(this.user));
+        }
+        if (data?.accessToken) {
+            localStorage.setItem('accessToken', data.accessToken);
+        }
+        if (data?.refreshToken) {
+            localStorage.setItem('refreshToken', data.refreshToken);
+        }
     }
 
-    async login(credentials) {
+    async login(credentials: any) {
         this.isLoading = true;
         this.error = null;
         try {
@@ -35,7 +64,7 @@ class AuthStore {
                 this.isLoading = false;
             });
             return data;
-        } catch (error) {
+        } catch (error: any) {
             runInAction(() => {
                 this.error = error.message;
                 this.isLoading = false;
@@ -44,16 +73,19 @@ class AuthStore {
         }
     }
 
-    async register(userData) {
+    async register(userData: any) {
         this.isLoading = true;
         this.error = null;
         try {
             const data = await UserApi.register(userData);
             runInAction(() => {
+                if (data && (data.accessToken || data.user)) {
+                    this.setUserLoginResponse(data);
+                }
                 this.isLoading = false;
             });
             return data;
-        } catch (error) {
+        } catch (error: any) {
             runInAction(() => {
                 this.error = error.message;
                 this.isLoading = false;
@@ -67,17 +99,17 @@ class AuthStore {
         this.error = null;
         try {
             await UserApi.logout();
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
             runInAction(() => {
                 this.user = null;
                 this.isAuthenticated = false;
                 this.isLoading = false;
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                localStorage.removeItem('user');
             });
-        } catch (error) {
-            runInAction(() => {
-                this.error = error.message;
-                this.isLoading = false;
-            });
-            throw error;
         }
     }
 
@@ -86,12 +118,16 @@ class AuthStore {
         try {
             const data = await UserApi.getUserInfo();
             runInAction(() => {
-                if (data.isAuthenticated) {
-                    this.user = { email: data.email, roles: data.roles };
+                if (data) {
+                    this.user = data;
                     this.isAuthenticated = true;
+                    localStorage.setItem('user', JSON.stringify(data));
                 } else {
                     this.user = null;
                     this.isAuthenticated = false;
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    localStorage.removeItem('user');
                 }
                 this.isLoading = false;
             });
@@ -99,6 +135,9 @@ class AuthStore {
             runInAction(() => {
                 this.user = null;
                 this.isAuthenticated = false;
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                localStorage.removeItem('user');
                 this.isLoading = false;
             });
         }

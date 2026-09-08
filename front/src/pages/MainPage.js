@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Spin, Flex } from "antd";
 
 import CategoryStore from "@stores/CategoryStore";
+import AuthStore from "@stores/AuthStore";
 
 import PromotionsSection from '@section/PromotionsSection/PromotionsSection';
 import MenuSection from '@section/MenuSection/MenuSection';
@@ -24,6 +25,10 @@ const MainPage = observer(() => {
   useEffect(() => {
     CategoryStore.fetchCategories();
   }, []);
+
+    console.log('Текущий юзер в сторе:', AuthStore.user);
+      console.log('Массив ролей:', AuthStore.user?.roles);
+      console.log('Это админ (isAdmin):', AuthStore.isAdmin);
 
   return (
     <div className="App">

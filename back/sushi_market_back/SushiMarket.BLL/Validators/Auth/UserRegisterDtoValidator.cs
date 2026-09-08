@@ -27,9 +27,6 @@ namespace SushiMarket.BLL.MediatR.Validators.Auth
                 ErrorMessages.PasswordMustBeAtLeastCharacters,
                 ErrorMessages.PasswordMustNotExceedCharacters);
 
-            RuleFor(x => x.PasswordConfirmation)
-                .NotEmpty().WithMessage(ErrorMessages.PasswordConfirmationIsRequired)
-                .Equal(x => x.Password).WithMessage(ErrorMessages.PasswordsDoNotMatch);
         }
     }
 }

@@ -125,32 +125,6 @@ namespace Streetcode.XUnitTest.AuthService.Validators.Users
                   .WithErrorMessage(ErrorMessages.PasswordIsRequired);
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public void Should_Have_Error_When_PasswordConfirmation_Is_Empty(string? invalidPasswordConfirmation)
-        {
-            var dto = CreateValidDto();
-            dto.PasswordConfirmation = invalidPasswordConfirmation!;
-
-            var result = _validator.TestValidate(dto);
-
-            result.ShouldHaveValidationErrorFor(x => x.PasswordConfirmation)
-                  .WithErrorMessage(ErrorMessages.PasswordConfirmationIsRequired);
-        }
-
-        [Theory]
-        [InlineData("WrongPass")]
-        public void Should_Have_Error_When_PasswordConfirmation_Is_Not_Equal(string invalidPasswordConfirmation)
-        {
-            var dto = CreateValidDto();
-            dto.Password = invalidPasswordConfirmation;
-
-            var result = _validator.TestValidate(dto);
-
-            result.ShouldHaveValidationErrorFor(x => x.PasswordConfirmation)
-                  .WithErrorMessage(ErrorMessages.PasswordsDoNotMatch);
-        }
 
         [Fact]
         public void Should_Not_Have_Errors_When_Dto_Is_Valid()
@@ -169,8 +143,7 @@ namespace Streetcode.XUnitTest.AuthService.Validators.Users
                 Name = "John",
                 Surname = "Doe",
                 Email = "john.doe@example.com",
-                Password = "Pass1234",
-                PasswordConfirmation = "Pass1234"
+                Password = "Pass1234"
             };
         }
     }

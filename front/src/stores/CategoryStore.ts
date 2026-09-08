@@ -1,20 +1,22 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import CategoryApi from "@/api/categoryApi"; 
+import { ICategory } from "@models/category.types";
+import { IProduct } from "@models/product.types";
 
 class CategoryStore {
-    categories = [];
-    currentCategoryProducts = [];
-    categoriesWithProducts = []; 
+    categories: ICategory[] = [];
+    currentCategoryProducts: IProduct[] = [];
+    categoriesWithProducts: ICategory[] = []; 
     loading = false;
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    async fetchCategories() {
+    async fetchCategories(): Promise<void> {
         this.loading = true;
         try {
-            const data = await CategoryApi.getCategories();
+            const data = (await CategoryApi.getCategories()) as ICategory[];
             
             const sortedCategories = (data || []).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
             runInAction(() => {
@@ -26,11 +28,11 @@ class CategoryStore {
         }
     }
 
-    async fetchCategoryWithProducts(id) {
+    async fetchCategoryWithProducts(id: number | string): Promise<void> {
         this.loading = true;
         try {
             const data = await CategoryApi.getCategoryWithProducts(id);
-            const products = data.products || data || [];
+            const products = (data?.products || data || []) as IProduct[];
             
             const sortedProducts = products.sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
             
@@ -44,10 +46,10 @@ class CategoryStore {
         }
     }
 
-    async fetchCategoriesWithProducts() {
+    async fetchCategoriesWithProducts(): Promise<void> {
         this.loading = true;
         try {
-            const data = await CategoryApi.getCategoriesWithProducts();
+            const data = (await CategoryApi.getCategoriesWithProducts()) as ICategory[];
             
             const sortedData = (data || [])
                 .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))

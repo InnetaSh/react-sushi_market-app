@@ -88,6 +88,7 @@ namespace sushi_market_back.Controllers
         }
 
         [HttpPatch("reorder")]
+        [Authorize(Roles = "MainAdministrator")]
         public async Task<IActionResult> ReorderProduct([FromBody] ReorderProductCommand command)
         {
             await _mediator.Send(command);

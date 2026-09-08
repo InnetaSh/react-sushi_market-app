@@ -10,6 +10,5 @@
 
         required public string Password { get; set; }
 
-        required public string PasswordConfirmation { get; set; }
     }
 }

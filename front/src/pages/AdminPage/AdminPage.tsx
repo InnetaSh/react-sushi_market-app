@@ -19,14 +19,23 @@ import ProductStore from "@stores/ProductStore";
 import CategoryApi from "@/api/categoryApi";
 import ProductApi from "@/api/productApi";
 import { EntityModal } from "@UI/EntityModal/EntityModal";
+import { ICategory } from "@models/category.types";
+import { IProduct } from "@models/product.types";
 
 import { useEntityOrder } from "@hooks/useEntityOrder";
 import { CategoriesTab } from "./components/CategoriesTab";
 import { ProductsTab } from "./components/ProductsTab";
 
+import styles from "./AdminPage.module.scss";
+
 const { Content } = Layout;
 
-const SortableEntityRow = ({ id, children }: { id: number | string; children: React.ReactNode }) => {
+interface SortableEntityRowProps {
+  id: number | string;
+  children: React.ReactNode;
+}
+
+const SortableEntityRow: React.FC<SortableEntityRowProps> = ({ id, children }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
   const style = {
@@ -43,16 +52,16 @@ const SortableEntityRow = ({ id, children }: { id: number | string; children: Re
   );
 };
 
-const AdminPage = observer(() => {
+const AdminPage: React.FC = observer(() => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language;
   const isEn = currentLang === "en";
 
   const [activeTab, setActiveTab] = useState("categories");
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | string | null>(null);
 
-  const [localCategories, setLocalCategories] = useState<any[]>([]);
-  const [localProducts, setLocalProducts] = useState<any[]>([]);
+  const [localCategories, setLocalCategories] = useState<ICategory[]>([]);
+  const [localProducts, setLocalProducts] = useState<IProduct[]>([]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -72,7 +81,7 @@ const AdminPage = observer(() => {
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5292/api";
   const BASE_HOST = API_URL.replace(/\/api\/?$/, "");
 
-  const formatImageUrl = (itemOrString: any) => {
+  const formatImageUrl = (itemOrString: any): string | undefined => {
     const rawImg =
       typeof itemOrString === "string"
         ? itemOrString
@@ -89,7 +98,7 @@ const AdminPage = observer(() => {
 
   useEffect(() => {
     CategoryStore.fetchCategories();
-    ProductStore.fetchProducts();
+    ProductStore.fetchProducts("");
   }, []);
 
   useEffect(() => {
@@ -101,7 +110,7 @@ const AdminPage = observer(() => {
   }, [ProductStore.products]);
 
   useEffect(() => {
-    if (selectedCategoryId) {
+    if (selectedCategoryId !== null) {
       CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
     }
   }, [selectedCategoryId]);
@@ -113,8 +122,8 @@ const AdminPage = observer(() => {
     (id, sortOrder) => CategoryApi.reorderCategory(id, sortOrder),
     async () => {
       await CategoryStore.fetchCategories();
-      await ProductStore.fetchProducts();
-      if (selectedCategoryId) {
+      await ProductStore.fetchProducts("");
+      if (selectedCategoryId !== null) {
         await CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
       }
     }
@@ -126,8 +135,8 @@ const AdminPage = observer(() => {
     (id, sortOrder) => ProductApi.reorderProduct(id, sortOrder),
     async () => {
       await CategoryStore.fetchCategories();
-      await ProductStore.fetchProducts();
-      if (selectedCategoryId) {
+      await ProductStore.fetchProducts("");
+      if (selectedCategoryId !== null) {
         await CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
       }
     }
@@ -222,7 +231,7 @@ const AdminPage = observer(() => {
         formData.append("WeightOrVolume", values.weightOrVolume || item?.weightOrVolume || "");
 
         const finalCategoryId = values.categoryId || item?.categoryId || selectedCategoryId;
-        if (finalCategoryId) {
+        if (finalCategoryId !== null && finalCategoryId !== undefined) {
           formData.append("CategoryId", finalCategoryId.toString());
         } else {
           message.error(t("ADMIN_PAGE.ERROR_SELECT_CATEGORY", "Будь ласка, оберіть категорію для продукту!"));
@@ -247,8 +256,8 @@ const AdminPage = observer(() => {
           message.success(t("ADMIN_PAGE.SUCCESS_PRODUCT_CREATE", "Продукт успішно створено"));
         }
 
-        await ProductStore.fetchProducts();
-        if (selectedCategoryId) {
+        await ProductStore.fetchProducts("");
+        if (selectedCategoryId !== null) {
           await CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
         }
       }
@@ -260,7 +269,7 @@ const AdminPage = observer(() => {
     }
   };
 
-  const handleDeleteCategory = async (id: number) => {
+  const handleDeleteCategory = async (id: number | string) => {
     try {
       await CategoryApi.deleteCategory(id);
       message.success(t("ADMIN_PAGE.SUCCESS_CATEGORY_DELETE", "Категорію видалено"));
@@ -272,19 +281,19 @@ const AdminPage = observer(() => {
     }
   };
 
-  const handleDeleteProduct = async (id: number) => {
+  const handleDeleteProduct = async (id: number | string) => {
     try {
       await ProductApi.deleteProduct(id);
       message.success(t("ADMIN_PAGE.SUCCESS_PRODUCT_DELETE", "Продукт видалено"));
-      await ProductStore.fetchProducts();
-      if (selectedCategoryId) await CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
+      await ProductStore.fetchProducts("");
+      if (selectedCategoryId !== null) await CategoryStore.fetchCategoryWithProducts(selectedCategoryId);
     } catch (e) {
       console.error(e);
       message.error(t("ADMIN_PAGE.ERROR_DELETE", "Помилка видалення"));
     }
   };
 
-  const selectedCategoryObj = CategoryStore.categories.find((c: any) => c.id === selectedCategoryId);
+  const selectedCategoryObj = CategoryStore.categories.find((c: ICategory) => c.id === selectedCategoryId);
 
   const categoriesTabContent = (
     <CategoriesTab

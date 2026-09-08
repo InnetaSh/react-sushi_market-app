@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using sushi_market_back.Extensions;
 using SushiMarket.BLL.DTOs.Auth;
+using SushiMarket.BLL.MediatR.Auth.GetUserInfo;
 using SushiMarket.BLL.MediatR.Auth.Login;
 using SushiMarket.BLL.MediatR.Auth.LoginGoogle;
 using SushiMarket.BLL.MediatR.Auth.Logout;
 using SushiMarket.BLL.MediatR.Auth.RefreshToken;
 using SushiMarket.BLL.MediatR.Auth.Register;
 using SushiMarket.BLL.Services.Interfaces.Users;
+using System.Security.Claims;
 
 
 namespace SushiMarket.WebAPI.Controllers
@@ -84,6 +86,21 @@ namespace SushiMarket.WebAPI.Controllers
                 return BadRequest("Refresh token missing in X-Refresh-Token header.");
 
             var result = await _mediator.Send(new LogoutUserCommand(refreshToken));
+            return this.ToActionResult(result);
+        }
+
+        [Authorize]
+        [HttpGet("user-info")]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out var userId))
+            {
+                return Unauthorized("Invalid token claims.");
+            }
+
+            var result = await _mediator.Send(new GetUserInfoQuery(userId));
             return this.ToActionResult(result);
         }
     }

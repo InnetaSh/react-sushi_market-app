@@ -1,11 +1,4 @@
-import axios from 'axios';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5292/api';
-
-const api = axios.create({
-    baseURL: API_URL,
-    withCredentials: true 
-});
+import api from './api';
 
 class CategoryApi {
     async getCategories() {
@@ -13,7 +6,10 @@ class CategoryApi {
             const response = await api.get('/Categories');
             return response.data;
         } catch (error) {
-            throw new Error(error.response?.data?.message || 'Помилка при завантаженні категорій');
+            throw new Error(
+                error.response?.data?.message ||
+                'Помилка при завантаженні категорій'
+            );
         }
     }
 
@@ -22,61 +18,106 @@ class CategoryApi {
             const response = await api.get(`/Categories/${id}`);
             return response.data;
         } catch (error) {
-            throw new Error(error.response?.data?.message || 'Помилка при отриманні категорії');
+            throw new Error(
+                error.response?.data?.message ||
+                'Помилка при отриманні категорії'
+            );
         }
     }
 
     async getCategoryWithProducts(id) {
         try {
-            const response = await api.get(`/Categories/${id}/products`);
+            const response = await api.get(
+                `/Categories/${id}/products`
+            );
+
             return response.data;
         } catch (error) {
-            throw new Error(error.response?.data?.message || 'Помилка при отриманні продуктів категорії');
+            throw new Error(
+                error.response?.data?.message ||
+                'Помилка при отриманні продуктів категорії'
+            );
         }
     }
 
     async getCategoriesWithProducts() {
         try {
-            const response = await api.get('/Categories/with-products');
+            const response = await api.get(
+                '/Categories/with-products'
+            );
+
             return response.data;
         } catch (error) {
-            throw new Error(error.response?.data?.message || 'Помилка при отриманні меню категорій та продуктів');
+            throw new Error(
+                error.response?.data?.message ||
+                'Помилка при отриманні меню категорій та продуктів'
+            );
         }
     }
 
     async createCategory(categoryData) {
         try {
-            const response = await api.post('/Categories', categoryData);
+            const response = await api.post(
+                '/Categories',
+                categoryData
+            );
+
             return response.data;
         } catch (error) {
-            throw new Error(error.response?.data?.message || 'Помилка при створенні категорії');
+            throw new Error(
+                error.response?.data?.message ||
+                'Помилка при створенні категорії'
+            );
         }
     }
 
     async updateCategory(id, categoryData) {
         try {
-            const response = await api.put(`/Categories/${id}`, categoryData);
+            const response = await api.put(
+                `/Categories/${id}`,
+                categoryData
+            );
+
             return response.data;
         } catch (error) {
-            throw new Error(error.response?.data?.message || 'Помилка при оновленні категорії');
+            throw new Error(
+                error.response?.data?.message ||
+                'Помилка при оновленні категорії'
+            );
         }
     }
 
     async deleteCategory(id) {
         try {
-            const response = await api.delete(`/Categories/${id}`);
+            const response = await api.delete(
+                `/Categories/${id}`
+            );
+
             return response.data;
         } catch (error) {
-            throw new Error(error.response?.data?.message || 'Помилка при видаленні категорії');
+            throw new Error(
+                error.response?.data?.message ||
+                'Помилка при видаленні категорії'
+            );
         }
     }
 
-   async reorderCategory(categoryId, newSortOrder) {
+    async reorderCategory(categoryId, newSortOrder) {
         try {
-            const response = await api.patch('/Categories/reorder', { categoryId, newSortOrder });
+            const response = await api.patch(
+                '/Categories/reorder',
+                {
+                    categoryId,
+                    newSortOrder
+                }
+            );
+
             return response.data;
         } catch (error) {
-            throw new Error(error.response?.data?.message || 'Помилка при збереженні порядку категорій');
+            throw new Error(
+                error.response?.data?.message ||
+                'Помилка при збереженні порядку категорій'
+            );
         }
     }
 }
