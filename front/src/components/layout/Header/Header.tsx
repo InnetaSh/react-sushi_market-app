@@ -6,7 +6,7 @@ import { CloseOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite';
 
 import { ButtonOrange } from '@UI/ButtonOrange/ButtonOrange';
-import AuthStore from '@stores/AuthStore';
+import AuthStore from '@/stores/authStore';
 import styles from './Header.module.scss';
 
 import logo from '@img/logo.png';
@@ -115,23 +115,23 @@ const Header: React.FC = () => {
 
                 <nav className={styles.menuNav}>
                     <Link to="/" onClick={toggleMenu} className={styles.menuItem}>
-                        {t('MENU.HOME')}
+                        {(t as any)('MENU.HOME')|| 'Головна'}
                     </Link>
 
                     <div className={styles.menuItemWithSub}>
                         <Link to="/menu" onClick={toggleMenu} className={styles.menuItem}>
-                            {t('MENU.DISHES')}
+                            {(t as any)('MENU.DISHES')|| 'Страви'}
                         </Link>
                     </div>
 
                     <Link to="/sale" onClick={toggleMenu} className={styles.menuItem}>
-                        {t('MENU.STOCK')}
+                       {t('MENU.STOCK', 'Акції')}
                     </Link>
                     <Link to="/news" onClick={toggleMenu} className={styles.menuItem}>
-                        {t('MENU.NEWS')}
+                        {t('MENU.NEWS', 'Новини')}
                     </Link>
                     <Link to="/contacts" onClick={toggleMenu} className={styles.menuItem}>
-                        {t('MENU.CONTACTS')}
+                        {t('MENU.CONTACTS', 'Контакти')}
                     </Link>
 
                     {AuthStore.isLoggedIn ? (
@@ -151,7 +151,7 @@ const Header: React.FC = () => {
                         </>
                     ) : (
                         <Link to="/login" onClick={toggleMenu} className={styles.menuItem}>
-                            {t('MENU.LOGIN')}
+                            {t('MENU.LOGIN', 'Увійти')}
                         </Link>
                     )}
                 </nav>

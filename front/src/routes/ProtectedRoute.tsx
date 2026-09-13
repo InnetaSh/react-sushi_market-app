@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import AuthStore from "@stores/AuthStore";
+import AuthStore from "@/stores/authStore";
 
 import { ProtectedRouteProps } from "@models/user.types";
 
@@ -13,10 +13,22 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = observer(({ childre
     }
 
     if (requiredRole) {
+        if (requiredRole === 'MainAdministrator' && AuthStore.isAdmin) {
+            return children;
+        }
+
         let roles = AuthStore.user?.roles;
+        
         if (!roles) {
-            const savedRoleStr = localStorage.getItem('role');
-            roles = savedRoleStr ? JSON.parse(savedRoleStr) : [];
+            const savedUserStr = localStorage.getItem('user');
+            if (savedUserStr) {
+                try {
+                    const parsedUser = JSON.parse(savedUserStr);
+                    roles = parsedUser.roles || parsedUser.role;
+                } catch (e) {
+                    roles = [];
+                }
+            }
         }
 
         const hasRole = Array.isArray(roles)

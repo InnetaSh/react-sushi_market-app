@@ -11,7 +11,7 @@ class AuthStore {
     constructor() {
         makeAutoObservable(this);
 
-        const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('token');
         if (token) {
             this.isAuthenticated = true;
             const savedUser = localStorage.getItem('user');
@@ -46,8 +46,8 @@ class AuthStore {
         if (this.user) {
             localStorage.setItem('user', JSON.stringify(this.user));
         }
-        if (data?.accessToken) {
-            localStorage.setItem('accessToken', data.accessToken);
+        if (data?.token) {
+            localStorage.setItem('token', data.token);
         }
         if (data?.refreshToken) {
             localStorage.setItem('refreshToken', data.refreshToken);
@@ -79,7 +79,7 @@ class AuthStore {
         try {
             const data = await UserApi.register(userData);
             runInAction(() => {
-                if (data && (data.accessToken || data.user)) {
+                if (data && (data.token || data.user)) {
                     this.setUserLoginResponse(data);
                 }
                 this.isLoading = false;
@@ -106,7 +106,7 @@ class AuthStore {
                 this.user = null;
                 this.isAuthenticated = false;
                 this.isLoading = false;
-                localStorage.removeItem('accessToken');
+                localStorage.removeItem('token');
                 localStorage.removeItem('refreshToken');
                 localStorage.removeItem('user');
             });
@@ -125,7 +125,7 @@ class AuthStore {
                 } else {
                     this.user = null;
                     this.isAuthenticated = false;
-                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('token');
                     localStorage.removeItem('refreshToken');
                     localStorage.removeItem('user');
                 }
@@ -135,7 +135,7 @@ class AuthStore {
             runInAction(() => {
                 this.user = null;
                 this.isAuthenticated = false;
-                localStorage.removeItem('accessToken');
+                localStorage.removeItem('token');
                 localStorage.removeItem('refreshToken');
                 localStorage.removeItem('user');
                 this.isLoading = false;

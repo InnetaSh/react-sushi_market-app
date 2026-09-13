@@ -31,7 +31,7 @@ MediatR
              Entity Framework Core
                     │
                     ▼
-                 Database
+                PostgreSQL
 ```
 
 Cross-cutting concerns are handled using:
@@ -109,16 +109,33 @@ Cloudinary `PublicId` configuration is used to preserve original filenames and m
 
 ## 🗄️ Database
 
-The application uses **Entity Framework Core** for database access.
-
-Supported databases:
-
-* SQL Server
-* SQLite
+The application uses **PostgreSQL** with **Entity Framework Core** for database access.
 
 Database schema changes are managed through **EF Core migrations**.
 
-Apply migrations with:
+### PostgreSQL Connection
+
+The connection string is configured using ASP.NET Core configuration.
+
+Example:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=Userdb;Username=postgres;Password=YOUR_PASSWORD;SSL Mode=Disable"
+  }
+}
+```
+
+For local development, the actual database password should be stored using **.NET User Secrets** rather than committed to source control.
+
+Example:
+
+```bash
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5432;Database=Userdb;Username=postgres;Password=YOUR_PASSWORD;SSL Mode=Disable"
+```
+
+Apply existing migrations with:
 
 ```bash
 dotnet ef database update
@@ -138,6 +155,7 @@ dotnet tool install --global dotnet-ef
 * **.NET 8**
 * **ASP.NET Core Web API**
 * **Entity Framework Core**
+* **Npgsql / PostgreSQL**
 * **ASP.NET Core Identity**
 * **MediatR**
 * **CQRS**
@@ -147,8 +165,7 @@ dotnet tool install --global dotnet-ef
 * **Refresh Tokens**
 * **Cloudinary**
 * **TranslateAPI**
-* **SQL Server**
-* **SQLite**
+* **PostgreSQL**
 
 ---
 
@@ -189,7 +206,7 @@ dotnet test
 Install:
 
 * [.NET 8 SDK](https://dotnet.microsoft.com/)
-* SQL Server or SQLite
+* PostgreSQL
 * Git
 
 ---
@@ -218,9 +235,35 @@ dotnet restore
 
 The project uses **ASP.NET Core configuration** for application settings and **.NET User Secrets** for sensitive credentials.
 
+### Database
+
+The application uses a local PostgreSQL database.
+
+Example `appsettings.json` configuration:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=Userdb;Username=postgres;Password=YOUR_PASSWORD;SSL Mode=Disable"
+  }
+}
+```
+
+For local development, the actual password should be configured through User Secrets.
+
+Example:
+
+```bash
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5432;Database=Userdb;Username=postgres;Password=YOUR_PASSWORD;SSL Mode=Disable"
+```
+
+> **Important:** Never commit database passwords, API keys, or other sensitive credentials to source control.
+
+---
+
 ### Google OAuth
 
-Google authentication requires a **Client ID** created in **Google Cloud Console**.
+Google authentication requires a **Client ID** created in Google Cloud Console.
 
 The Client ID is configured in `appsettings.json`:
 
@@ -271,6 +314,22 @@ dotnet run
 ```
 
 The API will start using the configured development environment.
+
+---
+
+## 🗃️ Database Migrations
+
+Create a new migration:
+
+```bash
+dotnet ef migrations add MigrationName
+```
+
+Apply migrations to the PostgreSQL database:
+
+```bash
+dotnet ef database update
+```
 
 ---
 

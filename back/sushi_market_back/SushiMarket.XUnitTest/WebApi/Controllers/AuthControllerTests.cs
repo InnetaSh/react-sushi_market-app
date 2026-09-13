@@ -37,8 +37,7 @@ namespace SushiMarket.Tests.Controllers
                 Name = "Test",
                 Surname = "User",
                 Email = "test@test.com",
-                Password = "Password123!",
-                PasswordConfirmation = "Password123!"
+                Password = "Password123!"
             };
 
             var authResponse = new AuthResponseDto

@@ -32,12 +32,35 @@ namespace SushiMarket.BLL.MediatR.Categories.ReorderCategory
                 throw new KeyNotFoundException(string.Format(ErrorMessages.CategoryNotFound, request.CategoryId));
             }
 
-            category.SortOrder = request.NewSortOrder;
-            await _context.SaveChangesAsync(cancellationToken);
+            bool supportsTransactions = _context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory";
 
-            _logger.LogInformation("Category with ID {CategoryId} successfully reordered to {NewSortOrder}.", request.CategoryId, request.NewSortOrder);
+            var transaction = supportsTransactions
+                ? await _context.Database.BeginTransactionAsync(cancellationToken)
+                : null;
 
-            return Unit.Value;
+            try
+            {
+                category.SortOrder = request.NewSortOrder;
+
+                await _context.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                {
+                    await transaction.CommitAsync(cancellationToken);
+                }
+
+                _logger.LogInformation("Category with ID {CategoryId} successfully reordered to {NewSortOrder}.", request.CategoryId, request.NewSortOrder);
+
+                return Unit.Value;
+            }
+            catch
+            {
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                }
+                throw;
+            }
         }
     }
 }

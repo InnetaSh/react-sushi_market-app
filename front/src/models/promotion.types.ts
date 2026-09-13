@@ -22,11 +22,11 @@ export interface PromotionsSectionProps {
 }
 
 export interface PromotionOffer {
-    id: number;
-    image: string;
-    title: string;
-    description: string;
-    date: string;
+    id: string | number;
+    image?: string;
+    title?: string;
+    description?: string;
+    date?: string;
     dateKeyUa?: string;
     dateKeyEn?: string;
     titleKeyUa?: string;

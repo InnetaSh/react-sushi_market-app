@@ -48,13 +48,13 @@ const Footer: React.FC = () => {
                             gap="large"
                         >
                             <Link to="/menu" className={styles.navLink}>
-                                {t("BREADCRUMBS.MENU") || "Меню"}
+                               {t("BREADCRUMBS.MENU", "Меню")}
                             </Link>
                             <Link to="/sale" className={styles.navLink}>
-                                {t("BREADCRUMBS.PROMOTIONS") || "Акції"}
+                                {t("BREADCRUMBS.PROMOTIONS", "Акції")}
                             </Link>
                             <Link to="/contacts" className={styles.navLink}>
-                                {t("BREADCRUMBS.CONTACTS") || "Контакти"}
+                                {t("BREADCRUMBS.CONTACTS", "Контакти")}
                             </Link>
                         </Flex>
                     </Flex>

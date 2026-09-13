@@ -6,7 +6,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { observer } from 'mobx-react-lite';
 
 import PageSectionLayout from '@layout/PageSectionLayout/PageSectionLayout';
-import AuthStore from "@stores/AuthStore";
+import AuthStore from "@/stores/authStore";
 import UserApi from "@/api/userApi";
 import { getRedirectPath } from '@utils/auth.utils';
 import styles from './LoginSection.module.scss';
