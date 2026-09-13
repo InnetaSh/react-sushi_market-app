@@ -74,48 +74,69 @@ namespace SushiMarket.BLL.MediatR.Categories.UpdateCategory
                     "uk");
             }
 
-            string? imagePath = null;
+            string? newImagePath = null;
+            string? oldImagePath = category.ImgSrc;
+
             if (request.Image != null && request.Image.Length > 0)
             {
                 _logger.LogInformation("Uploading new image for category ID {CategoryId} to Cloudinary...", request.Id);
-
-                if (!string.IsNullOrEmpty(category.ImgSrc))
-                {
-                    try
-                    {
-                        await _cloudinaryService.DeleteImageAsync(category.ImgSrc);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Failed to delete old image from Cloudinary for category ID {CategoryId}", request.Id);
-                    }
-                }
-
-                imagePath = await _cloudinaryService.UploadImageAsync(request.Image, "categories");
+                newImagePath = await _cloudinaryService.UploadImageAsync(request.Image, "categories");
             }
 
             _mapper.Map(request, category);
-
             category.TitleUa = titleUa;
             category.TitleEn = titleEn;
 
-            if (!string.IsNullOrEmpty(imagePath))
+            if (!string.IsNullOrEmpty(newImagePath))
             {
-                category.ImgSrc = imagePath;
+                category.ImgSrc = newImagePath;
             }
+
+            bool supportsTransactions = _context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory";
+
+            var transaction = supportsTransactions
+                ? await _context.Database.BeginTransactionAsync(cancellationToken)
+                : null;
 
             try
             {
                 await _context.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                {
+                    await transaction.CommitAsync(cancellationToken);
+                }
+
                 _logger.LogInformation("Category with ID {CategoryId} successfully updated.", request.Id);
             }
             catch (DbUpdateException ex)
             {
-                var innerMessage =
-                    ex.InnerException?.Message ?? ex.Message;
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                }
 
+                if (!string.IsNullOrEmpty(newImagePath))
+                {
+                    try { await _cloudinaryService.DeleteImageAsync(newImagePath); } catch { }
+                }
+
+                var innerMessage = ex.InnerException?.Message ?? ex.Message;
                 _logger.LogError(ex, "Database update error while saving category ID {CategoryId}: {Error}", request.Id, innerMessage);
                 throw new Exception($"DB Error: {innerMessage}");
+            }
+
+            if (!string.IsNullOrEmpty(newImagePath) && !string.IsNullOrEmpty(oldImagePath))
+            {
+                try
+                {
+                    await _cloudinaryService.DeleteImageAsync(oldImagePath);
+                    _logger.LogInformation("Old image for category {CategoryId} was deleted from Cloudinary.", request.Id);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to delete old image from Cloudinary for category ID {CategoryId}", request.Id);
+                }
             }
 
             return Unit.Value;

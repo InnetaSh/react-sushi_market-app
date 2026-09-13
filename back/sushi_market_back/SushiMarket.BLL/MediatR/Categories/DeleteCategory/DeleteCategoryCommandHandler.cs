@@ -36,21 +36,45 @@ namespace SushiMarket.BLL.MediatR.Categories.DeleteCategory
                 throw new KeyNotFoundException(string.Format(ErrorMessages.CategoryNotFound, request.Id));
             }
 
-            if (!string.IsNullOrEmpty(category.ImgSrc))
+            string imagePath = category.ImgSrc;
+
+            bool supportsTransactions = _context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory";
+
+            var transaction = supportsTransactions
+                ? await _context.Database.BeginTransactionAsync(cancellationToken)
+                : null;
+
+            try
+            {
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                {
+                    await transaction.CommitAsync(cancellationToken);
+                }
+            }
+            catch
+            {
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                }
+                throw;
+            }
+
+            if (!string.IsNullOrEmpty(imagePath))
             {
                 try
                 {
-                    await _cloudinaryService.DeleteImageAsync(category.ImgSrc);
+                    await _cloudinaryService.DeleteImageAsync(imagePath);
                     _logger.LogInformation("Associated image for category {CategoryId} was deleted from Cloudinary.", request.Id);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Failed to delete image from Cloudinary for category ID {CategoryId}", request.Id);
+                    _logger.LogError(ex, "Failed to delete image from Cloudinary for category ID {CategoryId}, but database record was removed.", request.Id);
                 }
             }
-
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Category with ID {CategoryId} successfully deleted.", request.Id);
 

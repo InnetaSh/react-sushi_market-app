@@ -88,21 +88,44 @@ namespace SushiMarket.BLL.MediatR.Products.CreateProduct
                 imagePath = await _cloudinaryService.UploadImageAsync(request.Image, "products");
             }
 
-            var product = _mapper.Map<Product>(request);
+            bool supportsTransactions = _context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory";
 
-            product.TitleUa = titleUa;
-            product.TitleEn = titleEn;
-            product.DescriptionUa = descUa;
-            product.DescriptionEn = descEn;
-            product.ImgSrc = imagePath ?? string.Empty;
+            var transaction = supportsTransactions
+                ? await _context.Database.BeginTransactionAsync(cancellationToken)
+                : null;
 
-            _context.Products.Add(product);
+            try
+            {
+                var product = _mapper.Map<Product>(request);
 
-            await _context.SaveChangesAsync(cancellationToken);
+                product.TitleUa = titleUa;
+                product.TitleEn = titleEn;
+                product.DescriptionUa = descUa;
+                product.DescriptionEn = descEn;
+                product.ImgSrc = imagePath ?? string.Empty;
 
-            _logger.LogInformation("Product successfully created with ID: {ProductId}", product.Id);
+                _context.Products.Add(product);
 
-            return product.Id;
+                await _context.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                {
+                    await transaction.CommitAsync(cancellationToken);
+                }
+
+                _logger.LogInformation("Product successfully created with ID: {ProductId}", product.Id);
+
+                return product.Id;
+            }
+            catch
+            {
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                }
+                throw;
+            }
+
         }
     }
 }

@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import styles from './Pages.module.scss';
 
-import CategoryStore from "../stores/CategoryStore";
+import CategoryStore from "../stores/categoryStore";
 import SubmenuSection from "../components/sections/SubmenuSection/SubmenuSection";
 
 const { Content } = Layout;

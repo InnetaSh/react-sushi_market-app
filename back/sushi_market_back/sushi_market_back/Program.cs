@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddDbContext<SushiMarketDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"),
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly("SushiMarket.DAL")));
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>

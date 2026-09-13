@@ -1,7 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import MenuItem from './MenuItem/MenuItem';
-import { MenuItemData, getLocalizedTitle, getImageUrl } from '@/utils/menu.utils';
+import {getLocalizedTitle, getImageUrl } from '@/utils/menu.utils';
+import { MenuItemData } from '@models/menu.types';
 import styles from './MenuSection.module.scss';
 
 interface MenuSectionProps {

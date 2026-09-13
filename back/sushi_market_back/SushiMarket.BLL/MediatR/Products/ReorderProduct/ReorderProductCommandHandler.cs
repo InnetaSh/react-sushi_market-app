@@ -32,12 +32,34 @@ namespace SushiMarket.BLL.MediatR.Products.ReorderProduct
                 throw new KeyNotFoundException(string.Format(ErrorMessages.ProductNotFound, request.ProductId));
             }
 
-            product.SortOrder = request.NewSortOrder;
-            await _context.SaveChangesAsync(cancellationToken);
+            bool supportsTransactions = _context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory";
 
-            _logger.LogInformation("Product with ID {ProductId} successfully reordered to {NewSortOrder}.", request.ProductId, request.NewSortOrder);
+            var transaction = supportsTransactions
+                ? await _context.Database.BeginTransactionAsync(cancellationToken)
+                : null;
 
-            return Unit.Value;
+            try
+            {
+                product.SortOrder = request.NewSortOrder;
+                await _context.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                {
+                    await transaction.CommitAsync(cancellationToken);
+                }
+
+                _logger.LogInformation("Product with ID {ProductId} successfully reordered to {NewSortOrder}.", request.ProductId, request.NewSortOrder);
+
+                return Unit.Value;
+            }
+            catch
+            {
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                }
+                throw;
+            }
         }
     }
 }

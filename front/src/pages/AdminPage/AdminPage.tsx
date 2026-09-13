@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Layout, message, Tabs } from "antd";
+import { Layout, message, Tabs,TabsProps } from "antd";
 import { useTranslation } from "react-i18next";
 import {
   KeyboardSensor,
@@ -12,10 +12,11 @@ import {
   sortableKeyboardCoordinates,
   useSortable,
 } from "@dnd-kit/sortable";
+
 import { CSS } from "@dnd-kit/utilities";
 
-import CategoryStore from "@stores/CategoryStore";
-import ProductStore from "@stores/ProductStore";
+import CategoryStore from "@/stores/categoryStore";
+import ProductStore from "@/stores/productStore";
 import CategoryApi from "@/api/categoryApi";
 import ProductApi from "@/api/productApi";
 import { EntityModal } from "@UI/EntityModal/EntityModal";
@@ -54,6 +55,7 @@ const SortableEntityRow: React.FC<SortableEntityRowProps> = ({ id, children }) =
 
 const AdminPage: React.FC = observer(() => {
   const { t, i18n } = useTranslation();
+
   const currentLang = i18n.language;
   const isEn = currentLang === "en";
 
@@ -335,9 +337,10 @@ const AdminPage: React.FC = observer(() => {
     />
   );
 
+
   const tabItems = [
-    { key: "categories", label: t("ADMIN_PAGE.TAB_CATEGORIES", "Категорії"), children: categoriesTabContent },
-    { key: "products", label: t("ADMIN_PAGE.TAB_PRODUCTS", "Продукти"), children: productsTabContent },
+    { key: "categories", label: t("ADMIN_PAGE.TAB_CATEGORIES", "Категорії") as string, children: categoriesTabContent },
+    { key: "products", label: t("ADMIN_PAGE.TAB_PRODUCTS", "Продукти") as string, children: productsTabContent },
   ];
 
   return (

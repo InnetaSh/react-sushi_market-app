@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import { Spin, Flex } from "antd";
 
-import CategoryStore from "@stores/CategoryStore";
-import AuthStore from "@stores/AuthStore";
+import CategoryStore from "@/stores/categoryStore";
+import AuthStore from "@/stores/authStore";
 
 import PromotionsSection from '@section/PromotionsSection/PromotionsSection';
 import MenuSection from '@section/MenuSection/MenuSection';

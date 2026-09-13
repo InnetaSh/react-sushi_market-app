@@ -116,33 +116,58 @@ namespace SushiMarket.BLL.MediatR.Products.UpdateProduct
                 imagePath = await _cloudinaryService.UploadImageAsync(request.Image, "products");
             }
 
-            _mapper.Map(request, product);
+            bool supportsTransactions = _context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory";
 
-            product.TitleUa = titleUa;
-            product.TitleEn = titleEn;
-            product.DescriptionUa = descUa;
-            product.DescriptionEn = descEn;
-
-            if (!string.IsNullOrEmpty(imagePath))
-            {
-                product.ImgSrc = imagePath;
-            }
+            var transaction = supportsTransactions
+                ? await _context.Database.BeginTransactionAsync(cancellationToken)
+                : null;
 
             try
             {
+                _mapper.Map(request, product);
+
+                product.TitleUa = titleUa;
+                product.TitleEn = titleEn;
+                product.DescriptionUa = descUa;
+                product.DescriptionEn = descEn;
+
+                if (!string.IsNullOrEmpty(imagePath))
+                {
+                    product.ImgSrc = imagePath;
+                }
+
                 await _context.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                {
+                    await transaction.CommitAsync(cancellationToken);
+                }
+
                 _logger.LogInformation("Product with ID {ProductId} successfully updated.", request.Id);
+
+                return Unit.Value;
             }
             catch (DbUpdateException ex)
             {
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                }
+
                 var innerMessage =
                     ex.InnerException?.Message ?? ex.Message;
 
                 _logger.LogError(ex, "Database update error while saving product ID {ProductId}: {Error}", request.Id, innerMessage);
                 throw new Exception($"DB Error: {innerMessage}");
             }
-
-            return Unit.Value;
+            catch
+            {
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                }
+                throw;
+            }
         }
     }
 }

@@ -27,8 +27,6 @@ namespace SushiMarket.DAL
         {
             base.OnModelCreating(builder);
 
-            builder.HasDefaultSchema("auth");
-
             builder.Entity<RefreshToken>(entity =>
             {
                 entity.ToTable("RefreshTokens", "auth");

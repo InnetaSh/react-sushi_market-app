@@ -11,7 +11,7 @@ using SushiMarket.BLL.Services.Interfaces.Cloudinary;
 using SushiMarket.DAL;
 using SushiMarket.DAL.Entities;
 
-namespace SushiMarket.Tests.MediatR.Categories
+namespace SushiMarket.XUnitTest.BLL.MediatR.Categories
 {
     public class CreateCategoryCommandHandlerTests
     {

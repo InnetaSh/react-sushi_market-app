@@ -55,8 +55,7 @@ namespace SushiMarket.Tests.MediatR.Auth
             Name = "John",
             Surname = "Doe",
             Email = "john@test.com",
-            Password = "Password123!",
-            PasswordConfirmation = "Password123!"
+            Password = "Password123!"
         };
 
         private static RegisterUserCommand CreateCommand(UserRegisterDto dto)

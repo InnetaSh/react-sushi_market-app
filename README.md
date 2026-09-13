@@ -46,8 +46,6 @@ Sushi Market
 * JWT / Refresh Tokens
 * FluentValidation
 * FluentResults
-* MassTransit
-* RabbitMQ
 
 ### Frontend
 
@@ -74,7 +72,6 @@ Sushi Market
 * xUnit
 * Moq
 * FluentAssertions
-* MassTransit TestHarness
 
 ## 📂 Applications
 

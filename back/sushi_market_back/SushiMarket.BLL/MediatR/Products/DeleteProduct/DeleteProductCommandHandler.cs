@@ -49,12 +49,34 @@ namespace SushiMarket.BLL.MediatR.Products.DeleteProduct
                 }
             }
 
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync(cancellationToken);
+            bool supportsTransactions = _context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory";
 
-            _logger.LogInformation("Product with ID {ProductId} successfully deleted.", request.Id);
+            var transaction = supportsTransactions
+                ? await _context.Database.BeginTransactionAsync(cancellationToken)
+                : null;
 
-            return Unit.Value;
+            try
+            {
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                {
+                    await transaction.CommitAsync(cancellationToken);
+                }
+
+                _logger.LogInformation("Product with ID {ProductId} successfully deleted.", request.Id);
+
+                return Unit.Value;
+            }
+            catch
+            {
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                }
+                throw;
+            }
         }
     }
 }

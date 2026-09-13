@@ -57,17 +57,39 @@ namespace SushiMarket.BLL.MediatR.Categories.CreateCategory
                 imagePath = await _cloudinaryService.UploadImageAsync(request.Image, "categories");
             }
 
-            var category = _mapper.Map<Category>(request);
-            category.TitleUa = titleUa;
-            category.TitleEn = titleEn;
-            category.ImgSrc = imagePath ?? string.Empty;
+            bool supportsTransactions = _context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory";
 
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync(cancellationToken);
+            var transaction = supportsTransactions
+                ? await _context.Database.BeginTransactionAsync(cancellationToken)
+                : null;
 
-            _logger.LogInformation("Category successfully created with ID: {CategoryId}", category.Id);
+            try
+            {
+                var category = _mapper.Map<Category>(request);
+                category.TitleUa = titleUa;
+                category.TitleEn = titleEn;
+                category.ImgSrc = imagePath ?? string.Empty;
 
-            return category.Id;
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                {
+                    await transaction.CommitAsync(cancellationToken);
+                }
+
+                _logger.LogInformation("Category successfully created with ID: {CategoryId}", category.Id);
+
+                return category.Id;
+            }
+            catch
+            {
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                }
+                throw;
+            }
         }
     }
 }
