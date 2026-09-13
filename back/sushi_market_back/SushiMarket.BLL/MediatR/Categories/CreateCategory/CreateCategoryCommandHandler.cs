@@ -57,7 +57,6 @@ namespace SushiMarket.BLL.MediatR.Categories.CreateCategory
                 imagePath = await _cloudinaryService.UploadImageAsync(request.Image, "categories");
             }
 
-            // Проверяем провайдер: InMemory не поддерживает транзакции, реляционные базы (PostgreSQL) — поддерживают
             bool supportsTransactions = _context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory";
 
             var transaction = supportsTransactions
