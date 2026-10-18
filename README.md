@@ -87,6 +87,32 @@ The frontend is a React + TypeScript application providing the customer interfac
 
 ➡️ **[Frontend README](./sushi_market_front/README.md)**
 
+## 🐳 Running with Docker
+
+Run the entire application stack (Frontend, Backend, and PostgreSQL database) using Docker Compose:
+
+### 1. Start the stack
+```bash
+docker compose up --build
+```
+
+### 2. Available Endpoints
+* **Frontend**: [http://localhost:3000](http://localhost:3000)
+* **Backend API / Swagger UI**: [http://localhost:5292/swagger](http://localhost:5292/swagger)
+* **PostgreSQL Database**: `localhost:5432` (Database: `Userdb`, User: `postgres`)
+
+Database migrations and initial seed data are applied automatically when the backend container starts.
+
+### 3. Stop the stack
+```bash
+docker compose down
+```
+
+To remove persistent volumes as well:
+```bash
+docker compose down -v
+```
+
 ## 🎯 Project Goals
 
 The project was developed to practice and demonstrate modern full-stack development using **C#/.NET and React**, including:
