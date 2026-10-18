@@ -1,0 +1,64 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: sushi_market_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-your_password}
+      POSTGRES_DB: ${POSTGRES_DB:-Userdb}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-Userdb}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sushi_market_network
+
+  backend:
+    build:
+      context: ./back/sushi_market_back
+      dockerfile: Dockerfile
+    container_name: sushi_market_back
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=http://+:5292
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${POSTGRES_DB:-Userdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-your_password};SSL Mode=Disable
+    ports:
+      - "${BACKEND_PORT:-5292}:5292"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - sushi_market_network
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:5292/api}
+        - REACT_APP_GOOGLE_MAPS_API_KEY=${REACT_APP_GOOGLE_MAPS_API_KEY:-AIzaSyBypxcsu2d043hcikCjW-0semHdXSpLuww}
+        - REACT_APP_GOOGLE_CLIENT_ID=${REACT_APP_GOOGLE_CLIENT_ID:-123721973387-7i3rs06c8iui5lrb805f22o0k2s6gk1o.apps.googleusercontent.com}
+    container_name: sushi_market_front
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - sushi_market_network
+
+volumes:
+  postgres_data:
+
+networks:
+  sushi_market_network:
+    driver: bridge
+
